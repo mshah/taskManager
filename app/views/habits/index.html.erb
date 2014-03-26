@@ -1,0 +1,41 @@
+<h1>Listing habits</h1>
+<% if user_signed_in? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th>Done</th>
+        <th>Interval</th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @habits.each do |habit| %>
+        <tr>
+          <td><%= habit.description %></td>
+          <td><%= habit.done %></td>
+          <td><%= habit.interval %></td>
+          <td>
+            <%= link_to edit_habit_path(habit) do %>
+            <span class="glyphicon glyphicon-edit"></span>
+              Edit
+            <% end %>
+          </td> 
+          <td>
+            <%= link_to habit, method: :delete, data: { confirm: 'Are you sure?' } do %>
+            <span class="glyphicon glyphicon-trash"></span>
+              Delete
+            <% end %>
+          </td> 
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <%= link_to 'New Habit', new_habit_path %>
+<% end %>
+
+

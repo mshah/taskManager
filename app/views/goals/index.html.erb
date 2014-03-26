@@ -1,0 +1,43 @@
+<h1>Listing goals</h1>
+
+
+<br>
+
+<% if user_signed_in? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th>Done</th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @goals.each do |goal| %>
+        <tr>
+          <td><%= goal.description %></td>
+          <td><%= goal.done %></td>
+          <td><%= link_to 'Show', goal %></td>
+          <td>
+            <%= link_to edit_goal_path(goal) do %>
+            <span class="glyphicon glyphicon-edit"></span>
+              Edit
+            <% end %>
+          </td> 
+          <td>
+            <%= link_to goal, method: :delete, data: { confirm: 'Are you sure?' } do %>
+            <span class="glyphicon glyphicon-trash"></span>
+              Delete
+            <% end %>
+          </td> 
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <%= link_to 'New Goal', new_goal_path %>
+<% end %>
+

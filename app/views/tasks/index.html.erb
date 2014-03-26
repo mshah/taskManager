@@ -1,0 +1,44 @@
+<h1>Listing tasks</h1>
+
+
+
+<br>
+<% if user_signed_in? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th>Due date</th>
+        <th>Progress</th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @tasks.each do |task| %>
+        <% if task.user == current_user %>
+          <td><%= task.description %></td>
+          <td><%= task.dueDate %></td>
+          <td><%= task.progress %></td> 
+          <td>
+            <%= link_to edit_task_path(task) do %>
+            <span class="glyphicon glyphicon-edit"></span>
+              Edit
+            <% end %>
+          </td> 
+          <td>
+            <%= link_to task, method: :delete, data: { confirm: 'Are you sure?' } do %>
+            <span class="glyphicon glyphicon-trash"></span>
+              Delete
+            <% end %>
+          </td>                       
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+
+  <%= link_to 'New Task', new_task_path %>
+<% end %>
+

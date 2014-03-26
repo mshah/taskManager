@@ -1,0 +1,452 @@
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Amethysta|Duru+Sans">
+    <style>
+	h1{
+		color:#DB3556;	
+	}
+	ol{
+		color: #BA1E4A;
+	}
+	a{
+		color: #BA1E4A;
+		text-decoration: none;
+	}
+	h2{
+		color:#88BAA3;
+	}
+	body{
+		background-color:#EAEDE4;
+	}
+      p {
+        font-family: 'Amethysta', serif;
+		font-size: 20px;
+		color:#254F4D;
+      }
+	  xmp{
+		font-family: 'Duru Sans', sans-serif;
+		background-color:#E4E6C3;
+		border:1px solid #BA1E4A;
+		font-size: 16px;
+		color: #BA1E4A;
+	  }
+	  #terminal{
+		font-family: 'Duru Sans', sans-serif;
+		font-size: 14px;
+		border:1px solid black;
+		color:#88BAA3;
+		background-color:#6E6E6E;
+	  }		  
+	  #file{
+		font-family: 'Duru Sans', sans-serif;
+		font-size: 14px;
+		color:#848484;
+	  }	  
+    </style>
+</head>
+<body>
+	<h1>How to: Task Manager App</h1>
+	<h2>Getting Started: Simple Homepage and the Bootstrap Front End Framework</h2>
+	<p>
+		I'm using my RubyOnRailsQuickStart guide to get started on a new RoR project: a task manager.
+	</p>
+
+	<div id="terminal">
+		$ rails new taskManager
+	</div>
+	<p>
+		Generate a new homepage
+	</p>
+	<div id="terminal">
+		$ rails generate controller pages home
+	</div>
+	<p>
+		Add the route to our homepage. 
+	</p>
+		<div id="file">/config/routes.rb</div> 
+	<xmp>
+		get "pages/home"
+	</xmp>
+	<p>Change the above to</p>
+	<xmp>
+		root "pages#home"
+	</xmp>
+	<p>I'll just update the landing page so we can see the difference:</p>
+	<div id="file">app/views/pages/home.html.erb</div> 
+	<xmp>
+		<h1>Welcome to my task manager app</h1>
+	</xmp>
+	<p>Let's add bootstrap</p>
+
+
+	<div id="file">/Gemfile</div> 
+
+	<xmp>
+		gem 'bootstrap-sass'
+	</xmp>
+	<p>After installing a new gem:</p>
+	<div id="terminal">
+		$ bundle install
+	</div>
+	<p>
+		We'll create a new SCSS file, which is a precompiler for CSS:
+	</p>
+	<div id="file">app/assets/stylesheets/bootstrap_and_customization.css.scss</div> 
+	<xmp>
+		@import 'bootstrap';
+	</xmp>
+	<p>
+		Now we can restart the server.
+	</p>
+	<div id="terminal">
+		$ rails server
+	</div>
+	<p>
+		Now we want the html we're rendering to use the bootstrap css:
+	</p>
+	<div id="file">views/layouts/application.html.erb</div>
+	<xmp>	
+		 <div class="container">
+			  <%= yield %>
+		 </div>
+	</xmp>
+	<p>
+	Create the partial header for the navigation bar
+	</p>
+	<div id="file">app/views/layouts/_header.html.erb</div>
+	<p>
+	Add the link to the partial and the navigation bar:
+	</p>
+	<div id="file">app/views/layouts/application.html.erb</div>
+	<xmp>
+		 <%= render 'layouts/header' %>
+	</xmp>
+
+	<div id="file">app/views/layouts/_header.html.erb</div>
+	<xmp>
+		<nav class="navbar navbar-default" role="navigation">
+		  <!-- Brand and toggle get grouped for better mobile display -->
+		  <div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+			  <span class="sr-only">Toggle navigation</span>
+			  <span class="icon-bar"></span>
+			  <span class="icon-bar"></span>
+			  <span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#">Task Manager</a>
+		  </div>
+
+		  <!-- Collect the nav links, forms, and other content for toggling -->
+		  <div class="collapse navbar-collapse navbar-ex1-collapse">
+			<ul class="nav navbar-nav navbar-right">
+			  <li><%= link_to "Home", root_path %></li>
+			</ul>
+		  </div><!-- /.navbar-collapse -->
+		</nav>
+	</xmp>	
+
+	<p>
+		We'll need to update our javascript to require bootstrap:
+	</p>
+	<div id="file">app/assets/javascripts/application.js</div>
+	<xmp>
+		...
+		//= require jquery
+		//= require jquery_ujs
+		//= require bootstrap
+		//= require turbolinks
+		//= require_tree .
+	</xmp>	 
+	<p>
+		We'll add a viewport for the intial load:
+	</p>
+	<div id="file">views/layouts/application.html.erb</div>
+	<xmp>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	</xmp>	
+	
+	<h2>Devise User Authentication</h2>	
+	
+	<p>Now we'll add and install the devise gem to handle users.</p>
+		<div id="file">/Gemfile</div>
+		<xmp>
+			gem 'devise'
+		</xmp>
+
+	<div id="terminal">
+	$ bundle install<br/>
+	$ rails generate devise:install
+	</div>		
+
+	<p>Update our view and header partial to try to log us in</p>	
+	<div id="file">app/views/pages/home.html.erb</div>
+	<xmp>
+		<div class="jumbotron center">
+			 <h1>Welcome to my app!</h1>
+			 <% if user_signed_in? %>
+				  # do something
+			 <% else %>
+			   <p>
+				 <%= link_to "Log in", new_user_session_path, class: "btn btn-default btn-lg" %>
+				 <%= link_to "Sign up", new_user_registration_path, class: "btn btn-primary btn-lg" %>
+			   </p>
+		  <% end %>  
+		</div>
+	</xmp>
+
+	<div id="file">app/views/layout/_header.html.erb</div>
+	<xmp>
+		<ul class="nav navbar-nav navbar-right">
+			<li><%= link_to "Home", root_path %></li>
+			<li><%= link_to "About", about_path %></li>
+			<% if user_signed_in? %>
+			  <li><%= link_to "Account Settings", edit_user_registration_path %></li>
+			  <li><%= link_to "Log out", destroy_user_session_path, method: :delete %></li>
+			<% else %>
+			  <li><%= link_to "Sign in", new_user_session_path %></li>
+			<% end %>
+		</ul>
+	</xmp>
+
+	<h2>Modeling Our Tasks</h2>	
+	<p>Since everything in ruby is a resource, we need to define what kinds of objects we want and hour they relate to each other. We know we have users and they can have many goals. A goal can have many tasks. Tasks can have many subtasks. Tasks and subtasks can have due dates, completion dates, and status (enum: Needs work, on track, completed). I also want a concept of charts: daily, weekly, and monthly task chart: things like waking up early, taking a 30 min walk, or eating your veggies. We'll use scaffolds, which generate the model, view and controller parts for us all at once (as well as test code).</p>
+	<div id="terminal">
+	$ rails generate scaffold tasks description:string dueData:timestamp progress:integer<br/>
+	$ rake db:migrate #run the migration
+	</div>	
+	<p>Our model, controller and views have all been generated for us. We'll add our authentication in for creating a new task</p>
+		<div id="file">app/views/tasks/index.html.erb</div>
+	<xmp>
+		<% if user_signed_in? %>
+		  <%= link_to 'New Task', new_task_path %>
+		<% end %>
+	</xmp>
+	<p>We can do the same thing for habits (the things we can check of daily, weekly, or monthly) and goals. For now we'll keep goals general, just as a description string and a done boolean.</p>	
+	<div id="terminal">
+	$ rails generate scaffold habits description:string done:boolean interval:integer<br/>
+	$ rails generate scaffold goals description:string done:boolean<br/>	
+	$ rake db:migrate #run the migration
+	</div>
+	<div id="file">app/views/habits/index.html.erb</div>
+	<xmp>
+		<% if user_signed_in? %>
+		  <%= link_to 'New Habit', new_habit_path %>
+		<% end %>
+	</xmp>
+	<div id="file">app/views/habits/goals.html.erb</div>
+	<xmp>
+		<% if user_signed_in? %>
+		  <%= link_to 'New Goal', new_goal_path %>
+		<% end %>
+	</xmp>
+	<p>Let's update our nav bar to show these new items </p>
+	<div id="file">app/views/habits/goals.html.erb</div>
+	<xmp>
+		  <!-- Collect the nav links, forms, and other content for toggling -->
+		  <div class="collapse navbar-collapse navbar-ex1-collapse">
+			<ul class="nav navbar-nav navbar-right">
+				<li><%= link_to "Goals", root_path %></li>
+				<li><%= link_to "Tasks", tasks_path %></li>
+				<li><%= link_to "Habits", habits_path %></li>                
+				<% if user_signed_in? %>
+				  <li><%= link_to "Account Settings", edit_user_registration_path %></li>
+				  <li><%= link_to "Log out", destroy_user_session_path, method: :delete %></li>
+				<% else %>
+				  <li><%= link_to "Sign in", new_user_session_path %></li>
+				<% end %>
+				  <li>
+					<%= link_to new_goal_path do %>
+					  <span class="glyphicon glyphicon-plus"></span> New Goal
+					<% end %>
+				  </li>
+			</ul>
+		  </div><!-- /.navbar-collapse -->
+	</xmp>
+	<div id="file">config/routes.rb</div>
+	<xmp>
+		TaskManager::Application.routes.draw do
+		  resources :goals
+
+		  resources :habits
+
+		  resources :tasks
+
+		  devise_for :users
+		  root "goals#index"
+		  get "goals" => "pages#goals"
+		  get "tasks" => "pages#tasks"
+		  get "habits" => "pages#habits"  
+		end
+	</xmp>	
+	<p>We also want to make sure that we only can see, edit, etc the goals, tasks and habits that belong to us. That means we'll need to add some associations. We need to associate users to habits, goals, and tasks. But additionally, tasks and habits can belong to goals and tasks can even belong to other tasks (subtasks) and we want to capture this relationship. For the user association we'll use some of devise's methods to build the objects. So we'll need to update the model, controllers, and views to reflect this.</p>	
+	<div id="file">app/models/task.rb</div>
+	<xmp>
+		class Task < ActiveRecord::Base
+			belongs_to :user
+			belongs_to :goal
+		end
+	</xmp>		
+	<div id="file">app/models/habit.rb</div>
+	<xmp>
+		class Habit < ActiveRecord::Base
+			belongs_to :user
+			belongs_to :goal
+		end
+	</xmp>		
+	<div id="file">app/models/goal.rb</div>
+	<xmp>
+		class Goal < ActiveRecord::Base
+			belongs_to :user
+			has_many :tasks
+			has_many :habits			
+		end
+	</xmp>	
+	<div id="file">app/models/user.rb</div>
+	<xmp>
+		class User < ActiveRecord::Base
+		  devise :database_authenticatable, :registerable,
+				 :recoverable, :rememberable, :trackable, :validatable
+		  has_many :goals
+		  has_many :tasks
+		  has_many :habits
+		end
+	</xmp>	
+	 <div id="terminal">
+	 $ rails generate migration add_user_id_to_habits user_id:integer:index<br/>
+	 $ rails generate migration add_user_id_to_goals user_id:integer:index<br/>
+	 $ rails generate migration add_user_id_to_tasks user_id:integer:index<br/>
+	 $ rails generate migration add_goal_id_to_tasks goal_id:integer:index<br/>	
+	 $ rails generate migration add_goal_id_to_habits goal_id:integer:index<br/>	 
+	 $ rake db:migrate<br/>
+	  </div>
+	<div id="file">app/controller/goals_controller.rb</div>
+	<xmp>
+		class GoalsController < ApplicationController
+		  before_action :correct_user, only: [:show, :edit, :update, :destroy]
+		  before_action :authenticate_user!, except: [:index]
+		.
+		.		  
+		  def index
+			@goals = Goal.all
+		  end		  
+		.
+		.		
+		  def new
+			@goal = current_user.goals.build
+		  end
+
+		  # POST /goals
+		  # POST /goals.json
+		  def create
+			@goal = current_user.goals.build(goal_params)
+		.
+		.
+		  private
+			def correct_user
+			  @goal = current_user.goals.find_by(id: params[:id])
+			  redirect_to goals_path, notice: "Not authorized to edit this goal" if @goal.nil?
+			end  			
+	</xmp>	
+	<div id="file">app/controller/habits_controller.rb</div>
+	<xmp>
+		class HabitsController < ApplicationController
+		  before_action :correct_user, only: [:show, :edit, :update, :destroy]
+		  before_action :authenticate_user!, except: [:index]	
+		.
+		.		  
+		  def index
+			@habits = Habit.all
+		  end		  
+		.
+		.			  
+		.
+		.		  
+		  def new
+			@habit = current_user.habits.build
+		  end
+
+		  # POST /habits
+		  # POST /habits.json
+		  def create
+			@habit = current_user.habits.build(habit_params)
+		.
+		.
+		  private
+			def correct_user
+			  @habit = current_user.habits.find_by(id: params[:id])
+			  redirect_to habits_path, notice: "Not authorized to edit this habit" if @habit.nil?
+			end  			
+	</xmp>	
+	<div id="file">app/controller/tasks_controller.rb</div>
+	<xmp>
+		class TasksController < ApplicationController
+		  before_action :correct_user, only: [:show, :edit, :update, :destroy]
+		  before_action :authenticate_user!, except: [:index]
+		.		  
+		  def index
+			@tasks = Task.all
+		  end			  
+		.
+		.		
+		  def new
+			@task = current_user.tasks.build
+		  end
+
+		  # POST /task
+		  # POST /task.json
+		  def create
+			@task = current_user.tasks.build(task_params)
+		.
+		.
+		  private
+			def correct_user
+			  @task = current_user.tasks.find_by(id: params[:id])
+			  redirect_to tasks_path, notice: "Not authorized to edit this task" if @task.nil?
+			end  		
+	</xmp>	
+	<div id="file">app/views/tasks/index.html.erb</div>
+	<xmp>
+			<h1>Listing tasks</h1>
+			<br>
+			<% if user_signed_in? %>
+			  <table>
+				<thead>
+				  <tr>
+					<th>Description</th>
+					<th>Due date</th>
+					<th>Progress</th>
+					<th></th>
+					<th></th>
+					<th></th>
+				  </tr>
+				</thead>
+
+				<tbody>
+				  <% @tasks.each do |task| %>
+					<% if task.user == current_user %>
+					  <td><%= task.description %></td>
+					  <td><%= task.dueDate %></td>
+					  <td><%= task.progress %></td>
+					  <td><%= link_to 'Show', task %></td>    
+					  <div class="actions">
+						<%= link_to edit_task_path(task) do %>
+						<span class="glyphicon glyphicon-edit"></span>
+						  Edit
+						<% end %>
+						<%= link_to task, method: :delete, data: { confirm: 'Are you sure?' } do %>
+						<span class="glyphicon glyphicon-trash"></span>
+						  Delete
+						<% end %>
+					  </div>
+					<% end %>
+				  <% end %>
+				</tbody>
+			  </table>
+
+			  <%= link_to 'New Task', new_task_path %>
+			<% end %>
+		
+	</xmp>
+	<p>We'll update the views the same way for the goals and habits also, which I did not list out above. Now let's update the UI and stylize this a bit more. We want to list out the tasks and habits in rows.</p>
+</body>
+</html>
