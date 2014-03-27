@@ -11,11 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140326051446) do
+ActiveRecord::Schema.define(version: 20140327043540) do
 
   create_table "goals", force: true do |t|
     t.string   "description"
     t.boolean  "done"
+    t.string   "progress"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
@@ -26,7 +27,7 @@ ActiveRecord::Schema.define(version: 20140326051446) do
   create_table "habits", force: true do |t|
     t.string   "description"
     t.boolean  "done"
-    t.integer  "interval"
+    t.string   "interval"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
@@ -37,7 +38,7 @@ ActiveRecord::Schema.define(version: 20140326051446) do
   create_table "tasks", force: true do |t|
     t.string   "description"
     t.datetime "dueDate"
-    t.integer  "progress"
+    t.string   "progress"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"

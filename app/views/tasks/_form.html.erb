@@ -21,8 +21,8 @@
   </div>
   <div class="field">
     <%= f.label :progress %><br>
-    <%= f.number_field :progress %>
-  </div>
+    <%= f.select :progress, options_for_select(%w[NotStarted NeedsWork OnTrack Complete]) %>    
+  </div>  
   <div class="actions">
     <%= f.submit %>
   </div>

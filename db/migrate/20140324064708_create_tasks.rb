@@ -3,8 +3,8 @@ class CreateTasks < ActiveRecord::Migration
     create_table :tasks do |t|
       t.string :description
       t.timestamp :dueDate
-      t.integer :progress
-
+  	  t.string :progress
+  	  
       t.timestamps
     end
   end

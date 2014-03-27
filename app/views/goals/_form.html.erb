@@ -16,9 +16,9 @@
     <%= f.text_field :description %>
   </div>
   <div class="field">
-    <%= f.label :done %><br>
-    <%= f.check_box :done %>
-  </div>
+    <%= f.label :progress %><br>
+    <%= f.select :progress, options_for_select(%w[NotStarted NeedsWork OnTrack Complete]) %>    
+  </div>  
   <div class="actions">
     <%= f.submit %>
   </div>

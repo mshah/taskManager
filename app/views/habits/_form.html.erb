@@ -21,7 +21,7 @@
   </div>
   <div class="field">
     <%= f.label :interval %><br>
-    <%= f.number_field :interval %>
+    <%= f.select :interval, options_for_select(%w[Daily Weekly Monthly]) %>    
   </div>
   <div class="actions">
     <%= f.submit %>

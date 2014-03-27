@@ -1,41 +1,125 @@
-<h1>Listing habits</h1>
+      <div class="form-group">
+        <%= link_to 'New Habit', new_habit_path, class: "btn btn-primary" %>
+      </div>
+
 <% if user_signed_in? %>
-  <table>
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">Daily Habits</div>
+
+  <table class="table table-striped">
     <thead>
       <tr>
         <th>Description</th>
         <th>Done</th>
-        <th>Interval</th>
-        <th></th>
-        <th></th>
         <th></th>
       </tr>
     </thead>
 
     <tbody>
       <% @habits.each do |habit| %>
-        <tr>
-          <td><%= habit.description %></td>
-          <td><%= habit.done %></td>
-          <td><%= habit.interval %></td>
-          <td>
-            <%= link_to edit_habit_path(habit) do %>
-            <span class="glyphicon glyphicon-edit"></span>
-              Edit
-            <% end %>
-          </td> 
-          <td>
-            <%= link_to habit, method: :delete, data: { confirm: 'Are you sure?' } do %>
-            <span class="glyphicon glyphicon-trash"></span>
-              Delete
-            <% end %>
-          </td> 
-        </tr>
+        <% if habit.interval == 'Daily' %>
+          <tr>
+            <td><%= habit.description %></td>
+            <td>
+              <%= link_to edit_habit_path(habit) do %>
+                <% if habit.done == true %>
+                  <span class="glyphicon glyphicon-ok"></span>
+                <% else %>
+                  <span class="glyphicon glyphicon-remove"></span>                
+                <% end %>  
+              <% end %>          
+              </td>
+            <td>
+              <%= link_to habit, method: :delete, data: { confirm: 'Are you sure?' } do %>
+              <span class="glyphicon glyphicon-trash"></span>
+              <% end %>
+            </td> 
+          </tr>
+        <% end %>
       <% end %>
     </tbody>
   </table>
+</div>
 
-  <%= link_to 'New Habit', new_habit_path %>
+  <div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">Weekly Habits</div>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th>Done</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @habits.each do |habit| %>
+        <% if habit.interval == 'Weekly' %>
+          <tr>
+            <td><%= habit.description %></td>
+            <td>
+              <%= link_to edit_habit_path(habit) do %>
+                <% if habit.done == true %>
+                  <span class="glyphicon glyphicon-ok"></span>
+                <% else %>
+                  <span class="glyphicon glyphicon-remove"></span>                
+                <% end %>  
+              <% end %>          
+            </td>
+            <td>
+              <%= link_to habit, method: :delete, data: { confirm: 'Are you sure?' } do %>
+              <span class="glyphicon glyphicon-trash"></span>
+              <% end %>
+            </td> 
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+  <div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">Monthly Habits</div>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th>Done</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @habits.each do |habit| %>
+        <% if habit.interval == 'Monthly' %>
+          <tr>
+            <td><%= habit.description %></td>
+            <td>
+              <%= link_to edit_habit_path(habit) do %>
+                <% if habit.done == true %>
+                  <span class="glyphicon glyphicon-ok"></span>
+                <% else %>
+                  <span class="glyphicon glyphicon-remove"></span>                
+                <% end %>  
+              <% end %>          
+            </td>
+            <td>
+              <%= link_to habit, method: :delete, data: { confirm: 'Are you sure?' } do %>
+              <span class="glyphicon glyphicon-trash"></span>
+              <% end %>
+            </td> 
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
 <% end %>
 
 

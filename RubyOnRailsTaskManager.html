@@ -447,6 +447,40 @@
 			<% end %>
 		
 	</xmp>
-	<p>We'll update the views the same way for the goals and habits also, which I did not list out above. Now let's update the UI and stylize this a bit more. We want to list out the tasks and habits in rows.</p>
+	<p>We'll update the views the same way for the goals and habits also, which I did not list out above. Now let's update the UI and stylize this a bit more. We want to list out the tasks and habits in rows. At this point I'm also realizing Ruby doesn't have the notion of enums like other languages I'm used to (C++\Java), so we'll need to add strings as these values and just drop these integers from our table. So instead of trying to migrate this, I'm just going to roll all the way back, edit the migration files and then migrate again. So now I'll edit my old migration files and change the integer for interval, progress, etc to strings and then do a db:migrate again.</p>
+	 <div id="terminal">
+		$ rake db:rollback STEP=9<br/>		
+	 </div>	
+	 <p> So we'll start back up the server and look at our data. So since we're changing our model, we need to update the edit forms also. So we'll change the below. We also want to make sure users only can select specific strings that we allow. Let's add some validation into the model about what string values are acceptable.</p>
+	<div id="file">app/views/habits/_form.html.erb</div>
+	<xmp>
+	  <div class="field">
+		<%= f.label :interval %><br>
+		<%= f.number_field :interval %>
+	  </div>		
+	</xmp>	
+	<p>And change it to the below, we'll do this for the other forms too.</p>
+	<xmp>
+	  <div class="field">
+		<%= f.label :interval %><br>
+		<%= f.select :interval, options_for_select(%w[Daily Weekly Monthly]) %>    
+	  </div>	
+	</xmp>	
+	<div id="file">app/models/habit.rb</div>
+	<xmp>
+		validates_format_of :interval, :with => /\A(?:(Daily)|(Weekly)|(Monthly))\Z/, :on => :create		
+	</xmp>	
+	<div id="file">app/models/task.rb</div>
+	<xmp>
+		validates_format_of :progress, :with => /\A(?:(Not Started)|(Needs Work)|(On Track)|(Complete))\Z/, :on => :create		
+	</xmp>
+	<div id="file">app/views/tasks/_form.html.erb</div>
+	<xmp>
+	  <div class="field">
+		<%= f.label :interval %><br>
+		<%= f.number_field :interval %>
+	  </div>		
+	</xmp>	
+	<p>So now we have a nice view of everything and we can update things. The habits should reset on their intervals and when we do this reset we could keep track of streaks.</p>
 </body>
 </html>
