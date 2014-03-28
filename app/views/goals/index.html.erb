@@ -21,6 +21,7 @@
 
     <tbody>
       <% @goals.each do |goal| %>
+        <% if goal.user == current_user %>
           <tr>
             <td>
               <%= link_to edit_goal_path(goal) do %>
@@ -34,6 +35,7 @@
               <% end %>
             </td> 
           </tr>
+        <% end %>
       <% end %>
     </tbody>
   </table>

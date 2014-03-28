@@ -39,7 +39,7 @@ class GoalsController < ApplicationController
   def update
     respond_to do |format|
       if @goal.update(goal_params)
-        format.html { redirect_to @goal, notice: 'Goal was successfully updated.' }
+        format.html { redirect_to goals_url, notice: 'Goal was successfully updated.' }
       else
         format.html { render action: 'edit' }
       end

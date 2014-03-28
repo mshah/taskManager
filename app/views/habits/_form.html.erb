@@ -16,6 +16,10 @@
     <%= f.text_field :description %>
   </div>
   <div class="field">
+    <%= f.check_box :done %>
+    <%= f.label :done %>   
+  </div>  
+  <div class="field">
     <%= f.label :interval %><br>
     <%= f.select :interval, options_for_select(%w[Daily Weekly Monthly]) %>    
   </div>
