@@ -20,7 +20,7 @@
 
     <tbody>
       <% @habits.each do |habit| %>
-        <% if goal.user == current_user %>
+        <% if habit.user == current_user %>
           <% if habit.interval == 'Daily' %>
             <tr>
               <td><%= habit.description %></td>
