@@ -482,7 +482,7 @@
 		<%= f.number_field :interval %>
 	  </div>		
 	</xmp>	
-	<p>So now we have a nice view of everything and we can update things. The habits should reset on their intervals and when we do this reset we could keep track of streaks. We'll need to run a cron job (set up a periodic task) to update the habits. We also know we only need to run this once a day. That might not be strictly true, as different users in different timezones would want it reset at different times, but for simplicity we'll just do midnight for us. We'll use the whenever gem https://github.com/javan/whenever and follow the instructions for installing and setting up the scheduler.</p>
+	<p>So now we have a nice view of everything and we can update things. The habits should reset on their intervals and when we do this reset we could keep track of streaks. We'll need to run a cron job (set up a periodic task) to update the habits. We also know we only need to run this once a day. That might not be strictly true, as different users in different timezones would want it reset at different times, but for simplicity we'll just do midnight for us. Update: This does not work on windows, but if you're on a system that supports cron, you can do this locally: We'll use the whenever gem https://github.com/javan/whenever and follow the instructions for installing and setting up the scheduler.</p>
 	<div id="terminal">$gem install whenever</div>
 	<div id="file">app/models/habit.rb</div>
 	<xmp>
@@ -551,6 +551,32 @@
 			puts "#{Time.now} - Success!"
 			end
 	</xmp>	
-	<p>Using the rails console you can toggle that, and test out the rest of the resets needed: resetDaily, resetWeekly, resetMonthly.</p>		
+	<p>Using the rails console you can toggle that, and test out the rest of the resets needed: resetDaily, resetWeekly, resetMonthly. Since I"m on a windows machine and the gem above which would work for a unix system with a cron file, I'm going to instead deploy this whole thing to the cloud and use heroku's scheduler to call the rake tasks.</p>		
+	<h2 id="3">Deploying to the Cloud with Heroku and using Heroku Scheduler</h2>
+	<p>Heroku lets us deploy the app to the cloud. You'll need to sign up for an heroku account. It only uses a postgres database though so you will need to update your gemfile to use this in production.</p>
+
+	<div id="file">/Gemfile</div>
+	<xmp>
+		group :development, :test do
+			 gem 'sqlite3'
+		end
+
+		group :production do
+			 gem 'pg'
+			 gem 'rails_12factor'
+		end
+	</xmp>
+	<div id="terminal">
+		$heroku login <br>
+		Email: (enter your email) <br>
+		Password (enter your password - it will show blank and that's fine) <br>
+		$ heroku keys:add<br>
+		$ heroku create<br>
+		$ git push heroku master<br>
+		$ heroku run rake db:migrate<br>
+		$ heroku addons:add scheduler:standard<br>
+	</div>	
+	<p>Heroku's documentation: https://devcenter.heroku.com/articles/scheduler#installing-the-add-on is pretty good at describing how to set up the scheduler. The schedule will just run our rake tasks that reset the habits. You can test them on heroku by setting up some data.<p>
+	<div id="terminal">$ heroku run rake update_feed</div>	
 </body>
 </html>
