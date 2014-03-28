@@ -6,13 +6,9 @@ $navbar-height:                                        45px;
 $navbar-default-bg:                          #ecf0f1;
 $navbar-default-brand-color:      #9b59b6;
 $brand-primary:                                    #9b59b6;
+$brand-info:                                    #f1c40f;
 $jumbotron-bg:                                         #ecf0f1;
 $font-size-base: 20px;
-$gray: red; 
-$brand-info: red;
-$brand-success: red;
-$gray-light: red;
-$gray-lighter: red;
 
 @import 'bootstrap';
 
@@ -30,10 +26,6 @@ $gray-lighter: red;
 
 h1{
 	font-size: 24pt;
-}
-
-tr{
-     background-color: #f1c40f;
 }
 
 .glyphicon-remove{
