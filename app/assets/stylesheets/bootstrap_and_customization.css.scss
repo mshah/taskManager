@@ -10,7 +10,13 @@ $brand-info:                                    #f1c40f;
 $jumbotron-bg:                                         #ecf0f1;
 $font-size-base: 20px;
 
+$table-hover: #f1c40f;
+
 @import 'bootstrap';
+
+.table-striped {
+     background-color: #bdc3c7;
+}
 
 .center {
      text-align: center;
