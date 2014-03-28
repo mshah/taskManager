@@ -1,7 +1,5 @@
-<h1>Listing goals</h1>
-      <div class="form-group">
-        <%= link_to 'New Goal', new_goal_path, class: "btn btn-primary" %>
-      </div>
+<h1>I want to...</h1>
+
 
 
 <br>
@@ -9,14 +7,14 @@
 <% if user_signed_in? %>
 <div class="panel panel-default">
   <!-- Default panel contents -->
-  <div id="test" class="panel-heading">Goals</div>
-
+  <div id="test" class="panel-heading">Goals
+      <%= link_to '', new_goal_path, class: "glyphicon glyphicon-plus" %>
+  </div>
   <table class="table table-striped">
     <thead>
       <tr>
         <th>Description</th>
         <th>Progress</th>
-        <th></th>
         <th></th>
       </tr>
     </thead>
@@ -24,18 +22,15 @@
     <tbody>
       <% @goals.each do |goal| %>
           <tr>
-            <td><%= goal.description %></td>
-            <td><%= goal.progress %></td>             
             <td>
               <%= link_to edit_goal_path(goal) do %>
-              <span class="glyphicon glyphicon-edit"></span>
-                Edit
+              <%= goal.description %>
               <% end %>
-            </td> 
+            </td>
+            <td><%= goal.progress %></td>             
             <td>
               <%= link_to goal, method: :delete, data: { confirm: 'Are you sure?' } do %>
               <span class="glyphicon glyphicon-trash"></span>
-                Delete
               <% end %>
             </td> 
           </tr>

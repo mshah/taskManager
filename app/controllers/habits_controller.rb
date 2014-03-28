@@ -27,7 +27,7 @@ class HabitsController < ApplicationController
 
     respond_to do |format|
       if @habit.save
-        format.html { redirect_to @habit, notice: 'Habit was successfully created.' }
+        format.html { redirect_to habits_url, notice: 'Habit was successfully created.' }
       else
         format.html { render action: 'new' }
       end

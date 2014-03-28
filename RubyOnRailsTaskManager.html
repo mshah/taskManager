@@ -576,7 +576,24 @@
 		$ heroku run rake db:migrate<br>
 		$ heroku addons:add scheduler:standard<br>
 	</div>	
-	<p>Heroku's documentation: https://devcenter.heroku.com/articles/scheduler#installing-the-add-on is pretty good at describing how to set up the scheduler. The schedule will just run our rake tasks that reset the habits. You can test them on heroku by setting up some data.<p>
-	<div id="terminal">$ heroku run rake habits</div>	
+	<p>Heroku's documentation: https://devcenter.heroku.com/articles/scheduler#installing-the-add-on is pretty good at describing how to set up the scheduler. The schedule will just run our rake tasks that reset the habits. You can test them on heroku by setting up some data. The standard schedule for heroku runs once a day at most, but we can bundle our updates since we also always need to update once a day. Let's work on the look and feel of the app.<p>
+	<div id="terminal">$ heroku run rake habits</div>
+	<h2 id="3">Customizing with Bootstrap</h2>
+	<p>We want to update the look of this, but also how it is to use. Right now if you want to edit something you go to another form, etc. We want to streamline to workflow as much as possible. After we create a new task, etc. let's go back to the list of them not just to the new one we created. We'll update the redirect on save to go back to the habits_url.</p>	
+	<div id="file">/app/controllers/habits_controller.rb</div>
+	<xmp>
+		  def create
+			@habit = current_user.habits.build(habit_params)
+
+			respond_to do |format|
+			  if @habit.save
+				format.html { redirect_to habits_url, notice: 'Habit was successfully created.' }
+			  else
+				format.html { render action: 'new' }
+			  end
+			end
+		  end
+	</xmp>	
+	
 </body>
 </html>

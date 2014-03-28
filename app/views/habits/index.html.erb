@@ -5,8 +5,9 @@
 <% if user_signed_in? %>
 <div class="panel panel-default">
   <!-- Default panel contents -->
-  <div class="panel-heading">Daily Habits</div>
-
+  <div class="panel-heading">Daily Habits
+      <%= link_to '', new_habit_path, class: "glyphicon glyphicon-plus" %>
+  </div>
   <table class="table table-striped">
     <thead>
       <tr>
