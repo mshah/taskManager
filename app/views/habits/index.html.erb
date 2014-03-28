@@ -61,7 +61,7 @@
 
     <tbody>
       <% @habits.each do |habit| %>
-        <% if goal.user == current_user %>
+        <% if habit.user == current_user %>
         <% if habit.interval == 'Weekly' %>        
           <tr>
             <td><%= habit.description %></td>
@@ -102,7 +102,7 @@
 
     <tbody>
       <% @habits.each do |habit| %>
-      <% if goal.user == current_user %>
+      <% if habit.user == current_user %>
         <% if habit.interval == 'Monthly' %>
           <tr>
             <td><%= habit.description %></td>
