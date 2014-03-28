@@ -450,6 +450,7 @@
 	<p>We'll update the views the same way for the goals and habits also, which I did not list out above. Now let's update the UI and stylize this a bit more. We want to list out the tasks and habits in rows. At this point I'm also realizing Ruby doesn't have the notion of enums like other languages I'm used to (C++\Java), so we'll need to add strings as these values and just drop these integers from our table. So instead of trying to migrate this, I'm just going to roll all the way back, edit the migration files and then migrate again. So now I'll edit my old migration files and change the integer for interval, progress, etc to strings and then do a db:migrate again.</p>
 	 <div id="terminal">
 		$ rake db:rollback STEP=9<br/>		
+		$ rake db:migrate<br/>		
 	 </div>	
 	 <p> So we'll start back up the server and look at our data. So since we're changing our model, we need to update the edit forms also. So we'll change the below. We also want to make sure users only can select specific strings that we allow. Let's add some validation into the model about what string values are acceptable.</p>
 	<div id="file">app/views/habits/_form.html.erb</div>
@@ -481,6 +482,75 @@
 		<%= f.number_field :interval %>
 	  </div>		
 	</xmp>	
-	<p>So now we have a nice view of everything and we can update things. The habits should reset on their intervals and when we do this reset we could keep track of streaks.</p>
+	<p>So now we have a nice view of everything and we can update things. The habits should reset on their intervals and when we do this reset we could keep track of streaks. We'll need to run a cron job (set up a periodic task) to update the habits. We also know we only need to run this once a day. That might not be strictly true, as different users in different timezones would want it reset at different times, but for simplicity we'll just do midnight for us. We'll use the whenever gem https://github.com/javan/whenever and follow the instructions for installing and setting up the scheduler.</p>
+	<div id="terminal">$gem install whenever</div>
+	<div id="file">app/models/habit.rb</div>
+	<xmp>
+	gem 'whenever', :require=> false
+	</xmp>
+	<div id="terminal">$bundle install</div>
+	<div id="terminal">$wheneverize .</div>
+	<p>This creates a schedule.rb config file, in this file we'll be able to call rake tasks. In your application take a look at the Rakefile. </p>	
+	<div id="file">/Rakefile</div>
+	<xmp>
+	# Add your own tasks in files placed in lib/tasks ending in .rake,
+	# for example lib/tasks/capistrano.rake, and they will automatically be available to Rake.
+	</xmp>	
+	<p>This means we can create a new file, let's name it reset_habits.rake and put it in /lib/tasks. Rake tasks let us call things command line, in our case we'll want to be able to clear all the :done values of our habits periodicially. Create some test data using your app, and then run the rails console from the terminal. Inspect a habit. </p>
+	<div id="terminal">$rails console</div>	
+	<div id="terminal">>Habit.inspect </div>	
+	<p>Now you have a view into the state of the database, you'll be able to test if your rake command is working by running it, and then rechecking to see if it cleared the done flag on the Habits. We can get a little bit more familiar with rake tasks, below are some examples you add and run from the commandline.</p>
+	<div id="file">/Rakefile</div>
+	<xmp>
+			namespace :demotask do
+			
+			  desc "display the current environment of rake"
+			  task :current_environment do
+				puts "You are running rake task in #{Rails.env} environment"
+			  end
+
+			  desc "count number of records in given model table"
+			  task :count_records, [:model] => :environment do |t, args| # task with both arguments and dependency
+				args.with_defaults(:model => "Habit" )
+				model_calss_name = Object.const_get(args.model) # this is very important as when you#pass argument it come as a string, so you must convert it to model class
+				puts "No of records is #{model_calss_name.count}"
+			  end
+
+			  desc "see what happen when you call a modal method without loading environment"
+			  task :without_environment do
+				puts Habit.first.done
+			  end
+			  
+			  desc "load environment before operating on any model object"
+			  task :with_environment => :environment do
+				puts Habit.first.done
+			  end  
+			  
+			 end
+	</xmp>	
+	<p>We can run some of these commands from the command line and see what they do. Above there is a method that does not pass the environment, try running it. You'll see an error message, now try running the one with environment.</p>	
+	<div id="terminal">$rake demotask:without_environment<br>
+	$rake aborted!<br>
+	uninitialized constant User<br>
+	$rake demotask:with_environment!<br>
+	dependency<br>	
+	true<br>	
+	</div>
+	<p>So we can see from count_records how to access the model, and we will update it using the ActiveRecord update method. We can also add some logging to see what's going on.</p>	
+	<div id="file">/Rakefile</div>
+	<xmp>
+		namespace :habits do
+			desc "Rake task to reset the weekly habits"
+			task :resetWeekly => :environment do
+				puts "Value of habits after clear "
+				habits = Habit.all
+				habits.each do |habit|
+					habit.update(done: false)
+					puts habit.done
+				end
+			puts "#{Time.now} - Success!"
+			end
+	</xmp>	
+	<p>Using the rails console you can toggle that, and test out the rest of the resets needed: resetDaily, resetWeekly, resetMonthly.</p>		
 </body>
 </html>

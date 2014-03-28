@@ -19,34 +19,28 @@ class HabitsController < ApplicationController
 
   # GET /habits/1/edit
   def edit
-  end
+  end   
 
   # POST /habits
-  # POST /habits.json
   def create
     @habit = current_user.habits.build(habit_params)
 
     respond_to do |format|
       if @habit.save
         format.html { redirect_to @habit, notice: 'Habit was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @habit }
       else
         format.html { render action: 'new' }
-        format.json { render json: @habit.errors, status: :unprocessable_entity }
       end
     end
   end
 
   # PATCH/PUT /habits/1
-  # PATCH/PUT /habits/1.json
   def update
     respond_to do |format|
       if @habit.update(habit_params)
         format.html { redirect_to @habit, notice: 'Habit was successfully updated.' }
-        format.json { head :no_content }
       else
         format.html { render action: 'edit' }
-        format.json { render json: @habit.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -57,7 +51,6 @@ class HabitsController < ApplicationController
     @habit.destroy
     respond_to do |format|
       format.html { redirect_to habits_url }
-      format.json { head :no_content }
     end
   end
 

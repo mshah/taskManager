@@ -23,42 +23,34 @@ class GoalsController < ApplicationController
   end
 
   # POST /goals
-  # POST /goals.json
   def create
     @goal = current_user.goals.build(goal_params)
 
     respond_to do |format|
       if @goal.save
         format.html { redirect_to @goal, notice: 'Goal was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @goal }
       else
         format.html { render action: 'new' }
-        format.json { render json: @goal.errors, status: :unprocessable_entity }
       end
     end
   end
 
   # PATCH/PUT /goals/1
-  # PATCH/PUT /goals/1.json
   def update
     respond_to do |format|
       if @goal.update(goal_params)
         format.html { redirect_to @goal, notice: 'Goal was successfully updated.' }
-        format.json { head :no_content }
       else
         format.html { render action: 'edit' }
-        format.json { render json: @goal.errors, status: :unprocessable_entity }
       end
     end
   end
 
   # DELETE /goals/1
-  # DELETE /goals/1.json
   def destroy
     @goal.destroy
     respond_to do |format|
       format.html { redirect_to goals_url }
-      format.json { head :no_content }
     end
   end
 
