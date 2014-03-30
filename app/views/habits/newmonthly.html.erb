@@ -1,3 +1,4 @@
+<h1>New Monthly habit</h1>
 <%= form_for(@habit) do |f| %>
   <% if @habit.errors.any? %>
     <div id="error_explanation">
@@ -15,12 +16,11 @@
     <%= f.label :description %><br>
     <%= f.text_field :description %>
   </div>
-  <div class="field">
-    <%= f.check_box :done %>
-    <%= f.label :done %>   
-  </div> 
-  <%= f.hidden_field :interval, :value => @habit.interval%>
+  <%= f.hidden_field :done, :value => false %>
+  <%= f.hidden_field :interval, :value => 'Monthly' %>
   <div class="actions">
     <%= f.submit %>
   </div>
 <% end %>
+
+<%= link_to 'Back', habits_path %>

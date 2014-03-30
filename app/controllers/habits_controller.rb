@@ -17,9 +17,37 @@ class HabitsController < ApplicationController
     @habit = current_user.habits.build
   end
 
+# GET /habits/dailynew
+  def newdaily
+    @habit = current_user.habits.build
+  end
+
+# GET /habits/weeklynew
+  def newweekly
+    @habit = current_user.habits.build
+  end
+
+# GET /habits/monthlynew
+  def newmonthly
+    @habit = current_user.habits.build
+  end      
+
   # GET /habits/1/edit
   def edit
   end   
+
+  def toggle_action
+    respond_to do |format|
+      @habit = Habit.find(params[:id])
+      if @habit.done?
+        @habit.done = false
+      else
+        @habit.done = true
+      end
+      @habit.update_attributes(params[:done])
+      format.html { redirect_to habits_url, notice: 'Habit was successfully updated.' }
+    end
+  end  
 
   # POST /habits
   def create

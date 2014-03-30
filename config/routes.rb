@@ -9,7 +9,14 @@ TaskManager::Application.routes.draw do
   root "goals#index"
   get "goals" => "goals#index"
   get "tasks" => "tasks#index"
-  get "habits" => "habits#index"  
+  get "habits" => "habits#index"
+
+  # Add routes for creating new daily, weekly, and monthly habits
+  get "new_dailyhabit" => "habits#newdaily"
+  get "new_weeklyhabit" => "habits#newweekly"  
+  get "new_monthlyhabit" => "habits#newmonthly"
+
+  get "toggle_habit" => "habits#toggle_action"  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

@@ -8,11 +8,15 @@
       <%= link_to '', new_task_path, class: "glyphicon glyphicon-plus" %>
   </div>
   <table class="table table-condensed table-hover">
+    <col>
+    <col>
+    <col width="20">
+    <col width="20">    
     <thead>
       <tr>
         <th>Description</th>
         <th>Due date</th>        
-        <th>Progress</th>
+        <th></th>
         <th></th>
       </tr>
     </thead>
@@ -26,8 +30,18 @@
             <%= task.description %>
             <% end %>
           </td>
-          <td><%= task.dueDate %></td>
-          <td><%= task.progress %></td>             
+          <td><%= task.dueDate %></td>        
+          <td>
+              <% if task.progress == 'NotStarted' %>
+                <%= image_tag("redProgress.png", :alt => "Not Started") %>
+              <% elsif task.progress == 'NeedsWork' %>
+                <%= image_tag("yellowProgress.png", :alt => "Needs Work") %>
+              <% elsif task.progress == 'OnTrack' %>
+                <%= image_tag("greenProgress.png", :alt => "On Track") %>
+              <% else %>
+                <span class="glyphicon glyphicon-ok"></span>                                        
+              <% end %>   
+          </td>             
           <td>
             <%= link_to task, method: :delete, data: { confirm: 'Are you sure?' } do %>
             <span class="glyphicon glyphicon-trash"></span>

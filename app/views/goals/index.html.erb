@@ -1,7 +1,4 @@
 <h1>I want to...</h1>
-
-
-
 <br>
 
 <% if user_signed_in? %>
@@ -11,14 +8,9 @@
       <%= link_to '', new_goal_path, class: "glyphicon glyphicon-plus" %>
   </div>
   <table class="table table-condensed table-hover">
-    <thead>
-      <tr>
-        <th>Description</th>
-        <th>Progress</th>
-        <th></th>
-      </tr>
-    </thead>
-
+    <col>
+    <col width="20">
+    <col width="20">
     <tbody>
       <% @goals.each do |goal| %>
         <% if goal.user == current_user %>
@@ -28,7 +20,17 @@
               <%= goal.description %>
               <% end %>
             </td>
-            <td><%= goal.progress %></td>             
+            <td>
+                <% if goal.progress == 'NotStarted' %>
+                  <%= image_tag("redProgress.png", :alt => "Not Started") %>
+                <% elsif goal.progress == 'NeedsWork' %>
+                  <%= image_tag("yellowProgress.png", :alt => "Needs Work") %>
+                <% elsif goal.progress == 'OnTrack' %>
+                  <%= image_tag("greenProgress.png", :alt => "On Track") %>
+                <% else %>
+                  <span class="glyphicon glyphicon-ok"></span>                                       
+                <% end %>   
+            </td>            
             <td>
               <%= link_to goal, method: :delete, data: { confirm: 'Are you sure?' } do %>
               <span class="glyphicon glyphicon-trash"></span>
@@ -40,8 +42,5 @@
     </tbody>
   </table>
 </div>
-
-
-
 <% end %>
 

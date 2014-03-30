@@ -579,7 +579,7 @@
 	<p>Heroku's documentation: https://devcenter.heroku.com/articles/scheduler#installing-the-add-on is pretty good at describing how to set up the scheduler. The schedule will just run our rake tasks that reset the habits. You can test them on heroku by setting up some data. The standard schedule for heroku runs once a day at most, but we can bundle our updates since we also always need to update once a day. Let's work on the look and feel of the app.<p>
 	<div id="terminal">$ heroku run rake habits</div>
 	<h2 id="3">Customizing with Bootstrap</h2>
-	<p>We want to update the look of this, but also how it is to use. Right now if you want to edit something you go to another form, etc. We want to streamline to workflow as much as possible. After we create a new task, etc. let's go back to the list of them not just to the new one we created. We'll update the redirect on save to go back to the habits_url.</p>	
+	<p>We want to update the look of this, but also how it is to use. Right now if you want to edit something you go to another form, etc. We want to streamline to workflow as much as possible. After we create a new task, etc. let's go back to the list of them not just to the new one we created. We'll update the redirect on save to go back to the habits_url. This keeps reordering the tasks when I go back which is kind of annoying, but we can always list them sorted in alphabetical order which will keep it consistent.</p>	
 	<div id="file">/app/controllers/habits_controller.rb</div>
 	<xmp>
 		  def create
@@ -594,6 +594,138 @@
 			end
 		  end
 	</xmp>	
-	
+	<p>I want to represent progress with image icons: red, yellow, and green embossed circles. Right now the columns float in width, but these images are fixed size as is the trashcan glyph. It would be nice if these always anchored on the right side, instead of floating towards the left when the screen was stretched. We can solve that problem by setting column widths in the tables that display them. We'll also do similar things to Tasks and Goals, fill in the "Done" value when they are created since we want to always create them in a "not done" progress state.</p>		
+	<div id="file">/app/view/goals/index.html.erb</div>
+	<xmp>
+		<h1>I want to...</h1>
+		<br>
+
+		<% if user_signed_in? %>
+		<div class="panel panel-primary">
+		  <!-- Default panel contents -->
+		  <div id="test" class="panel-heading">Goals
+			  <%= link_to '', new_goal_path, class: "glyphicon glyphicon-plus" %>
+		  </div>
+		  <table class="table table-condensed table-hover">
+			<col>
+			<col width="20">
+			<col width="20">
+			<tbody>
+			  <% @goals.each do |goal| %>
+				<% if goal.user == current_user %>
+				  <tr>
+					<td>
+					  <%= link_to edit_goal_path(goal) do %>
+					  <%= goal.description %>
+					  <% end %>
+					</td>
+					<td>
+						<% if goal.progress == 'NotStarted' %>
+						  <%= image_tag("redProgress.png", :alt => "Not Started") %>
+						<% elsif goal.progress == 'NeedsWork' %>
+						  <%= image_tag("yellowProgress.png", :alt => "Needs Work") %>
+						<% elsif goal.progress == 'OnTrack' %>
+						  <%= image_tag("greenProgress.png", :alt => "On Track") %>
+						<% else %>
+						  <span class="glyphicon glyphicon-ok"></span>                                       
+						<% end %>   
+					</td>            
+					<td>
+					  <%= link_to goal, method: :delete, data: { confirm: 'Are you sure?' } do %>
+					  <span class="glyphicon glyphicon-trash"></span>
+					  <% end %>
+					</td> 
+				  </tr>
+				<% end %>
+			  <% end %>
+			</tbody>
+		  </table>
+		</div>
+		<% end %>
+	</xmp>
+	<p>With the habits, we want to add the plus glyph to every entry, but when we go to a new form, we don't need to see the interval since we expect it for the table we have the button on. So we need a way to set this automatically and differently based on which plus glpyh is clicked. We'll add three new routes and create three new methods in our controller. We'll also new three new embedded ruby view files: newdaily.html.erb, newweekly.html.erb, and newmonthly.html.erb. We'll use the code from the partial _form.html.erb and replicate it here, except filling in the interval and done with hidden values. We'll also update the partial to just take the interval of the object in a hidden field, since we don't want it to revert to Daily everytime we try to edit. It would do this since it's the first value in our select box, and that's annoying to keep remembering your interval.</p>
+	<div id="file">/app/config/routes.rb</div>
+	<xmp>
+	  # Add routes for creating new daily, weekly, and monthly habits
+	  get "new_dailyhabit" => "habits#newdaily"
+	  get "new_weeklyhabit" => "habits#newweekly"  
+	  get "new_monthlyhabit" => "habits#newmonthly"  
+	</xmp>	
+	<div id="file">/app/controller/habits_controller.rb</div>
+	<xmp>
+		# GET /habits/dailynew
+		  def newdaily
+			@habit = current_user.habits.build
+		  end
+
+		# GET /habits/weeklynew
+		  def newweekly
+			@habit = current_user.habits.build
+		  end
+
+		# GET /habits/monthlynew
+		  def newmonthly
+			@habit = current_user.habits.build
+		  end 
+	</xmp>	
+	<div id="file">/app/views/newdaily.html.erb</div>
+	<xmp>
+		<h1>New Daily habit</h1>
+		<%= form_for(@habit) do |f| %>
+		  <% if @habit.errors.any? %>
+			<div id="error_explanation">
+			  <h2><%= pluralize(@habit.errors.count, "error") %> prohibited this habit from being saved:</h2>
+
+			  <ul>
+			  <% @habit.errors.full_messages.each do |msg| %>
+				<li><%= msg %></li>
+			  <% end %>
+			  </ul>
+			</div>
+		  <% end %>
+
+		  <div class="field">
+			<%= f.label :description %><br>
+			<%= f.text_field :description %>
+		  </div>
+		  <%= f.hidden_field :done, :value => false %>
+		  <%= f.hidden_field :interval, :value => 'Daily' %>
+		  <div class="actions">
+			<%= f.submit %>
+		  </div>
+		<% end %>
+
+		<%= link_to 'Back', habits_path %>
+	</xmp>		
+	<div id="file">/app/views/_form.html.erb</div>
+	<xmp>
+		<%= form_for(@habit) do |f| %>
+		  <% if @habit.errors.any? %>
+			<div id="error_explanation">
+			  <h2><%= pluralize(@habit.errors.count, "error") %> prohibited this habit from being saved:</h2>
+
+			  <ul>
+			  <% @habit.errors.full_messages.each do |msg| %>
+				<li><%= msg %></li>
+			  <% end %>
+			  </ul>
+			</div>
+		  <% end %>
+
+		  <div class="field">
+			<%= f.label :description %><br>
+			<%= f.text_field :description %>
+		  </div>
+		  <div class="field">
+			<%= f.check_box :done %>
+			<%= f.label :done %>   
+		  </div> 
+		  <%= f.hidden_field :interval, :value => @habit.interval%>
+		  <div class="actions">
+			<%= f.submit %>
+		  </div>
+		<% end %>
+	</xmp>	
+	<p>The above changes have made using our apps, creating new objects and editing objects a little easier. We still don't have the satisfaction of being able to click a check mark on our habits page, and have the check mark get set.</p>			
 </body>
 </html>
