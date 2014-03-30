@@ -6,8 +6,9 @@
 <% if user_signed_in? %>
 <div class="panel panel-primary">
   <!-- Default panel contents -->
-  <div class="panel-heading">Daily Habits
-      <%= link_to '', new_dailyhabit_path, class: "glyphicon glyphicon-plus" %>
+  <div class="panel-heading">
+    <%= link_to '', new_weeklyhabit_path, class: "glyphicon glyphicon-plus" %>
+    Daily Habits
   </div>
   <table class="table table-condensed table-hover">
     <col>
@@ -24,16 +25,13 @@
                 <% end %>
               </td>
               <td>
-                <%= link_to toggle_habit_path(habit), {:action => 'toggle_action', :id =>habit.id} %>
-
-                <!--%= link_to "toggleHabit", toggle_habit_path %-->
+                <%= link_to 'done', {:action => 'toggle_action', :id =>habit.id} %>
                   <% if habit.done == true %>
                     <span class="glyphicon glyphicon-ok"></span>
                   <% else %>
                     <span class="glyphicon glyphicon-remove"></span>                
-                  <% end %>  
-                <!--% end %-->          
-                </td>
+                  <% end %>        
+              </td>
               <td>
                 <%= link_to habit, method: :delete, data: { confirm: 'Are you sure?' } do %>
                 <span class="glyphicon glyphicon-trash"></span>
@@ -49,8 +47,9 @@
 
   <div class="panel panel-primary">
   <!-- Default panel contents -->
-  <div class="panel-heading">Weekly Habits
+  <div class="panel-heading">
     <%= link_to '', new_weeklyhabit_path, class: "glyphicon glyphicon-plus" %>
+      Weekly Habits    
   </div>
 
   <table class="table table-condensed table-hover">
@@ -68,15 +67,14 @@
                   <%= habit.description %>
                 <% end %>
               </td>
-            <td>
-              <%= link_to edit_habit_path(habit) do %>
-                <% if habit.done == true %>
-                  <span class="glyphicon glyphicon-ok"></span>
-                <% else %>
-                  <span class="glyphicon glyphicon-remove"></span>                
-                <% end %>  
-              <% end %>          
-            </td>
+              <td>
+                <%= link_to 'done', {:action => 'toggle_action', :id =>habit.id} %>
+                  <% if habit.done == true %>
+                    <span class="glyphicon glyphicon-ok"></span>
+                  <% else %>
+                    <span class="glyphicon glyphicon-remove"></span>                
+                  <% end %>        
+              </td>
             <td>
               <%= link_to habit, method: :delete, data: { confirm: 'Are you sure?' } do %>
               <span class="glyphicon glyphicon-trash"></span>
@@ -92,8 +90,9 @@
 
   <div class="panel panel-primary">
   <!-- Default panel contents -->
-  <div class="panel-heading">Monthly Habits
-    <%= link_to '', new_monthlyhabit_path, class: "glyphicon glyphicon-plus" %>
+  <div class="panel-heading">
+  <%= link_to '', new_weeklyhabit_path, class: "glyphicon glyphicon-plus" %>
+    Monthly Habits
   </div>
 
   <table class="table table-condensed table-hover">
@@ -110,15 +109,14 @@
                   <%= habit.description %>
                 <% end %>
               </td>
-            <td>
-              <%= link_to edit_habit_path(habit) do %>
-                <% if habit.done == true %>
-                  <span class="glyphicon glyphicon-ok"></span>
-                <% else %>
-                  <span class="glyphicon glyphicon-remove"></span>                
-                <% end %>  
-              <% end %>          
-            </td>
+              <td>
+                <%= link_to 'done', {:action => 'toggle_action', :id =>habit.id} %>
+                  <% if habit.done == true %>
+                    <span class="glyphicon glyphicon-ok"></span>
+                  <% else %>
+                    <span class="glyphicon glyphicon-remove"></span>                
+                  <% end %>        
+              </td>
             <td>
               <%= link_to habit, method: :delete, data: { confirm: 'Are you sure?' } do %>
               <span class="glyphicon glyphicon-trash"></span>

@@ -726,6 +726,56 @@
 		  </div>
 		<% end %>
 	</xmp>	
-	<p>The above changes have made using our apps, creating new objects and editing objects a little easier. We still don't have the satisfaction of being able to click a check mark on our habits page, and have the check mark get set.</p>			
+	<p>The above changes have made using our apps, creating new objects and editing objects a little easier. We still don't have the satisfaction of being able to click a check mark on our habits page, and have the check mark get set. We'll add a method to the controller that can toggle "done" on our habits, add a route, and add a link from the view</p>	
+	<div id="file">/app/config/routes.rb</div>
+	<xmp>
+	  get "toggle_habit" => "habits#toggle_action"    
+	</xmp>	
+	<div id="file">/app/controllers/habits_controller.rb</div>
+	<xmp>
+	  def toggle_action
+		respond_to do |format|
+		  @habit = Habit.find(params[:id])
+		  if @habit.done?
+			@habit.done = false
+		  else
+			@habit.done = true
+		  end
+		  @habit.update_attributes(params[:done])
+		  format.html { redirect_to habits_url, notice: 'Habit was successfully updated.' }
+		end
+	  end  
+	</xmp>	
+	<div id="file">/app/views/habits/index.html.erb</div>
+	<xmp>
+		<tbody>
+		  <% @habits.each do |habit| %>
+			<% if habit.user == current_user %>
+			<% if habit.interval == 'Weekly' %>        
+			  <tr>
+				<td>
+				  <%= link_to edit_habit_path(habit) do %>
+					<%= habit.description %>
+				   <% end %>
+				</td>
+				<td>
+				  <%= link_to 'done', {:action => 'toggle_action', :id =>habit.id} %>
+					<% if habit.done == true %>
+					  <span class="glyphicon glyphicon-ok"></span>
+					<% else %>
+					  <span class="glyphicon glyphicon-remove"></span>                
+					<% end %>        
+				</td>
+				<td>
+				  <%= link_to habit, method: :delete, data: { confirm: 'Are you sure?' } do %>
+				  <span class="glyphicon glyphicon-trash"></span>
+				  <% end %>
+				</td> 
+			  </tr>
+			<% end %>
+			<% end %>
+		  <% end %>
+		</tbody>
+	</xmp>		
 </body>
 </html>

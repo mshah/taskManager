@@ -4,8 +4,9 @@
 <% if user_signed_in? %>
 <div class="panel panel-primary">
   <!-- Default panel contents -->
-  <div class="panel-heading">Tasks
-      <%= link_to '', new_task_path, class: "glyphicon glyphicon-plus" %>
+  <div class="panel-heading">
+    <%= link_to '', new_task_path, class: "glyphicon glyphicon-plus" %>
+    Tasks      
   </div>
   <table class="table table-condensed table-hover">
     <col>
