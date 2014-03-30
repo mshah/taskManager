@@ -13,11 +13,8 @@ namespace :habits do
 	task :resetWeekly => :environment do
 		habits = Habit.all
 		habits.each do |habit|
-			puts "habit interval: " + habit.interval
 			if habit.interval == 'Weekly'
 				habit.update(done: false)
-				puts habit.done
-				puts habit.description
 			end
 		end
 	end
@@ -30,6 +27,27 @@ namespace :habits do
 				habit.update(done: false)
 			end
 		end
+	end	
+
+	desc "Rake task that resets everything daily"
+	task :resetHeroku => :environment do
+		habits = Habit.all
+		time = Time.new
+		habits.each do |habit|
+			if habit.interval == 'Daily'
+				habit.update(done: false)
+			end	
+			if habit.interval == 'Weekly'
+				if time.wday == 0
+					habit.update(done: false)
+				end
+			end					
+			if habit.interval == 'Monthly'
+				if time.day == 1
+					habit.update(done: false)
+				end
+			end
+		end	
 	end	
 end
 

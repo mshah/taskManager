@@ -25,11 +25,10 @@
                 <% end %>
               </td>
               <td>
-                <%= link_to 'done', {:action => 'toggle_action', :id =>habit.id} %>
                   <% if habit.done == true %>
-                    <span class="glyphicon glyphicon-ok"></span>
+                    <%= link_to ''.html_safe, {:action => 'toggle_action', :id =>habit.id}, class: 'glyphicon glyphicon-ok' %>
                   <% else %>
-                    <span class="glyphicon glyphicon-remove"></span>                
+                    <%= link_to ''.html_safe, {:action => 'toggle_action', :id =>habit.id}, class: 'glyphicon glyphicon-remove' %>                                
                   <% end %>        
               </td>
               <td>
@@ -68,12 +67,11 @@
                 <% end %>
               </td>
               <td>
-                <%= link_to 'done', {:action => 'toggle_action', :id =>habit.id} %>
                   <% if habit.done == true %>
-                    <span class="glyphicon glyphicon-ok"></span>
+                    <%= link_to ''.html_safe, {:action => 'toggle_action', :id =>habit.id}, class: 'glyphicon glyphicon-ok' %>
                   <% else %>
-                    <span class="glyphicon glyphicon-remove"></span>                
-                  <% end %>        
+                    <%= link_to ''.html_safe, {:action => 'toggle_action', :id =>habit.id}, class: 'glyphicon glyphicon-remove' %>                                
+                  <% end %>       
               </td>
             <td>
               <%= link_to habit, method: :delete, data: { confirm: 'Are you sure?' } do %>
@@ -110,12 +108,11 @@
                 <% end %>
               </td>
               <td>
-                <%= link_to 'done', {:action => 'toggle_action', :id =>habit.id} %>
                   <% if habit.done == true %>
-                    <span class="glyphicon glyphicon-ok"></span>
+                    <%= link_to ''.html_safe, {:action => 'toggle_action', :id =>habit.id}, class: 'glyphicon glyphicon-ok' %>
                   <% else %>
-                    <span class="glyphicon glyphicon-remove"></span>                
-                  <% end %>        
+                    <%= link_to ''.html_safe, {:action => 'toggle_action', :id =>habit.id}, class: 'glyphicon glyphicon-remove' %>                                
+                  <% end %>       
               </td>
             <td>
               <%= link_to habit, method: :delete, data: { confirm: 'Are you sure?' } do %>

@@ -540,16 +540,26 @@
 	<div id="file">/Rakefile</div>
 	<xmp>
 		namespace :habits do
-			desc "Rake task to reset the weekly habits"
-			task :resetWeekly => :environment do
-				puts "Value of habits after clear "
+			desc "Rake task that resets everything daily"
+			task :resetHeroku => :environment do
 				habits = Habit.all
+				time = Time.new
 				habits.each do |habit|
-					habit.update(done: false)
-					puts habit.done
-				end
-			puts "#{Time.now} - Success!"
-			end
+					if habit.interval == 'Daily'
+						habit.update(done: false)
+					end	
+					if habit.interval == 'Weekly'
+						if time.wday == 0
+							habit.update(done: false)
+						end
+					end					
+					if habit.interval == 'Monthly'
+						if time.day == 1
+							habit.update(done: false)
+						end
+					end
+				end	
+			end	
 	</xmp>	
 	<p>Using the rails console you can toggle that, and test out the rest of the resets needed: resetDaily, resetWeekly, resetMonthly. Since I"m on a windows machine and the gem above which would work for a unix system with a cron file, I'm going to instead deploy this whole thing to the cloud and use heroku's scheduler to call the rake tasks.</p>		
 	<h2 id="3">Deploying to the Cloud with Heroku and using Heroku Scheduler</h2>
@@ -577,7 +587,7 @@
 		$ heroku addons:add scheduler:standard<br>
 	</div>	
 	<p>Heroku's documentation: https://devcenter.heroku.com/articles/scheduler#installing-the-add-on is pretty good at describing how to set up the scheduler. The schedule will just run our rake tasks that reset the habits. You can test them on heroku by setting up some data. The standard schedule for heroku runs once a day at most, but we can bundle our updates since we also always need to update once a day. Let's work on the look and feel of the app.<p>
-	<div id="terminal">$ heroku run rake habits</div>
+	<div id="terminal">$ heroku run rake habits:resetHeroku</div>
 	<h2 id="3">Customizing with Bootstrap</h2>
 	<p>We want to update the look of this, but also how it is to use. Right now if you want to edit something you go to another form, etc. We want to streamline to workflow as much as possible. After we create a new task, etc. let's go back to the list of them not just to the new one we created. We'll update the redirect on save to go back to the habits_url. This keeps reordering the tasks when I go back which is kind of annoying, but we can always list them sorted in alphabetical order which will keep it consistent.</p>	
 	<div id="file">/app/controllers/habits_controller.rb</div>
@@ -753,19 +763,18 @@
 			<% if habit.user == current_user %>
 			<% if habit.interval == 'Weekly' %>        
 			  <tr>
-				<td>
-				  <%= link_to edit_habit_path(habit) do %>
-					<%= habit.description %>
-				   <% end %>
-				</td>
-				<td>
-				  <%= link_to 'done', {:action => 'toggle_action', :id =>habit.id} %>
-					<% if habit.done == true %>
-					  <span class="glyphicon glyphicon-ok"></span>
-					<% else %>
-					  <span class="glyphicon glyphicon-remove"></span>                
-					<% end %>        
-				</td>
+				  <td>
+					<%= link_to edit_habit_path(habit) do %>
+					  <%= habit.description %>
+					<% end %>
+				  </td>
+				  <td>
+					  <% if habit.done == true %>
+						<%= link_to ''.html_safe, {:action => 'toggle_action', :id =>habit.id}, class: 'glyphicon glyphicon-ok' %>
+					  <% else %>
+						<%= link_to ''.html_safe, {:action => 'toggle_action', :id =>habit.id}, class: 'glyphicon glyphicon-remove' %>                                
+					  <% end %>       
+				  </td>
 				<td>
 				  <%= link_to habit, method: :delete, data: { confirm: 'Are you sure?' } do %>
 				  <span class="glyphicon glyphicon-trash"></span>

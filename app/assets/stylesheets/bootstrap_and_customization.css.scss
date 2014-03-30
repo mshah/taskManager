@@ -6,6 +6,7 @@ $navbar-height:                                        45px;
 $navbar-default-bg:                          #ecf0f1;
 $navbar-default-brand-color:      #9b59b6;
 $brand-primary:                                    #9b59b6;
+$black:                                    #ffffff;
 $brand-info:                                    #f1c40f;
 $jumbotron-bg:                                         #ecf0f1;
 $font-size-base: 20px;
@@ -35,7 +36,7 @@ $table-hover: #f1c40f;
 }
 
 h1{
-	font-size: 24pt;
+	font-size: 16pt;
 }
 
 
@@ -56,4 +57,5 @@ h1{
 
 .glyphicon-trash{
 	font-size: 14pt;
+	color: black;
 }
