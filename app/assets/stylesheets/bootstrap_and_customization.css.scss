@@ -39,9 +39,20 @@ h1{
 	font-size: 16pt;
 }
 
+p, {
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 32px;
+}
+
+ol, ul, td {
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+}
 
 .glyphicon-remove{
-	color: #d40000;
+	color: #e74c3f;
 	font-size: 14pt;
 }
 
@@ -51,7 +62,7 @@ h1{
 }
 
 .glyphicon-ok{
-	color: #55d400;
+	color: #27ae60;
 	font-size: 14pt;
 }
 

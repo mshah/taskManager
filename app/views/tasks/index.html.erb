@@ -3,21 +3,22 @@
 <br>
 <% if user_signed_in? %>
 <div class="panel panel-primary">
-  <!-- Default panel contents -->
-  <div class="panel-heading">
+  <div class="panel-heading">    
+   Tasks
+  <div class="btn-group pull-right">
     <%= link_to '', new_task_path, class: "glyphicon glyphicon-plus" %>
-    Tasks      
+  </div>
   </div>
   <table class="table table-condensed table-hover">
-    <col>
-    <col>
     <col width="20">
-    <col width="20">    
+    <col>
+    <col>
+    <col width="40">  
     <thead>
       <tr>
+        <th></th>
         <th>Description</th>
         <th>Due date</th>        
-        <th></th>
         <th></th>
       </tr>
     </thead>
@@ -27,22 +28,22 @@
         <% if task.user == current_user %>
           <tr>
           <td>
-            <%= link_to edit_task_path(task) do %>
-            <%= task.description %>
-            <% end %>
-          </td>
-          <td><%= task.dueDate %></td>        
-          <td>
               <% if task.progress == 'NotStarted' %>
-                <%= image_tag("redProgress.png", :alt => "Not Started") %>
+                <%= image_tag("redProgress3.png", :alt => "Not Started") %>
               <% elsif task.progress == 'NeedsWork' %>
-                <%= image_tag("yellowProgress.png", :alt => "Needs Work") %>
+                <%= image_tag("yellowProgress3.png", :alt => "Needs Work") %>
               <% elsif task.progress == 'OnTrack' %>
-                <%= image_tag("greenProgress.png", :alt => "On Track") %>
+                <%= image_tag("greenProgress3.png", :alt => "On Track") %>
               <% else %>
                 <span class="glyphicon glyphicon-ok"></span>                                        
               <% end %>   
           </td>             
+          <td>
+            <%= link_to edit_task_path(task) do %>
+            <%= task.description %>
+            <% end %>
+          </td>
+          <td><%= task.dueDate %></td>                    
           <td>
             <%= link_to task, method: :delete, data: { confirm: 'Are you sure?' } do %>
             <span class="glyphicon glyphicon-trash"></span>

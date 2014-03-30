@@ -5,31 +5,32 @@
 <br>
 <% if user_signed_in? %>
 <div class="panel panel-primary">
-  <!-- Default panel contents -->
-  <div class="panel-heading">
-    <%= link_to '', new_weeklyhabit_path, class: "glyphicon glyphicon-plus" %>
-    Daily Habits
+  <div class="panel-heading">    
+   Daily Habits
+  <div class="btn-group pull-right">
+    <%= link_to '', new_dailyhabit_path, class: "glyphicon glyphicon-plus" %>
+  </div>
   </div>
   <table class="table table-condensed table-hover">
+    <col width="20">     
     <col>
-    <col width="20">
-    <col width="20"> 
+    <col width="40">
     <tbody>
       <% @habits.each do |habit| %>
         <% if habit.user == current_user %>
           <% if habit.interval == 'Daily' %>
-            <tr>
-              <td>
-                <%= link_to edit_habit_path(habit) do %>
-                  <%= habit.description %>
-                <% end %>
-              </td>
+            <tr>          
               <td>
                   <% if habit.done == true %>
                     <%= link_to ''.html_safe, {:action => 'toggle_action', :id =>habit.id}, class: 'glyphicon glyphicon-ok' %>
                   <% else %>
                     <%= link_to ''.html_safe, {:action => 'toggle_action', :id =>habit.id}, class: 'glyphicon glyphicon-remove' %>                                
                   <% end %>        
+              </td>          
+              <td>
+                <%= link_to edit_habit_path(habit) do %>
+                  <%= habit.description %>
+                <% end %>
               </td>
               <td>
                 <%= link_to habit, method: :delete, data: { confirm: 'Are you sure?' } do %>
@@ -44,35 +45,36 @@
   </table>
 </div>
 
-  <div class="panel panel-primary">
-  <!-- Default panel contents -->
-  <div class="panel-heading">
+<div class="panel panel-primary">
+  <div class="panel-heading">    
+   Weekly Habits
+  <div class="btn-group pull-right">
     <%= link_to '', new_weeklyhabit_path, class: "glyphicon glyphicon-plus" %>
-      Weekly Habits    
   </div>
-
+  </div>
   <table class="table table-condensed table-hover">
+    <col width="20">       
     <col>
-    <col width="20">
-    <col width="20">     
+    <col width="40">
     <thead>
     <tbody>
       <% @habits.each do |habit| %>
         <% if habit.user == current_user %>
-        <% if habit.interval == 'Weekly' %>        
-          <tr>
-              <td>
-                <%= link_to edit_habit_path(habit) do %>
-                  <%= habit.description %>
-                <% end %>
-              </td>
+        <% if habit.interval == 'Weekly' %>
+          <tr>        
               <td>
                   <% if habit.done == true %>
                     <%= link_to ''.html_safe, {:action => 'toggle_action', :id =>habit.id}, class: 'glyphicon glyphicon-ok' %>
                   <% else %>
                     <%= link_to ''.html_safe, {:action => 'toggle_action', :id =>habit.id}, class: 'glyphicon glyphicon-remove' %>                                
                   <% end %>       
+              </td>                
+              <td>
+                <%= link_to edit_habit_path(habit) do %>
+                  <%= habit.description %>
+                <% end %>
               </td>
+
             <td>
               <%= link_to habit, method: :delete, data: { confirm: 'Are you sure?' } do %>
               <span class="glyphicon glyphicon-trash"></span>
@@ -86,33 +88,33 @@
   </table>
 </div>
 
-  <div class="panel panel-primary">
-  <!-- Default panel contents -->
-  <div class="panel-heading">
-  <%= link_to '', new_weeklyhabit_path, class: "glyphicon glyphicon-plus" %>
-    Monthly Habits
+<div class="panel panel-primary">
+  <div class="panel-heading">    
+   Monthly Habits
+  <div class="btn-group pull-right">
+    <%= link_to '', new_monthlyhabit_path, class: "glyphicon glyphicon-plus" %>
   </div>
-
+  </div>
   <table class="table table-condensed table-hover">
+    <col width="20">    
     <col>
-    <col width="20">
-    <col width="20">     
+    <col width="40">    
     <tbody>
       <% @habits.each do |habit| %>
       <% if habit.user == current_user %>
         <% if habit.interval == 'Monthly' %>
           <tr>
               <td>
-                <%= link_to edit_habit_path(habit, 'Monthly') do %>
-                  <%= habit.description %>
-                <% end %>
-              </td>
-              <td>
                   <% if habit.done == true %>
                     <%= link_to ''.html_safe, {:action => 'toggle_action', :id =>habit.id}, class: 'glyphicon glyphicon-ok' %>
                   <% else %>
                     <%= link_to ''.html_safe, {:action => 'toggle_action', :id =>habit.id}, class: 'glyphicon glyphicon-remove' %>                                
                   <% end %>       
+              </td>            
+              <td>
+                <%= link_to edit_habit_path(habit, 'Monthly') do %>
+                  <%= habit.description %>
+                <% end %>
               </td>
             <td>
               <%= link_to habit, method: :delete, data: { confirm: 'Are you sure?' } do %>

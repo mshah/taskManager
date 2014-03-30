@@ -6,7 +6,7 @@ TaskManager::Application.routes.draw do
   resources :tasks
 
   devise_for :users
-  root "goals#index"
+  root "pages#home"
   get "goals" => "goals#index"
   get "tasks" => "tasks#index"
   get "habits" => "habits#index"

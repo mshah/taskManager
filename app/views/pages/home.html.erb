@@ -1,7 +1,9 @@
 <div class="jumbotron center">
-	<h1>Welcome to my task manager app</h1>
+	<%= image_tag("logoBigger.png", :alt => "simple task management") %>
+	<p>
+	Get organized with goal setting, task management, and easy to do and habit lists</p>
      <% if user_signed_in? %>
-          # do something
+	<p>Welcome back!</p>
      <% else %>
        <p>
          <%= link_to "Log in", new_user_session_path, class: "btn btn-default btn-lg" %>
