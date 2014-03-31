@@ -43,7 +43,8 @@
             <%= task.description %>
             <% end %>
           </td>
-          <td><%= task.dueDate %></td>                    
+          <td>
+            <%= task.dueDate %></td>                    
           <td>
             <%= link_to task, method: :delete, data: { confirm: 'Are you sure?' } do %>
             <span class="glyphicon glyphicon-trash"></span>
