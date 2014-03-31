@@ -1,6 +1,9 @@
-<h1>Editing task</h1>
+<h2>Editing task</h2>
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @task %> |
-<%= link_to 'Back', tasks_path %>
+<p>
+    <%= link_to "Show", @task, class: "btn btn-default btn-lg" %>
+    <%= link_to "Back", tasks_path, class: "btn btn-primary btn-lg" %>
+</p>
+

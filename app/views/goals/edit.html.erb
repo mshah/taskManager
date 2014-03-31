@@ -2,5 +2,8 @@
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @goal %> |
-<%= link_to 'Back', goals_path %>
+<p>
+    <%= link_to "Show", @goal, class: "btn btn-default btn-lg" %>
+    <%= link_to "Back", goals_path, class: "btn btn-primary btn-lg" %>
+</p>
+

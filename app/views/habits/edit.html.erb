@@ -2,5 +2,7 @@
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @habit %> |
-<%= link_to 'Back', habits_path %>
+<p>
+    <%= link_to "Show", @habit, class: "btn btn-default btn-lg" %>
+    <%= link_to "Back", habits_path, class: "btn btn-primary btn-lg" %>
+</p>
