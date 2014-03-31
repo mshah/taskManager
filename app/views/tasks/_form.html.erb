@@ -24,6 +24,6 @@
     <%= f.select :progress, options_for_select(%w[NotStarted NeedsWork OnTrack Complete]) %>    
   </div>  
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Update", class: "btn btn-primary btn-lg" %>
   </div>
 <% end %>
