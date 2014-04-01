@@ -15,14 +15,14 @@
 
   <div class="field">
     <%= f.label :description %><br>
-    <%= f.text_field :description %>
+    <%= f.text_area :description, :size => "30x4"  %>
   </div>
   <%= f.hidden_field :progress, :value => 'NotStarted' %> 
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Create Goal", class: "btn btn-primary btn-med" %>
   </div>
 <% end %>
 
 <p>
-    <%= link_to "Back", goals_path, class: "btn btn-primary btn-lg" %>
+    <%= link_to "Back", goals_path, class: "btn btn-default btn-med" %>
 </p>

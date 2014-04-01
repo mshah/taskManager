@@ -776,8 +776,8 @@
 					  <% end %>       
 				  </td>
 				<td>
-				  <%= link_to habit, method: :delete, data: { confirm: 'Are you sure?' } do %>
 				  <span class="glyphicon glyphicon-trash"></span>
+				  <%= link_to habit, method: :delete, data: { confirm: 'Are you sure?' } do %>
 				  <% end %>
 				</td> 
 			  </tr>
@@ -788,13 +788,17 @@
 	</xmp>	
 	<h2>Adding streaks for habits and due dates for tasks</h2>
 	<p>The last section was heavily focused on UX improvements, and there are still more things we can do to streamline using the app, such as inline editing of items. Now I want to focus improving how users can set the date for a task. Currently, it's a timestamp field with very fine grain configuration: users can select the month, day, year, and time. That's a little much though, you have to always remember what day it is when you're making a task. Often in your head, you think, I want to do this thing tomorrow, or next week. So let's make it more intuitive to set this date field.</p>	
-	<div id="file">/app/config/routes.rb</div>
+	<div id="file">/app/view/tasks/index.html.erb</div>
 	<xmp>
-	  get "toggle_habit" => "habits#toggle_action"    
+          <td>
+            <%= link_to edit_task_path(task) do %>
+            <%= task.description %>
+            <% end %>
+          </td>
+          <td>
+            <%= task.dueDate.strftime("%A %B %d") %>
+          </td>  
 	</xmp>	
-	<div id="file">/app/controllers/habits_controller.rb</div>
-	<xmp>
-
-	</xmp>		
+	<p>In the above, we've changed how the date displays to just be the day of the week (%A), the month (%B) and the day (%d).</p>		
 </body>
 </html>
