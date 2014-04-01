@@ -19,11 +19,11 @@
           <tr>
             <td>
                 <% if goal.progress == 'NotStarted' %>
-                  <%= image_tag("redProgress.png", :alt => "Not Started") %>
+                  <%= image_tag("redProgress3.png", :alt => "Not Started") %>
                 <% elsif goal.progress == 'NeedsWork' %>
-                  <%= image_tag("yellowProgress.png", :alt => "Needs Work") %>
+                  <%= image_tag("yellowProgress3.png", :alt => "Needs Work") %>
                 <% elsif goal.progress == 'OnTrack' %>
-                  <%= image_tag("greenProgress.png", :alt => "On Track") %>
+                  <%= image_tag("greenProgress3.png", :alt => "On Track") %>
                 <% else %>
                   <span class="glyphicon glyphicon-ok"></span>                                       
                 <% end %>   

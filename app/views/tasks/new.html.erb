@@ -19,7 +19,13 @@
   </div>
   <div class="field">
     <%= f.label :dueDate %><br>
-    <%= f.date_select :dueDate %>
+    <%= f.text_field :dueDate, :value => @task.dueDate, 'data-behaviour' => 'datepicker' %>
+    <!-- todo: write below as coffee script -->
+    <script type="text/javascript">
+      $(document).on("focus", "[data-behaviour~='datepicker']", function(e){
+          $(this).datepicker({"format": "yyyy-mm-dd", "weekStart": 1, "autoclose": true, "startDate" : @task.dueDate})
+      });
+    </script>
   </div>
   <%= f.hidden_field :progress, :value => 'NotStarted' %> 
   <div class="actions">

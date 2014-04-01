@@ -799,6 +799,29 @@
             <%= task.dueDate.strftime("%A %B %d") %>
           </td>  
 	</xmp>	
-	<p>In the above, we've changed how the date displays to just be the day of the week (%A), the month (%B) and the day (%d).</p>		
-</body>
+	<p>In the above, we've changed how the date displays to just be the day of the week (%A), the month (%B) and the day (%d). But setting the date in our edit and new forms still doesn't look ideal. We have to individually pick the month, day and year. Instead of using the default, we'll use the bootstrap date picker gem and use some coffeescript to jquery the focus action on the text field.</p>
+	<img src="./images/datepicker.png"/>
+	<div id="file">/Gemfile</div>
+	<xmp>
+gem 'bootstrap-datepicker-rails'
+	</xmp>	
+	<div id="file">/app/assets/javascripts/application.js</div>
+	<xmp>
+//= require bootstrap-datepicker
+	</xmp>	
+	<div id="file">/app/views/tasks/_form.html.erb</div>
+	<xmp>
+  <div class="field">
+    <%= f.label :dueDate %><br> 
+    <%= f.text_field :dueDate, :value => @task.dueDate, 'data-behaviour' => 'datepicker' %>
+    <!-- todo: write below as coffee script -->
+    <script type="text/javascript">
+      $(document).on("focus", "[data-behaviour~='datepicker']", function(e){
+          $(this).datepicker({"format": "yyyy-mm-dd", "weekStart": 1, "autoclose": true})
+      });
+    </script>
+  </div>
+	</xmp>
+
+	</body>
 </html>

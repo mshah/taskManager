@@ -16,8 +16,14 @@
     <%= f.text_area :description, :size => "30x4"  %>
   </div>
   <div class="field">
-    <%= f.label :dueDate %><br>
-    <%= f.date_select :dueDate %>   
+    <%= f.label :dueDate %><br> 
+    <%= f.text_field :dueDate, :value => @task.dueDate, 'data-behaviour' => 'datepicker' %>
+    <!-- todo: write below as coffee script -->
+    <script type="text/javascript">
+      $(document).on("focus", "[data-behaviour~='datepicker']", function(e){
+          $(this).datepicker({"format": "yyyy-mm-dd", "weekStart": 1, "autoclose": true})
+      });
+    </script>
   </div>
   <div class="field">
     <%= f.label :progress %><br>
