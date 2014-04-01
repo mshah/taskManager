@@ -17,18 +17,18 @@
   </div>
   <div class="field">
     <%= f.label :dueDate %><br> 
-    <%= f.text_field :dueDate, :value => @task.dueDate, 'data-behaviour' => 'datepicker' %>
+    <%= f.text_field :dueDate, :value => @task.dueDate.strftime("%A %B %d"), 'data-behaviour' => 'datepicker' %>
     <!-- todo: write below as coffee script -->
     <script type="text/javascript">
       $(document).on("focus", "[data-behaviour~='datepicker']", function(e){
-          $(this).datepicker({"format": "yyyy-mm-dd", "weekStart": 1, "autoclose": true})
+          $(this).datepicker({"format": "yyyy-mm-dd", "weekStart": 1, "autoclose": true, "todayHighlight": true})
       });
     </script>
   </div>
   <div class="field">
     <%= f.label :progress %><br>
-    <%= f.select :progress, options_for_select(%w[NotStarted NeedsWork OnTrack Complete]) %>    
-  </div>  
+    <%= f.select :progress, options_for_select(%w[NotStarted NeedsWork OnTrack Complete]), class: "form-control" %>  
+  </div> 
   <div class="actions">
     <%= f.submit "Update", class: "btn btn-primary btn-med" %>
   </div>
