@@ -19,7 +19,7 @@
   </div>
   <div class="field">
     <%= f.label :dueDate %><br>
-    <%= f.text_field :dueDate, :value => @task.dueDate, 'data-behaviour' => 'datepicker' %>
+    <%= f.text_field :dueDate, 'data-behaviour' => 'datepicker' %>
     <!-- todo: write below as coffee script -->
     <script type="text/javascript">
       $(document).on("focus", "[data-behaviour~='datepicker']", function(e){
