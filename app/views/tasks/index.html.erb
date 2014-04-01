@@ -44,7 +44,7 @@
             <% end %>
           </td>
           <td>
-            <%= task.dueDate %>
+            <%= task.dueDate.strftime("%A %B %d") %>
           </td>                    
           <td>
             <%= link_to task, method: :delete, data: { confirm: 'Are you sure?' } do %>
