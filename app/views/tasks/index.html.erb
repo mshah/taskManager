@@ -18,7 +18,8 @@
       <tr>
         <th></th>
         <th>Description</th>
-        <th>Due date</th>        
+        <th>Due date</th> 
+        <th>Goal</th>       
         <th></th>
       </tr>
     </thead>
@@ -28,14 +29,15 @@
         <% if task.user == current_user %>
           <tr>
           <td>
-              <% if task.progress == 'NotStarted' %>
+            <%= task.progress %>
+              <% if task.progress == 0 %>
                 <%= image_tag("redProgress3.png", :alt => "Not Started") %>
-              <% elsif task.progress == 'NeedsWork' %>
+              <% elsif task.progress == 1 %>
                 <%= image_tag("yellowProgress3.png", :alt => "Needs Work") %>
-              <% elsif task.progress == 'OnTrack' %>
+              <% elsif task.progress == 2 %>
                 <%= image_tag("greenProgress3.png", :alt => "On Track") %>
               <% else %>
-                <span class="glyphicon glyphicon-ok"></span>                                        
+                <span class="glyphicon glyphicon-ok"></span>                              
               <% end %> 
           </td>             
           <td>
@@ -45,7 +47,10 @@
           </td>
           <td>
             <%= task.dueDate.strftime("%A %B %d") %>
-          </td>                    
+          </td>   
+          <td>
+            <%= task.goal_id %>
+          </td>                              
           <td>
             <%= link_to task, method: :delete, data: { confirm: 'Are you sure?' } do %>
             <span class="glyphicon glyphicon-trash"></span>

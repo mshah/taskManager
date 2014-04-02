@@ -809,6 +809,10 @@ gem 'bootstrap-datepicker-rails'
 	<xmp>
 //= require bootstrap-datepicker
 	</xmp>	
+	<div id="file">/app/model/task.rb</div>
+	<xmp>
+	validates :dueDate, :presence => true
+	</xmp>	
 	<div id="file">/app/views/tasks/_form.html.erb</div>
 	<xmp>
   <div class="field">
@@ -822,6 +826,184 @@ gem 'bootstrap-datepicker-rails'
     </script>
   </div>
 	</xmp>
+	<p>We can edit our tasks and use a nice calendar for a date picker. We've added validation for the date since a blank date will not work for the datepicker, meaning users cannot create or edit a task without adding a due date.</p>
 
+	
+	<h2>Associating Tasks and Habits with Goals</h2>
+	<p>We have tasks and habits and it would be nice to associate them to our goals. Earlier when we did the modeling we already specified that Task and Habit belongs_to : goal, but we haven't yet specified that Goal has_many tasks or habits, so let's do that now. We'll also need to update the database so the tasks and habits can point to owner goals.</p>	
+	
+	<div id="file">/app/model/goal.rb</div>
+	<xmp>
+		class Goal < ActiveRecord::Base
+			belongs_to :user
+			has_many :tasks
+			has_many :habits
+			validates_format_of :progress, :with => /\A(?:(NotStarted)|(NeedsWork)|(OnTrack)|(Complete))\Z/, :on => :create
+		end
+	</xmp>	
+	<p>It would be nice to display under each goal the tasks and habits related to them on the Goals page.</p>	
 	</body>
+	<div id="terminal">$ rails generate migration add_goalID_to_tasks<br/>
+						$ rails generate migration add_goalID_to_habits
+		</div>
+		<div id="file">db/migration/timestamp_add_goalID_to_tasks.rb</div>
+	<xmp>
+		class AddGoalIdToTasks < ActiveRecord::Migration
+		  def change
+			add_column :tasks, :goal_id, :integer
+			add_index :tasks, :goal_id
+		  end
+		end
+
+	<div id="terminal">$ rails generate migration goals<br/>
+						$ rails generate migration tasks
+		</div>
+		<div id="file">db/migration/timestamp_tasks.rb</div>
+	<xmp>
+		class Tasks < ActiveRecord::Migration
+		  def change
+			reversible do |dir|
+			  change_table :tasks do |t|
+				dir.up   { t.change :progress, :integer }
+				dir.down { t.change :progress, :string }
+			  end
+			end
+		  end
+		end
+	</xmp>	
+	<div id="terminal">$ rails db:migrate</div>		
+	<p>We'll need to make sure we can save this goal_id onto our record and we'll want to update the view so we can set it. Let's associate our tasks to the goals in our test data.</p>
+	<div id="file">app/controllers/tasks_controller.rb</div>
+	<xmp>	
+	 def task_params
+      params.require(:task).permit(:description, :dueDate, :progress, :goal_id)
+    end
+	</xmp>	
+	<div id="file">app/views/tasks/_form.html.erb</div>
+	<xmp>	
+			<div class="field">
+			<%= f.label "Goal" %><br>
+			<!-- Todo: only for our user -->
+			<%= f.select :goal_id, options_for_select(Goal.all.collect{ |goal| [goal.description, goal.id] }) %>
+		  </div> 
+	</xmp>	
+	<p>The goals page should show the associated tasks and habits for that goal. I'm going to update this to load each goal in a table with its tasks and habits below it.</p>
+
+	<div id="file">app/views/goals/index.html.erb</div>
+	<xmp>	
+		<h1>I want to...</h1>
+		<div>
+			<%= link_to "New Goal", new_goal_path, class: "btn btn-primary btn-med" %>
+		</div>
+		<br>
+
+		<% if user_signed_in? %>
+
+		<% @goals.each do |goal| %>
+		  <% if goal.user == current_user %>
+			<div class="panel panel-primary">
+			  <div class="panel-heading">    
+				 Goals
+			  </div>
+			  <table class="table table-condensed table-hover">
+				<col width="20">
+				<col width="20">
+				<col>
+				<col width="40">
+				<tbody>        
+				  <tr>
+					<td>
+						<% if goal.progress == 0 %>
+						  <%= image_tag("redProgress3.png", :alt => "Not Started") %>
+						<% elsif goal.progress == 1 %>
+						  <%= image_tag("yellowProgress3.png", :alt => "Needs Work") %>
+						<% elsif goal.progress == 2 %>
+						  <%= image_tag("greenProgress3.png", :alt => "On Track") %>
+						<% else %>
+						  <span class="glyphicon glyphicon-ok"></span>                                       
+						<% end %>   
+					</td>             
+					<td colspan=2 >
+					  <%= link_to edit_goal_path(goal) do %>
+					  <%= goal.description %>
+					  <% end %>
+					</td>
+				   
+					<td>
+					  <%= link_to goal, method: :delete, data: { confirm: 'Are you sure?' } do %>
+					  <span class="glyphicon glyphicon-trash"></span>
+					  <% end %>
+					</td> 
+				  </tr>
+				  <% @tasks = Task.where(:goal_id => goal.id)%>
+					<% @tasks.each do |task| %>
+					<tr>
+					  <td>
+					  </td>
+					  <td>
+						  <% if task.progress == 0 %>
+							<%= image_tag("redProgress3.png", :alt => "Not Started") %>
+						  <% elsif task.progress == 1 %>
+							<%= image_tag("yellowProgress3.png", :alt => "Needs Work") %>
+						  <% elsif task.progress == 2 %>
+							<%= image_tag("greenProgress3.png", :alt => "On Track") %>
+						  <% else %>
+							<span class="glyphicon glyphicon-ok"></span>                                       
+						  <% end %>   
+					  </td>             
+					  <td>
+						<%= link_to edit_task_path(task) do %>
+						<%= task.description %>
+						<% end %>
+					  </td>
+					 
+					  <td>
+						<%= link_to task, method: :delete, data: { confirm: 'Are you sure?' } do %>
+						<span class="glyphicon glyphicon-trash"></span>
+						<% end %>
+					  </td> 
+					</tr>
+					<% end %>
+				  <% end %>
+			  </tbody>
+			</table>
+		  </div>
+		  <% end %>
+		<% end %>
+	</xmp>	
+
+
+
+
+
+
+
+
+
+	
+	<p>I decided to update the strings in the selection box, thus far I had been storing the progress as strings, but if I store them as an interval I could add up and down arrows to let users easily bump them up or down. So I migrated the tasks and goals table to change the progress string to an integer.</p>
+
+	<div id="file">app/views/tasks/_form.html.erb</div>
+	<xmp>
+	  <div class="field">
+		<%= f.label :progress %><br>
+		<%= f.select(:progress, options_for_select({"Not Started" => 0, "Needs Work" => 1, "On Track" => 2, "Complete" => 3}, @task.progress), :prompt => "Choose") %>
+	   </div> 
+	</xmp>	
+		<div id="file">app/views/tasks/index.html.erb</div>	
+	<xmp>
+          <td>
+            <%= task.progress %>
+              <% if task.progress == 0 %>
+                <%= image_tag("redProgress3.png", :alt => "Not Started") %>
+              <% elsif task.progress == 1 %>
+                <%= image_tag("yellowProgress3.png", :alt => "Needs Work") %>
+              <% elsif task.progress == 2 %>
+                <%= image_tag("greenProgress3.png", :alt => "On Track") %>
+              <% else %>
+                <span class="glyphicon glyphicon-ok"></span>                              
+              <% end %> 
+          </td>  	
+	</xmp>
+	
 </html>

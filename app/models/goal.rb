@@ -1,5 +1,7 @@
 class Goal < ActiveRecord::Base
 	belongs_to :user
+	has_many :tasks
+	has_many :habits
 
-	validates_format_of :progress, :with => /\A(?:(NotStarted)|(NeedsWork)|(OnTrack)|(Complete))\Z/, :on => :create
+	validates :progress, :presence => true
 end

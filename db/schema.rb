@@ -11,12 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140327043540) do
+ActiveRecord::Schema.define(version: 20140402060309) do
 
   create_table "goals", force: true do |t|
     t.string   "description"
     t.boolean  "done"
-    t.string   "progress"
+    t.integer  "progress",    limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
@@ -31,19 +31,23 @@ ActiveRecord::Schema.define(version: 20140327043540) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+    t.integer  "goal_id"
   end
 
+  add_index "habits", ["goal_id"], name: "index_habits_on_goal_id"
   add_index "habits", ["user_id"], name: "index_habits_on_user_id"
 
   create_table "tasks", force: true do |t|
     t.string   "description"
     t.datetime "dueDate"
-    t.string   "progress"
+    t.integer  "progress",    limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+    t.integer  "goal_id"
   end
 
+  add_index "tasks", ["goal_id"], name: "index_tasks_on_goal_id"
   add_index "tasks", ["user_id"], name: "index_tasks_on_user_id"
 
   create_table "users", force: true do |t|

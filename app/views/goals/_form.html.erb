@@ -17,8 +17,8 @@
   </div>
   <div class="field">
     <%= f.label :progress %><br>
-    <%= f.select :progress, options_for_select(%w[NotStarted NeedsWork OnTrack Complete]) %>    
-  </div>  
+    <%= f.select(:progress, options_for_select({"Not Started" => 0, "Needs Work" => 1, "On Track" => 2, "Complete" => 3}, @goal.progress), :prompt => "Choose") %>
+   </div> 
   <div class="actions">
     <%= f.submit "Update", class: "btn btn-primary btn-med" %>
   </div>

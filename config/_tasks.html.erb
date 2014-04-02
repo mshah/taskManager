@@ -1,0 +1,32 @@
+<%= form_for(@goal) do |f| %>
+        <% @tasks = Task.where(:goal_id == 4) %>
+          <% @tasks.each do |task| %>
+            <tr>
+              <td>
+              </td>
+              <td>
+                  <% if task.progress == 0 %>
+                    <%= image_tag("redProgress3.png", :alt => "Not Started") %>
+                  <% elsif task.progress == 1 %>
+                    <%= image_tag("yellowProgress3.png", :alt => "Needs Work") %>
+                  <% elsif task.progress == 2 %>
+                    <%= image_tag("greenProgress3.png", :alt => "On Track") %>
+                  <% else %>
+                    <span class="glyphicon glyphicon-ok"></span>                                       
+                  <% end %>   
+              </td>             
+              <td>
+                <%= link_to edit_task_path(task) do %>
+                <%= task.description %>
+                <% end %>
+              </td>
+             
+              <td>
+                <%= link_to task, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                <span class="glyphicon glyphicon-trash"></span>
+                <% end %>
+              </td> 
+            </tr>
+          <% end %>
+        <% end %>
+<% end %>

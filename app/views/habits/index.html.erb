@@ -14,6 +14,7 @@
   <table class="table table-condensed table-hover">
     <col width="20">     
     <col>
+    <col>
     <col width="40">
     <tbody>
       <% @habits.each do |habit| %>
@@ -32,6 +33,9 @@
                   <%= habit.description %>
                 <% end %>
               </td>
+              <td>
+                  <%= habit.goal_id %>
+              </td>              
               <td>
                 <%= link_to habit, method: :delete, data: { confirm: 'Are you sure?' } do %>
                 <span class="glyphicon glyphicon-trash"></span>
@@ -74,7 +78,9 @@
                   <%= habit.description %>
                 <% end %>
               </td>
-
+              <td>
+                  <%= habit.goal_id %>
+              </td> 
             <td>
               <%= link_to habit, method: :delete, data: { confirm: 'Are you sure?' } do %>
               <span class="glyphicon glyphicon-trash"></span>
@@ -116,6 +122,9 @@
                   <%= habit.description %>
                 <% end %>
               </td>
+              <td>
+                  <%= habit.goal_id %>
+              </td>               
             <td>
               <%= link_to habit, method: :delete, data: { confirm: 'Are you sure?' } do %>
               <span class="glyphicon glyphicon-trash"></span>
