@@ -11,13 +11,15 @@
   </div>
   <table class="table table-condensed table-hover">
     <col width="20">
+    <col width="20">
+    <col width="20">
     <col>
     <col>
     <col>
     <col width="40">  
     <thead>
       <tr>
-        <th></th>
+        <th colspan=3 >Progress</th>
         <th>Description</th>
         <th>Due date</th> 
         <th>Days Left</th>       
@@ -28,11 +30,10 @@
     <tbody>
       <% @tasks.each do |task| %>        
         <% if task.user == current_user %>
-          <% if task.progress == 3 %>
-          <tr>
-          <% else %>
-          <tr>
-          <% end %>        
+        <tr> 
+          <td>
+              <%= link_to ''.html_safe, {:action => 'progress_down_action', :id =>task.id}, class: 'glyphicon glyphicon-arrow-down' %>
+            </td>  
           <td>
               <% if task.progress == 0 %>
                 <%= image_tag("redProgress3.png", :alt => "Not Started") %>
@@ -43,7 +44,10 @@
               <% else %>
                 <span class="glyphicon glyphicon-ok"></span>                              
               <% end %> 
-          </td>             
+          </td> 
+          <td>
+              <%= link_to ''.html_safe, {:action => 'progress_up_action', :id =>task.id}, class: 'glyphicon glyphicon-arrow-up' %>      
+            </td>                        
           <td>
             <%= link_to edit_task_path(task) do %>
               <% if task.progress == 3 %>

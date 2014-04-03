@@ -828,6 +828,54 @@ gem 'bootstrap-datepicker-rails'
 	</xmp>
 	<p>We can edit our tasks and use a nice calendar for a date picker. We've added validation for the date since a blank date will not work for the datepicker, meaning users cannot create or edit a task without adding a due date.</p>
 
+	<p>Now let's add streaks to our model. We'll need to do a database migration, add this to the database, display it to the user, and make sure the rails task that resets the habit updates the streaks.</p>
+	<div id="terminal">$ rails generate migration add_streaks_to_habits</div>	
+	<div id="file">db/migrate/add_streaks_to_habits.rb</div>
+	<xmp>
+		class AddStreaksToHabits < ActiveRecord::Migration
+		  def change
+			add_column :habits, :streak, :integer
+		  end
+		end
+	</xmp>	
+	<div id="file">$ rails generate migration add_streaks_to_habits</div>	
+	<div id="file">db/migrate/add_streaks_to_habits.rb</div>
+	<xmp>
+		class AddStreaksToHabits < ActiveRecord::Migration
+		  def change
+			add_column :habits, :streak, :integer
+		  end
+		end
+	</xmp>		
+	<div id="file">app/views/habits/index.html.erb</div>
+	<xmp>	
+	 <thead>
+      <tr>
+        <th></th>
+        <th>Description</th>
+        <th>Streak</th>    
+        <th></th>
+      </tr>
+    </thead>     
+    <tbody>
+	.<br>
+	.<br>
+	td>
+        <%= habit.streak %>
+    </td>  
+	</xmp>
+		<div id="file">lib/app/controllers/habits_controller.rb</div>
+	<xmp>
+	  def reset
+		if habit.done == true
+		  streak = habit.streak + 1
+		  habit.update(done: false, streak: streak)
+		else
+		  habit.update(streak: 0)
+		end
+	  end 
+	
+	</xmp>		
 	
 	<h2>Associating Tasks and Habits with Goals</h2>
 	<p>We have tasks and habits and it would be nice to associate them to our goals. Earlier when we did the modeling we already specified that Task and Habit belongs_to : goal, but we haven't yet specified that Goal has_many tasks or habits, so let's do that now. We'll also need to update the database so the tasks and habits can point to owner goals.</p>	
@@ -970,61 +1018,7 @@ gem 'bootstrap-datepicker-rails'
 		  <% end %>
 		<% end %>
 	</xmp>	
-	<p>Now let's add streaks to our model. We'll need to do a database migration, add this to the database, display it to the user, and make sure the rails task that resets the habit updates the streaks.</p>
-	<div id="terminal">$ rails generate migration add_streaks_to_habits</div>	
-	<div id="file">db/migrate/add_streaks_to_habits.rb</div>
-	<xmp>
-		class AddStreaksToHabits < ActiveRecord::Migration
-		  def change
-			add_column :habits, :streak, :integer
-		  end
-		end
-	</xmp>	
-	<div id="file">$ rails generate migration add_streaks_to_habits</div>	
-	<div id="file">db/migrate/add_streaks_to_habits.rb</div>
-	<xmp>
-		class AddStreaksToHabits < ActiveRecord::Migration
-		  def change
-			add_column :habits, :streak, :integer
-		  end
-		end
-	</xmp>		
-	<div id="file">app/views/habits/index.html.erb</div>
-	<xmp>	
-	 <thead>
-      <tr>
-        <th></th>
-        <th>Description</th>
-        <th>Streak</th>    
-        <th></th>
-      </tr>
-    </thead>     
-    <tbody>
-	.<br>
-	.<br>
-	td>
-        <%= habit.streak %>
-    </td>  
-	</xmp>
-		<div id="file">lib/app/controllers/habits_controller.rb</div>
-	<xmp>
-	  def reset
-		if habit.done == true
-		  streak = habit.streak + 1
-		  habit.update(done: false, streak: streak)
-		else
-		  habit.update(streak: 0)
-		end
-	  end 
-	
-	</xmp>	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	<h2>Rexamining the model and controllers</h2>
 	<p>We can also optimize a bit, thurs far the controllers for index (tasks_controller.rb) has been returning all objects. Instead we can change this to just return objects for our user. We should do the same thing to goals and habits. Another annoyance while using this is whenever you update a task, habit, or goal that goes to the bottom. This is especially annoying on the habits, which you can just edit on the page, so you've edited it and then it jumps down. We can fix this by ordering on created_at date, so now newly created habits go to the bottom which is more what a user would expect.</p>
@@ -1100,4 +1094,57 @@ gem 'bootstrap-datepicker-rails'
                 <% end %>
               </td>
 	</xmp>	
+	<p>I want to add up and down arrows around the progress lights so users can update the status easily.</p>		
+	<div id="file">app/controllers/tasks_controller.rb</div>
+	<xmp>
+		  def progress_up_action
+			respond_to do |format|
+			  @task = Task.find(params[:id])
+			  if @task.progress < 3
+				newprogress = @task.progress + 1
+				@task.progress = newprogress
+			  end
+			  @task.update_attributes(params[:progress])
+			  format.html { redirect_to tasks_url, notice: 'Task was successfully updated.' }
+			end
+		  end
+
+		  def progress_down_action
+			respond_to do |format|
+			  @task = Task.find(params[:id])
+			  if @task.progress > 0
+				newprogress = @task.progress - 1
+				@task.progress = newprogress
+			  end
+			  @task.update_attributes(params[:progress])
+			  format.html { redirect_to tasks_url, notice: 'Task was successfully updated.' }
+			end
+	</xmp>
+	<div id="file">app/views/tasks/index.html.erb</div>
+	<xmp>
+          <td>
+              <%= link_to ''.html_safe, {:action => 'progress_down_action', :id =>task.id}, class: 'glyphicon glyphicon-arrow-down' %>
+            </td>  
+          <td>
+              <% if task.progress == 0 %>
+                <%= image_tag("redProgress3.png", :alt => "Not Started") %>
+              <% elsif task.progress == 1 %>
+                <%= image_tag("yellowProgress3.png", :alt => "Needs Work") %>
+              <% elsif task.progress == 2 %>
+                <%= image_tag("greenProgress3.png", :alt => "On Track") %>
+              <% else %>
+                <span class="glyphicon glyphicon-ok"></span>                              
+              <% end %> 
+          </td> 
+          <td>
+              <%= link_to ''.html_safe, {:action => 'progress_up_action', :id =>task.id}, class: 'glyphicon glyphicon-arrow-up' %>      
+            </td>                        
+          <td>
+	</xmp>	
+	
+	<div id="file">config/routes.rb</div>
+	<xmp>
+	  get "progress_up_action" => "tasks#progress_up_action" 
+	  get "progress_down_action" => "tasks#progress_down_action"  
+	</xmp>		
 </html>

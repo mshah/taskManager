@@ -16,7 +16,9 @@ TaskManager::Application.routes.draw do
   get "new_weeklyhabit" => "habits#newweekly"  
   get "new_monthlyhabit" => "habits#newmonthly"
 
-  get "toggle_habit" => "habits#toggle_action"  
+  get "progress_up_action" => "tasks#progress_up_action" 
+  get "progress_down_action" => "tasks#progress_down_action"  
+  get "toggle_habit" => "habits#toggle_action"   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

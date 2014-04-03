@@ -35,6 +35,30 @@ class TasksController < ApplicationController
     end
   end
 
+  def progress_up_action
+    respond_to do |format|
+      @task = Task.find(params[:id])
+      if @task.progress < 3
+        newprogress = @task.progress + 1
+        @task.progress = newprogress
+      end
+      @task.update_attributes(params[:progress])
+      format.html { redirect_to tasks_url, notice: 'Task was successfully updated.' }
+    end
+  end
+
+  def progress_down_action
+    respond_to do |format|
+      @task = Task.find(params[:id])
+      if @task.progress > 0
+        newprogress = @task.progress - 1
+        @task.progress = newprogress
+      end
+      @task.update_attributes(params[:progress])
+      format.html { redirect_to tasks_url, notice: 'Task was successfully updated.' }
+    end
+  end  
+
   # PATCH/PUT /tasks/1
   def update
     respond_to do |format|
