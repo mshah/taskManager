@@ -16,6 +16,14 @@
     <col>
     <col>
     <col width="40">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Description</th>
+        <th>Streak</th>    
+        <th></th>
+      </tr>
+    </thead>    
     <tbody>
       <% @habits.each do |habit| %>
         <% if habit.user == current_user %>
@@ -34,9 +42,9 @@
                 <% end %>
               </td>
               <td>
-                  <%= habit.goal_id %>
+                <%= habit.streak %>
               </td>              
-              <td>
+               <td>
                 <%= link_to habit, method: :delete, data: { confirm: 'Are you sure?' } do %>
                 <span class="glyphicon glyphicon-trash"></span>
                 <% end %>
@@ -59,8 +67,16 @@
   <table class="table table-condensed table-hover">
     <col width="20">       
     <col>
+    <col>
     <col width="40">
     <thead>
+      <tr>
+        <th></th>
+        <th>Description</th>
+        <th>Streak</th>    
+        <th></th>
+      </tr>
+    </thead>
     <tbody>
       <% @habits.each do |habit| %>
         <% if habit.user == current_user %>
@@ -79,8 +95,8 @@
                 <% end %>
               </td>
               <td>
-                  <%= habit.goal_id %>
-              </td> 
+                <%= habit.streak %>
+              </td>              
             <td>
               <%= link_to habit, method: :delete, data: { confirm: 'Are you sure?' } do %>
               <span class="glyphicon glyphicon-trash"></span>
@@ -104,7 +120,16 @@
   <table class="table table-condensed table-hover">
     <col width="20">    
     <col>
-    <col width="40">    
+    <col>
+    <col width="40">   
+    <thead>
+      <tr>
+        <th></th>
+        <th>Description</th>
+        <th>Streak</th>    
+        <th></th>
+      </tr>
+    </thead>     
     <tbody>
       <% @habits.each do |habit| %>
       <% if habit.user == current_user %>
@@ -123,8 +148,8 @@
                 <% end %>
               </td>
               <td>
-                  <%= habit.goal_id %>
-              </td>               
+                <%= habit.streak %>
+              </td>                          
             <td>
               <%= link_to habit, method: :delete, data: { confirm: 'Are you sure?' } do %>
               <span class="glyphicon glyphicon-trash"></span>

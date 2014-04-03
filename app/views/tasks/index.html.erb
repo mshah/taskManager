@@ -13,13 +13,14 @@
     <col width="20">
     <col>
     <col>
+    <col>
     <col width="40">  
     <thead>
       <tr>
         <th></th>
         <th>Description</th>
         <th>Due date</th> 
-        <th>Goal</th>       
+        <th>Days Left</th>       
         <th></th>
       </tr>
     </thead>
@@ -27,9 +28,12 @@
     <tbody>
       <% @tasks.each do |task| %>        
         <% if task.user == current_user %>
+          <% if task.progress == 3 %>
           <tr>
+          <% else %>
+          <tr>
+          <% end %>        
           <td>
-            <%= task.progress %>
               <% if task.progress == 0 %>
                 <%= image_tag("redProgress3.png", :alt => "Not Started") %>
               <% elsif task.progress == 1 %>
@@ -42,14 +46,28 @@
           </td>             
           <td>
             <%= link_to edit_task_path(task) do %>
-            <%= task.description %>
+              <% if task.progress == 3 %>
+                <div class="strikeout"><%= task.description %></div>
+              <% else %>
+                <%= task.description %>
+              <% end %>
             <% end %>
           </td>
           <td>
             <%= task.dueDate.strftime("%A %B %d") %>
           </td>   
           <td>
-            <%= task.goal_id %>
+              <% if task.progress == 3 %>
+                Done!
+              <% elsif  ((DateTime.parse(task.dueDate.strftime("%A %B %d"))).mjd - DateTime.now.mjd) < 0 %>
+                Overdue
+              <% elsif  ((DateTime.parse(task.dueDate.strftime("%A %B %d"))).mjd - DateTime.now.mjd) == 0 %>
+                Today
+              <% elsif  ((DateTime.parse(task.dueDate.strftime("%A %B %d"))).mjd - DateTime.now.mjd) == 1 %>
+                Tomorrow
+              <% else %>
+              <%= ((DateTime.parse(task.dueDate.strftime("%A %B %d"))).mjd - DateTime.now.mjd) %>
+              <% end %>
           </td>                              
           <td>
             <%= link_to task, method: :delete, data: { confirm: 'Are you sure?' } do %>

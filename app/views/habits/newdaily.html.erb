@@ -20,8 +20,7 @@
   <%= f.hidden_field :interval, :value => 'Daily' %>
     <div class="field">
     <%= f.label "Goal" %><br>
-    <!-- Todo: only for our user -->
-    <%= f.select :goal_id, options_for_select(Goal.all.collect{ |goal| [goal.description, goal.id] }) %>
+    <%= f.select :goal_id, options_for_select(Goal.where(:user_id => current_user).collect{ |goal| [goal.description, goal.id] }) %>
   </div>     
   <div class="actions">
     <%= f.submit "Create Daily Habit", class: "btn btn-primary btn-med" %>

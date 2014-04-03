@@ -5,7 +5,7 @@ class GoalsController < ApplicationController
   # GET /goals
   # GET /goals.json
   def index
-    @goals = Goal.all
+    @goals = Goal.where(:user_id => current_user).order("created_at ASC")   
   end
 
   # GET /goals/1

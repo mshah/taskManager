@@ -9,17 +9,7 @@
 <% @goals.each do |goal| %>
   <% if goal.user == current_user %>
     <div class="panel panel-primary">
-      <div class="panel-heading">    
-         Goals
-      </div>
-      <table class="table table-condensed table-hover">
-        <col width="20">
-        <col width="20">
-        <col>
-        <col width="40">
-        <tbody>        
-          <tr>
-            <td>
+      <div class="panel-heading">      
                 <% if goal.progress == 0 %>
                   <%= image_tag("redProgress3.png", :alt => "Not Started") %>
                 <% elsif goal.progress == 1 %>
@@ -28,25 +18,31 @@
                   <%= image_tag("greenProgress3.png", :alt => "On Track") %>
                 <% else %>
                   <span class="glyphicon glyphicon-ok"></span>                                       
-                <% end %>   
-            </td>             
-            <td colspan=2 >
-              <%= link_to edit_goal_path(goal) do %>
-              <%= goal.description %>
+                <% end %>  
+
+
+         Goal: <%= link_to edit_goal_path(goal) do %>
+                <%= goal.description %>
               <% end %>
-            </td>
-           
-            <td>
-              <%= link_to goal, method: :delete, data: { confirm: 'Are you sure?' } do %>
-              <span class="glyphicon glyphicon-trash"></span>
-              <% end %>
-            </td> 
-          </tr>
+
+              <div class="btn-group pull-right">
+                <%= link_to goal, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                <span class="glyphicon glyphicon-trash white"></span>
+                <% end %>  
+              </div>
+
+            
+      </div>
+      <table class="table table-condensed table-hover">
+        <col width="20">
+        <col width="50">
+        <col>
+        <col width="60">
+        <col width="40">
+        <tbody>        
           <% @tasks = Task.where(:goal_id => goal.id)%>
             <% @tasks.each do |task| %>
             <tr>
-              <td>
-              </td>
               <td>
                   <% if task.progress == 0 %>
                     <%= image_tag("redProgress3.png", :alt => "Not Started") %>
@@ -57,15 +53,59 @@
                   <% else %>
                     <span class="glyphicon glyphicon-ok"></span>                                       
                   <% end %>   
-              </td>             
+              </td>
+              <td>Task:  
+              </td>         
               <td>
                 <%= link_to edit_task_path(task) do %>
-                <%= task.description %>
+                  <% if task.progress == 3 %>
+                    <div class="strikeout"><%= task.description %></div>
+                  <% else %>
+                    <%= task.description %>
+                  <% end %>
                 <% end %>
               </td>
-             
+              <td>
+                  <% if task.progress == 3 %>
+                    Done!
+                  <% elsif  ((DateTime.parse(task.dueDate.strftime("%A %B %d"))).mjd - DateTime.now.mjd) < 0 %>
+                    Overdue
+                  <% elsif  ((DateTime.parse(task.dueDate.strftime("%A %B %d"))).mjd - DateTime.now.mjd) == 0 %>
+                    Today
+                  <% elsif  ((DateTime.parse(task.dueDate.strftime("%A %B %d"))).mjd - DateTime.now.mjd) == 1 %>
+                    Tomorrow
+                  <% else %>
+                  <%= ((DateTime.parse(task.dueDate.strftime("%A %B %d"))).mjd - DateTime.now.mjd) %>
+                  <% end %>
+              </td>                            
               <td>
                 <%= link_to task, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                <span class="glyphicon glyphicon-trash"></span>
+                <% end %>
+              </td> 
+            </tr>
+            <% end %>
+
+
+          <% @habits = Habit.where(:goal_id => goal.id)%>
+            <% @habits.each do |habit| %>
+            <tr>
+              <td>
+                  <% if habit.done == true %>
+                    <span class="glyphicon glyphicon-ok"></span>  
+                  <% else %>
+                    <span class="glyphicon glyphicon-remove"></span>                       
+                  <% end %>
+              </td> 
+              <td><%= habit.interval %>Habit: </td>           
+              <td>
+                <%= link_to edit_habit_path(habit) do %>
+                  <%= habit.description %>
+                <% end %>
+              </td>
+              <td></td>
+              <td>
+                <%= link_to habit, method: :delete, data: { confirm: 'Are you sure?' } do %>
                 <span class="glyphicon glyphicon-trash"></span>
                 <% end %>
               </td> 

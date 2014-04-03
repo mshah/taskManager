@@ -883,8 +883,7 @@ gem 'bootstrap-datepicker-rails'
 	<xmp>	
 			<div class="field">
 			<%= f.label "Goal" %><br>
-			<!-- Todo: only for our user -->
-			<%= f.select :goal_id, options_for_select(Goal.all.collect{ |goal| [goal.description, goal.id] }) %>
+			<%= f.select :goal_id, options_for_select(Goal.where(:user_id => current_user).collect{ |goal| [goal.description, goal.id] }) %>
 		  </div> 
 	</xmp>	
 	<p>The goals page should show the associated tasks and habits for that goal. I'm going to update this to load each goal in a table with its tasks and habits below it.</p>
@@ -971,16 +970,70 @@ gem 'bootstrap-datepicker-rails'
 		  <% end %>
 		<% end %>
 	</xmp>	
-
-
-
-
-
-
-
-
-
+	<p>Now let's add streaks to our model. We'll need to do a database migration, add this to the database, display it to the user, and make sure the rails task that resets the habit updates the streaks.</p>
+	<div id="terminal">$ rails generate migration add_streaks_to_habits</div>	
+	<div id="file">db/migrate/add_streaks_to_habits.rb</div>
+	<xmp>
+		class AddStreaksToHabits < ActiveRecord::Migration
+		  def change
+			add_column :habits, :streak, :integer
+		  end
+		end
+	</xmp>	
+	<div id="file">$ rails generate migration add_streaks_to_habits</div>	
+	<div id="file">db/migrate/add_streaks_to_habits.rb</div>
+	<xmp>
+		class AddStreaksToHabits < ActiveRecord::Migration
+		  def change
+			add_column :habits, :streak, :integer
+		  end
+		end
+	</xmp>		
+	<div id="file">app/views/habits/index.html.erb</div>
+	<xmp>	
+	 <thead>
+      <tr>
+        <th></th>
+        <th>Description</th>
+        <th>Streak</th>    
+        <th></th>
+      </tr>
+    </thead>     
+    <tbody>
+	.<br>
+	.<br>
+	td>
+        <%= habit.streak %>
+    </td>  
+	</xmp>
+		<div id="file">lib/app/controllers/habits_controller.rb</div>
+	<xmp>
+	  def reset
+		if habit.done == true
+		  streak = habit.streak + 1
+		  habit.update(done: false, streak: streak)
+		else
+		  habit.update(streak: 0)
+		end
+	  end 
 	
+	</xmp>	
+	
+	
+	
+	
+	
+	
+	
+	
+	<h2>Rexamining the model and controllers</h2>
+	<p>We can also optimize a bit, thurs far the controllers for index (tasks_controller.rb) has been returning all objects. Instead we can change this to just return objects for our user. We should do the same thing to goals and habits. Another annoyance while using this is whenever you update a task, habit, or goal that goes to the bottom. This is especially annoying on the habits, which you can just edit on the page, so you've edited it and then it jumps down. We can fix this by ordering on created_at date, so now newly created habits go to the bottom which is more what a user would expect.</p>
+	<div id="file">app/controllers/tasks_controller.rb</div>
+	<xmp>
+		  def index
+			@tasks = Task.where(:user_id => current_user).order("created_at ASC")   
+		  end
+	</xmp>	
 	<p>I decided to update the strings in the selection box, thus far I had been storing the progress as strings, but if I store them as an interval I could add up and down arrows to let users easily bump them up or down. So I migrated the tasks and goals table to change the progress string to an integer.</p>
 
 	<div id="file">app/views/tasks/_form.html.erb</div>
@@ -1005,5 +1058,46 @@ gem 'bootstrap-datepicker-rails'
               <% end %> 
           </td>  	
 	</xmp>
-	
+	<p>Nicer still would be to order on duedate, and to show a column of days remaining for a task. Let's sort the tasks by due date, and then add a calculated field to show the number of days left. We can also show Overdue, Today, and Tomorrow for dates that are soon. I couldn't find a way of not printing out the out the difference if I saved it so I just added into the if/else statements.</p>	
+	<div id="file">app/controllers/tasks_controller.rb</div>
+	<xmp>
+	  def index
+		@tasks = Task.where(:user_id => current_user).order("dueDate ASC")
+	  end
+	</xmp>	
+	<div id="file">app/views/tasks.html.erb</div>
+	<xmp>
+          <td>
+              <% if  ((DateTime.parse(task.dueDate.strftime("%A %B %d"))).mjd - DateTime.now.mjd) < 0 %>
+                Overdue
+              <% elsif  ((DateTime.parse(task.dueDate.strftime("%A %B %d"))).mjd - DateTime.now.mjd) == 0 %>
+                Today
+              <% elsif  ((DateTime.parse(task.dueDate.strftime("%A %B %d"))).mjd - DateTime.now.mjd) == 1 %>
+                Tomorrow
+              <% else %>
+              <%= ((DateTime.parse(task.dueDate.strftime("%A %B %d"))).mjd - DateTime.now.mjd) %>
+              <% end %>
+          </td>  
+	</xmp>
+	<p>If tasks are completed, let's show them as grayed out, italicized, and struck through.</p>	
+	<div id="file">app/assets/stylesheets/bootstrap_and_customization.css.scss</div>
+	<xmp>
+	.strikeout{
+		color: #A4A4A4;	
+		text-decoration: line-through;
+		font-style: italic;
+	}
+	</xmp>	
+	<div id="file">app/views/goals/index.html.erb</div>
+	<xmp>
+              <td>
+                <%= link_to edit_task_path(task) do %>
+                  <% if task.progress == 3 %>
+                    <div class="strikeout"><%= task.description %></div>
+                  <% else %>
+                    <%= task.description %>
+                  <% end %>
+                <% end %>
+              </td>
+	</xmp>	
 </html>

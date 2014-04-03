@@ -4,7 +4,12 @@ namespace :habits do
 		habits = Habit.all
 		habits.each do |habit|
 			if habit.interval == 'Daily'
-				habit.update(done: false)
+				if habit.done == true
+					streak = habit.streak + 1
+					habit.update(done: false, streak: streak)
+				else
+					habit.update(streak: 0)
+				end
 			end
 		end
 	end
@@ -35,20 +40,22 @@ namespace :habits do
 		time = Time.new
 		habits.each do |habit|
 			if habit.interval == 'Daily'
-				habit.update(done: false)
+				habit.reset
 			end	
 			if habit.interval == 'Weekly'
 				if time.wday == 0
-					habit.update(done: false)
+					habit.reset
 				end
 			end					
 			if habit.interval == 'Monthly'
 				if time.day == 1
-					habit.update(done: false)
+					habit.reset
 				end
 			end
 		end	
 	end	
+
+	
 end
 
 

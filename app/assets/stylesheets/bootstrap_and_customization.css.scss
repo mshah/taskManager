@@ -15,6 +15,12 @@ $table-hover: #f1c40f;
 $btn-default-bg: #ecf0f1;
 @import 'bootstrap';
 
+.strikeout{
+	color: #A4A4A4;	
+	text-decoration: line-through;
+	font-style: italic;
+}
+
 .white{
 	color: #ffffff; 	
 }
@@ -35,6 +41,10 @@ $btn-default-bg: #ecf0f1;
      background-color: #bdc3c7;
 }
 
+a{
+	color: #000;	
+}
+
 h1{
 	font-size: 16pt;
 }
@@ -47,7 +57,7 @@ p, {
   font-family: verdana, arial, helvetica, sans-serif;
   font-size: 14px;
   line-height: 30px;
-}
+} 
 
 ol, ul, td {
   font-family: verdana, arial, helvetica, sans-serif;
@@ -74,3 +84,4 @@ ol, ul, td {
 	font-size: 14pt;
 	color: black;
 }
+

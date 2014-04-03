@@ -4,7 +4,7 @@ class HabitsController < ApplicationController
   # GET /habits
   # GET /habits.json
   def index
-    @habits = Habit.all
+    @habits = Habit.where(:user_id => current_user).order("created_at ASC")    
   end
 
   # GET /habits/1
@@ -47,7 +47,16 @@ class HabitsController < ApplicationController
       @habit.update_attributes(params[:done])
       format.html { redirect_to habits_url, notice: 'Habit was successfully updated.' }
     end
-  end  
+  end
+
+  def reset
+    if habit.done == true
+      streak = habit.streak + 1
+      habit.update(done: false, streak: streak)
+    else
+      habit.update(streak: 0)
+    end
+  end    
 
   # POST /habits
   def create
@@ -94,6 +103,6 @@ class HabitsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def habit_params
-      params.require(:habit).permit(:description, :done, :interval, :goal_id)
+      params.require(:habit).permit(:description, :done, :interval, :goal_id, :streak)
     end
 end
