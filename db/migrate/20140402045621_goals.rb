@@ -1,10 +1,9 @@
 class Goals < ActiveRecord::Migration
-  def change
-    reversible do |dir|
-      change_table :goals do |t|
-        dir.up   { t.change :progress, :integer, :default => 0}
-        dir.down { t.change :progress, :string,  :default => "Complete"}
-      end
-    end
+  def up
+    execute 'ALTER TABLE goal ALTER COLUMN progress TYPE integer USING (progress::integer)'
+  end
+
+  def down
+  	execute 'ALTER TABLE goal ALTER COLUMN progress TYPE text USING (progress::text)'
   end
 end
