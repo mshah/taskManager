@@ -28,11 +28,11 @@ namespace :habits do
 	task :progress0 => :environment do
 		tasks = Task.all
 		tasks.each do |task|
-			task	.update(progress: "0")
+			task.update(progress: "0")
 		end
 		goals = Goal.all
 		goals.each do |goal|
-			goal	.update(progress: "0")
+			goal.update(progress: "0")
 		end		
 	end	
 
