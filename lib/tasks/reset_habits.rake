@@ -24,26 +24,6 @@ namespace :habits do
 		end
 	end
 
-	desc "change all the progress to 0"
-	task :progress0 => :environment do
-		tasks = Task.all
-		tasks.each do |task|
-			task.update(progress: "0")
-		end
-		goals = Goal.all
-		goals.each do |goal|
-			goal.update(progress: "0")
-		end		
-	end	
-
-	desc "change dueDate to now"
-	task :pushDate => :environment do
-		tasks = Task.all
-		tasks.each do |task|
-			task.update(dueDate: DateTime.now)
-		end
-	end		
-
 	desc "Rake task to reset the monthly habits"
 	task :resetMonthly => :environment do
 		habits = Habit.all
@@ -74,7 +54,36 @@ namespace :habits do
 			end
 		end	
 	end	
+end
 
+namespace :tasks do
+	desc "change dueDate to now"
+	task :pushDate => :environment do
+		tasks = Task.all
+		tasks.each do |task|
+			task.update(dueDate: DateTime.now)
+		end
+	end	
+
+	desc "change all the progress to 0"
+	task :progress0 => :environment do
+		tasks = Task.all
+		tasks.each do |task|
+			task.update(progress: "0")
+		end
+		goals = Goal.all
+		goals.each do |goal|
+			goal.update(progress: "0")
+		end		
+	end
+
+	desc "delete all the tasks"
+	task :deleteAll => :environment do
+		tasks = Task.all
+		tasks.each do |task|
+			task.destroy
+		end
+	end				
 	
 end
 
