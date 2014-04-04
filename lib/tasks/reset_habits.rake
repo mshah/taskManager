@@ -42,7 +42,7 @@ namespace :habits do
 			if habit.interval == 'Daily'
 				if habit.done
 					streak = habit.streak + 1
-					habit.update(done: false)
+					habit.update(done: false, streak: streak)
 				else
 					habit.update(streak: 0)
 				end
@@ -51,7 +51,7 @@ namespace :habits do
 				if time.wday == 0
 					if habit.done
 						streak = habit.streak + 1
-						habit.update(done: false)
+						habit.update(done: false, streak: streak)
 					else
 						habit.update(streak: 0)
 					end
@@ -61,7 +61,7 @@ namespace :habits do
 				if time.day == 1
 					if habit.done
 						streak = habit.streak + 1
-						habit.update(done: false)
+						habit.update(done: false, streak: streak)
 					else
 						habit.update(streak: 0)
 					end
