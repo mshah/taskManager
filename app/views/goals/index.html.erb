@@ -30,7 +30,7 @@
                 <%= goal.description %>
               <% end %>
           </th>
-          <th>Time</th>       
+          <th>Days Left</th>       
           <th>
                 <%= link_to goal, method: :delete, data: { confirm: 'Are you sure?' } do %>
                 <span class="glyphicon glyphicon-trash white"></span>
@@ -111,5 +111,6 @@
       </tbody>
     </table>
   <% end %>
+<% else %>
+  <%= render 'example' %>
 <% end %>
-

@@ -1,0 +1,44 @@
+
+      <table class="table table-condensed table-hover">
+        <col width="20">
+        <col>
+        <col width="60">
+        <col width="40">
+      <thead>       
+        <tr>
+          <th>
+              <%= image_tag("yellowProgress3.png", :alt => "Needs Work") %>
+          </th>
+          <th>
+                Maintain Household
+        </th>
+          <th>Time</th>       
+          <th>
+                <span class="glyphicon glyphicon-trash white"></span>
+          </th>
+        </tr>
+      </thead>                         
+        <tbody>        
+
+
+            <tr>
+              <td>
+                    <span class="glyphicon glyphicon-remove"></span>                       
+              </td>         
+              <td>
+
+                  Clean Aquarium
+              </td>
+              <td>0</td>
+              <td>
+                <span class="glyphicon glyphicon-trash"></span>
+</a>              </td> 
+            </tr>
+      </tbody>
+    </table>
+
+  <h2>Elegant interface for tracking goals, habits, and tasks. Sign up and try it out<h2>
+  <p>
+    <%= link_to "Log in", new_user_session_path, class: "btn btn-default btn-lg" %>
+    <%= link_to "Sign up", new_user_registration_path, class: "btn btn-primary btn-lg" %>
+  </p>
