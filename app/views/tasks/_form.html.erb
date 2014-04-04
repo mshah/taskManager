@@ -33,9 +33,10 @@
     <%= f.select(:progress, options_for_select({"Not Started" => 0, "Needs Work" => 1, "On Track" => 2, "Complete" => 3}, @task.progress), :prompt => "Choose") %>
    </div> 
     <div class="field">
+  <div class="field">
     <%= f.label "Goal" %><br>
-    <%= f.select :goal_id, options_for_select([["==None==", 0]] + Goal.where(:user_id => current_user).collect{ |goal| [goal.description, goal.id] }, @task.goal_id) %>
-  </div>    
+  <%= f.select(:goal_id, [["==None==", 0]] + Goal.where(:user_id => current_user).collect {|goal| [ goal.description, goal.id ] }) %>    
+  </div>   
   <div class="actions">
     <%= f.submit "Update", class: "btn btn-primary btn-med" %>
   </div>

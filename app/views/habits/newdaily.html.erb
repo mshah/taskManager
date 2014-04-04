@@ -18,10 +18,10 @@
   </div>
   <%= f.hidden_field :done, :value => false %>
   <%= f.hidden_field :interval, :value => 'Daily' %>
-    <div class="field">
+  <div class="field">
     <%= f.label "Goal" %><br>
-    <%= f.select :goal_id, options_for_select(Goal.where(:user_id => current_user).collect{ |goal| [goal.description, goal.id] }) %>
-  </div>     
+  <%= f.select(:goal_id, [["==None==", 0]] + Goal.where(:user_id => current_user).collect {|goal| [ goal.description, goal.id ] }) %>    
+  </div>   
   <div class="actions">
     <%= f.submit "Create Daily Habit", class: "btn btn-primary btn-med" %>
   </div>

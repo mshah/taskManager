@@ -30,7 +30,7 @@
   <%= f.hidden_field :progress, :value => 'NotStarted' %> 
   <div class="field">
     <%= f.label "Goal" %><br>
-    <%= f.select :goal_id, options_for_select(Goal.where(:user_id => current_user).collect{ |goal| [goal.description, goal.id] }) %>
+  <%= f.select(:goal_id, [["==None==", 0]] + Goal.where(:user_id => current_user).collect {|goal| [ goal.description, goal.id ] }) %>    
   </div>     
   <div class="actions">
     <%= f.submit "Create Task", class: "btn btn-primary btn-med" %>
