@@ -36,6 +36,14 @@ namespace :habits do
 		end		
 	end	
 
+	desc "change dueDate to now"
+	task :pushDate => :environment do
+		tasks = Task.all
+		tasks.each do |task|
+			task.update(dueDate: DateTime.now)
+		end
+	end		
+
 	desc "Rake task to reset the monthly habits"
 	task :resetMonthly => :environment do
 		habits = Habit.all
