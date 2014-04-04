@@ -1,3 +1,6 @@
+<h2>Editing task</h2>
+
+
 <%= form_for(@task) do |f| %>
   <% if @task.errors.any? %>
     <div id="error_explanation">
@@ -31,7 +34,7 @@
    </div> 
     <div class="field">
     <%= f.label "Goal" %><br>
-    <%= f.select :goal_id, options_for_select(Goal.where(:user_id => current_user).collect{ |goal| [goal.description, goal.id] }) %>
+    <%= f.select :goal_id, options_for_select([["==None==", 0]] + Goal.where(:user_id => current_user).collect{ |goal| [goal.description, goal.id] }, @task.goal_id) %>
   </div>    
   <div class="actions">
     <%= f.submit "Update", class: "btn btn-primary btn-med" %>

@@ -5,7 +5,7 @@ class TasksController < ApplicationController
   # GET /tasks
   # GET /tasks.json
   def index
-    @tasks = Task.where(:user_id => current_user).order("dueDate ASC")
+    @tasks = Task.where(:user_id => current_user).order("created_at ASC") 
   end
 
   # GET /tasks/1
@@ -20,6 +20,9 @@ class TasksController < ApplicationController
 
   # GET /tasks/1/edit
   def edit
+  end
+
+  def editfromgoals
   end
 
   # POST /tasks

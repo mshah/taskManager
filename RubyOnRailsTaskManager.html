@@ -1147,5 +1147,40 @@ gem 'bootstrap-datepicker-rails'
 	  get "progress_up_action" => "tasks#progress_up_action" 
 	  get "progress_down_action" => "tasks#progress_down_action"  
 	</xmp>	
-	<p>As happens, this seemed like a great idea and works great on a desktop. But using these arrows on my phone, they're too small and it clutters the screen so I'll remove them from the ui.</p>	
+	<p>As happens, this seemed like a great idea and works great on a desktop. But using these arrows on my phone, they're too small and it clutters the screen so I'll remove them from the ui. I want to add email confirmation for users to register, we'll add the devise columns for this to the database.</p>
+	 <div id="terminal">
+	 $ rails generate migration add_confirm_and_lock_to user<br/>
+	</div>
+	 <div id="file">\db\migrate\add_confirm_and_lock_to_user.rb<br/>
+	</div>	
+	<xmp>
+		class AddConfirmAndLockToUser < ActiveRecord::Migration
+		  # Note: You can't use change, as User.update_all with fail in the down migration
+		  def self.up
+			add_column :users, :confirmation_token, :string
+			add_column :users, :confirmed_at, :datetime
+			add_column :users, :confirmation_sent_at, :datetime
+			# add_column :users, :unconfirmed_email, :string # Only if using reconfirmable
+			add_index :users, :confirmation_token, :unique => true
+			# User.reset_column_information # Need for some types of updates, but not for update_all.
+			# To avoid a short time window between running the migration and updating all existing
+			# users as confirmed, do the following
+			User.update_all(:confirmed_at => Time.now)
+			# All existing user accounts should be able to log in after this.
+		  end
+
+		  def self.down
+			remove_columns :users, :confirmation_token, :confirmed_at, :confirmation_sent_at
+			# remove_columns :users, :unconfirmed_email # Only if using reconfirmable
+		  end
+		end
+	</xmp>	
+	 <div id="terminal">
+	 $ rake db:migrate<br/>
+	  $ rails generate devise:views confirmable<br/>
+	</div>	
+	 <div id="file">/config/initializers/devise.rb</div>
+	 <div id="terminal">
+	 config.reconfirmable = false<br/>
+	</div>		 
 </html>

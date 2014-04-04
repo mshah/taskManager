@@ -53,10 +53,27 @@ namespace :habits do
 				end
 			end
 		end	
+
+		tasks = Task.all
+		tasks.each do |task|
+			if task.progress == 3
+				task.destroy
+			end
+		end
 	end	
 end
 
 namespace :tasks do
+	desc "delete completed tasks"
+	task :deletecomplete => :environment do
+		tasks = Task.all
+		tasks.each do |task|
+			if task.progress == 3
+				task.destroy
+			end
+		end
+	end	
+
 	desc "change dueDate to now"
 	task :pushDate => :environment do
 		tasks = Task.all

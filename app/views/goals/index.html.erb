@@ -26,9 +26,10 @@
               <span class="glyphicon glyphicon-ok"></span>
             <% end %>  
           </th>
-          <th><%= link_to edit_goal_path(goal) do %>
+          <th>
+            <%= link_to edit_goal_path(goal) do %>
                 <%= goal.description %>
-              <% end %>
+            <% end %>
           </th>
           <th>Days Left</th>       
           <th>
