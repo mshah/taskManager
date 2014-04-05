@@ -4,5 +4,6 @@ class Task < ActiveRecord::Base
 
 	validates :progress, :presence => true
 	validates :dueDate, :presence => true
+	validates :description, :presence => true
 
 end

@@ -26,3 +26,9 @@ en:
   date:
     formats:
       default: "/%m/%d/%Y"
+
+en:
+  activerecord:
+    attributes:
+      task:
+        dueDate: "Due Date"

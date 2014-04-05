@@ -4,4 +4,5 @@ class Goal < ActiveRecord::Base
 	has_many :habits
 
 	validates :progress, :presence => true
+	validates :description, :presence => true	
 end
