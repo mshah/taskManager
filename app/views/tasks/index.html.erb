@@ -54,17 +54,17 @@
             <%= task.dueDate.strftime("%A %B %d") %>
           </td>   
           <td>
-              <% if task.progress == 3 %>
-                Done!
-              <% elsif  ((DateTime.parse(task.dueDate.strftime("%A %B %d"))).mjd - DateTime.now.mjd) < 0 %>
-                Due
-              <% elsif  ((DateTime.parse(task.dueDate.strftime("%A %B %d"))).mjd - DateTime.now.mjd) == 0 %>
-                Today
-              <% elsif  ((DateTime.parse(task.dueDate.strftime("%A %B %d"))).mjd - DateTime.now.mjd) == 1 %>
-                Tomorrow
-              <% else %>
-              <%= ((DateTime.parse(task.dueDate.strftime("%A %B %d"))).mjd - DateTime.now.mjd) %>
-              <% end %>
+            <% if task.progress == 3 %>
+              <div class ="green daysleft">Done!</div>
+            <% elsif  ((DateTime.parse(task.dueDate.strftime("%A %B %d"))).mjd - DateTime.now.mjd) < 0 %>
+              <div class ="red daysleft">Due</div>
+            <% elsif  ((DateTime.parse(task.dueDate.strftime("%A %B %d"))).mjd - DateTime.now.mjd) == 0 %>
+              <div class ="red daysleft">Today</div>
+            <% elsif  ((DateTime.parse(task.dueDate.strftime("%A %B %d"))).mjd - DateTime.now.mjd) == 1 %>
+              <div class ="amber daysleft">Tomorrow</div>
+            <% else %><div class ="daysleft">
+              <%= ((DateTime.parse(task.dueDate.strftime("%A %B %d"))).mjd - DateTime.now.mjd) %></div>
+            <% end %>
           </td>                              
           <td>
             <%= link_to task, method: :delete, data: { confirm: 'Are you sure?' } do %>

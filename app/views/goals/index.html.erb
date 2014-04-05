@@ -65,15 +65,15 @@
               </td>
               <td>
                   <% if task.progress == 3 %>
-                    Done!
+                    <div class ="green daysleft">Done!</div>
                   <% elsif  ((DateTime.parse(task.dueDate.strftime("%A %B %d"))).mjd - DateTime.now.mjd) < 0 %>
-                    Overdue
+                    <div class ="red daysleft">Due</div>
                   <% elsif  ((DateTime.parse(task.dueDate.strftime("%A %B %d"))).mjd - DateTime.now.mjd) == 0 %>
-                    Today
+                    <div class ="red daysleft">Today</div>
                   <% elsif  ((DateTime.parse(task.dueDate.strftime("%A %B %d"))).mjd - DateTime.now.mjd) == 1 %>
-                    Tomorrow
-                  <% else %>
-                  <%= ((DateTime.parse(task.dueDate.strftime("%A %B %d"))).mjd - DateTime.now.mjd) %>
+                    <div class ="amber daysleft">Tomorrow</div>
+                  <% else %><div class ="daysleft">
+                  <%= ((DateTime.parse(task.dueDate.strftime("%A %B %d"))).mjd - DateTime.now.mjd) %></div>
                   <% end %>
               </td>                            
               <td>
