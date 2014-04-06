@@ -93,7 +93,7 @@ namespace :tasks do
 	task :pushDate => :environment do
 		tasks = Task.all
 		tasks.each do |task|
-			task.update(dueDate: DateTime.now)
+			task.update(due_date: DateTime.now)
 		end
 	end	
 

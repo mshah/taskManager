@@ -18,8 +18,8 @@
     <%= f.text_area :description, :size => "30x4"  %>
   </div>
   <div class="field">
-    <%= f.label :dueDate %><br>
-    <%= f.text_field :dueDate, :value=> DateTime.now, 'data-behaviour' => 'datepicker' %>
+    <%= f.label :due_date %><br>
+    <%= f.text_field :due_date, :value=> DateTime.now, 'data-behaviour' => 'datepicker' %>
     <!-- todo: write below as coffee script -->
     <script type="text/javascript">
       $(document).on("focus", "[data-behaviour~='datepicker']", function(e){
