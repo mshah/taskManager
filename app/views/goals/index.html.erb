@@ -55,7 +55,7 @@
                   <% end %>   
               </td>       
               <td>
-                <%= link_to edit_task_path(task) do %>
+                <%= link_to edit_taskfromgoals_path(:id => task.id) do %>
                   <% if task.progress == 3 %>
                     <div class="strikeout"><%= task.description %></div>
                   <% else %>
@@ -100,7 +100,15 @@
                   <%= habit.description %>
                 <% end %>
               </td>
-              <td><%= habit.streak %></td>
+              <td>
+                <% if habit.done == true %>
+                  <% if habit.interval == "Daily" %>
+                    <div class ="green daysleft">Done!</div>
+                  <% end %>
+                <% else %>
+                  <div class ="daysleft">1</div>
+                <% end %>
+              </td>
               <td>
                 <%= link_to habit, method: :delete, data: { confirm: 'Are you sure?' } do %>
                 <span class="glyphicon glyphicon-trash"></span>

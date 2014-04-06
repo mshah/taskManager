@@ -22,7 +22,8 @@ class TasksController < ApplicationController
   def edit
   end
 
-  def editfromgoals
+  def edit_from_goals
+    @task = Task.find(params[:id])
   end
 
   # POST /tasks
@@ -31,7 +32,11 @@ class TasksController < ApplicationController
 
     respond_to do |format|
       if @task.save
-        format.html { redirect_to tasks_url, notice: 'Task was successfully created.' }
+        if @task.goal_id == 0
+          format.html { redirect_to tasks_url, notice: 'Task was successfully updated.' }
+        else
+          format.html { redirect_to goals_url, notice: 'Task was successfully updated.' }
+        end
       else
         format.html { render action: 'new' }
       end
@@ -66,7 +71,11 @@ class TasksController < ApplicationController
   def update
     respond_to do |format|
       if @task.update(task_params)
-        format.html { redirect_to tasks_url, notice: 'Task was successfully updated.' }
+        if @task.goal_id == 0
+          format.html { redirect_to tasks_url, notice: 'Task was successfully updated.' }
+        else
+          format.html { redirect_to goals_url, notice: 'Task was successfully updated.' }
+        end
       else
         format.html { render action: 'edit' }
       end
