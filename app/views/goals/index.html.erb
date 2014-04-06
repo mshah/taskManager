@@ -40,7 +40,7 @@
         </tr>
       </thead>                         
         <tbody>        
-          <% @tasks = Task.where(:user_id => current_user).order("due_date ASC") %>
+          <% @tasks = Task.where(:goal_id => goal).order("due_date ASC") %>
             <% @tasks.each do |task| %>
             <tr>
               <td>
