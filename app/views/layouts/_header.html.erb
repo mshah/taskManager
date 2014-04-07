@@ -14,11 +14,11 @@
 
   <!-- Collect the nav links, forms, and other content for toggling -->
   <div class="collapse navbar-collapse navbar-ex1-collapse">
-    <ul class="nav navbar-nav navbar-right">
-        <li><%= link_to "Goals", goals_path %></li>
-        <li><%= link_to "Tasks", tasks_path %></li>
-        <li><%= link_to "Habits", habits_path %></li>                
+    <ul class="nav navbar-nav navbar-right">               
         <% if user_signed_in? %>
+          <li><%= link_to "Goals", goals_path %></li>
+          <li><%= link_to "Tasks", tasks_path %></li>
+          <li><%= link_to "Habits", habits_path %></li>         
           <li><%= link_to "Account Settings", edit_user_registration_path %></li>
           <li><%= link_to "Log out", destroy_user_session_path, method: :delete %></li>
         <% else %>

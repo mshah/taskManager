@@ -1,15 +1,92 @@
-<div class="jumbotron center">
-	<%= image_tag("logo_taskview_big.png", :alt => "taskview: simple task management") %>
-	<p>
-	goal, tasks, habits and lists </p>
-     <% if user_signed_in? %>
-	<p>Welcome back!</p>
-     <% else %>
-       <p>
-         <%= link_to "Log in", new_user_session_path, class: "btn btn-default btn-lg" %>
-         <%= link_to "Sign up", new_user_registration_path, class: "btn btn-primary btn-lg" %>
-       </p>
-  <% end %>  
+<div class="container">
+    <%= image_tag("goals_example.png", :alt => "taskview: simple task management", :width => "300px", :align=> "left") %>
+    <br/><br/><br/><br/>
+    <h1>
+    The simplest way to organize your life
+    <br/>
+    </h1> 
+    <h2>taskView is the most elegant way to view and manage your to-do lists</h2>
+    <br/>
+    <%= link_to "Sign up", new_user_registration_path, class: "btn btn-warning btn-lg" %> 
+    <br/>
+    <br/>
+  </div>
+</div>
+<div class="purple">
+    <div class="container">
+    <br/>
+    <h2>. Whether it's grocery shopping or planning your next creative project, taskView provides simple goal, task, and habit setting.
+    </h2>
+    <br/>
+    </div>
+  </div>
+<div class="container">
+    <%= image_tag("habits.png", :alt => "taskview: habits", :width => "350px", :align=> "right") %>  
+    <br/>
+    <br/>    
+    <h2>
+  Stay motivated to live the life you've always wanted to with daily, weekly, and monthly habits and streak counters.
+  </h2> 
+</div>
+  <br/>
+<div class="gray">
+  <h2 align="center">  
+  <br/>
+    Why TaskView?
+  <br/><br/>
+  <h2/>
+</div>
+<div class="black">
+<div class="container center">
+<br/>
+<table width="100%" align="center">
+  <col width="25%"/>
+  <col width="25%"/>
+  <col width="25%"/>
+  <col width="25%"/>
+  <thead>
+    <th><h2 class="yellow">Reoccuring Habits</h2></th>
+    <th><h2 class="yellow">Goal Setting</h2></th>
+    <th><h2 class="yellow">Task Due Dates</h2></th>
+    <th><h2 class="yellow">Access Anywhere</h2></th>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <p text-align="center">Set reoccuring events as habits you can check off daily, weekly or monthly</p>
+      </td>
+      <td>
+        <p text-align="center">Set goals and break steps down into tasks</p>
+      </td>
+      <td>
+        <p text-align="center">Simple interface to set concrete dates for your tasks</p>    
+      </td>
+      <td>
+        <p text-align="center">Access from any device, from anywhere on the web</p>
+      </td>        
+    <tr>
+    <tr>
+      <td>
+          <span class="glyphicon glyphicon-time"></span>  
+      </td>
+      <td>
+          <span class="glyphicon glyphicon-tower"></span>  
+      </td>
+      <td>
+        <span class="glyphicon glyphicon-calendar"></span>      
+      </td>
+      <td>
+        <span class="glyphicon glyphicon-cloud"></span> 
+      </td>        
+    <tr>      
+  </tbody>
+</table>
+</div>
+<br/>
+<br/>
+<br/>  
+</div>  
+<br/>
 </div>
 
 

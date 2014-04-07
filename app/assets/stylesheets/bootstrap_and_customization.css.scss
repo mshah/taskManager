@@ -1,7 +1,7 @@
-@import url(http://fonts.googleapis.com/css?family=Lato:400,700);
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,700);
 
 $body-bg:                                                   #ecf0f1;
-$font-family-sans-serif:                'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$font-family-sans-serif:                'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 $navbar-height:                                        45px;
 $navbar-default-bg:                          #ecf0f1;
 $navbar-default-brand-color:      #9b59b6;
@@ -13,12 +13,36 @@ $font-size-base: 20px;
 $brand-default:                                    #ecf0f1;
 $table-hover: #f1c40f;
 $btn-default-bg: #ecf0f1;
+$btn-warning-bg: #f1c40f;
 @import 'bootstrap';
+
+img{
+	margin-right: 20px;
+	margin-left: 20px;	
+}
 
 .strikeout{
 	color: #A4A4A4;	
 	text-decoration: line-through;
 	font-style: italic;
+}
+
+.purple{
+  background-color: #9b59b6;
+  color: #ecf0f1;
+}
+
+.yellow{
+  color: #f1c40f;
+}
+
+.black{
+  background-color: #000;
+  color: #ecf0f1;
+}
+
+.gray{
+  background-color:#ecf0f1;	
 }
 
 .white{
@@ -46,21 +70,23 @@ a{
 }
 
 h1{
-	font-size: 16pt;
+	font-size: 20pt;
+	 font-family: sans-serif;
 }
 
 h2{
 	font-size: 16pt;
+	font-family: sans-serif;
 }
 
 p, {
-  font-family: verdana, arial, helvetica, sans-serif;
+  font-family: sans-serif;
   font-size: 14px;
   line-height: 30px;
 } 
 
 ol, ul, td {
-  font-family: verdana, arial, helvetica, sans-serif;
+  font-family: sans-serif;
   font-size: 13px;
   line-height: 18px;
 }
@@ -101,3 +127,22 @@ ol, ul, td {
 	color: black;
 }
 
+.glyphicon-calendar{
+	color: #9b59b6;
+	font-size: 36pt;
+}
+
+.glyphicon-tower{
+	color: #9b59b6;
+	font-size: 36pt;
+}
+
+.glyphicon-cloud{
+	color: #9b59b6;
+	font-size: 36pt;
+}
+
+.glyphicon-time{
+	color: #9b59b6;
+	font-size: 36pt;
+}

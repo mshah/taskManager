@@ -1182,5 +1182,121 @@ gem 'bootstrap-datepicker-rails'
 	 <div id="file">/config/initializers/devise.rb</div>
 	 <div id="terminal">
 	 config.reconfirmable = false<br/>
-	</div>		 
+	</div>	
+	<p>
+		I decided to change the dueDate variable to use snake_case since this is better ruby practice than camelCase. So I wrote a migration to change this. I just use my task:pushDate rake task and update it to reset all my times to now, so as now to break the views.
+	</p>
+	</div>
+	 <div id="file">\db\migrate\rename_due_date_column.rb.rb<br/>
+	</div>	
+	<xmp>
+		class RenameDueDateColumn < ActiveRecord::Migration
+		  # Note: You can't use change, as User.update_all with fail in the down migration
+		  def self.up
+			add_column :tasks, :due_date, :datetime
+			remove_column :tasks, :dueDate
+		  end
+
+		  def self.down
+			add_column :tasks, :dueDate, :datetime
+			remove_column :tasks, :due_date
+		  end
+		end
+	</xmp>	
+	<p>
+		I update all the references in the model, views, and controllers to this column. I decided to add a landing page and redirect everything to go to it if the user is not logged in.
+	</p>	
+	<img src="./images/landingPage.png"/>
+	</div>
+	 <div id="file">\app\views\home.html.erb<br/>
+	</div>	
+	<xmp>
+		<div class="container">
+			<%= image_tag("goals_example.png", :alt => "taskview: simple task management", :width => "300px", :align=> "left") %>
+			<br/><br/><br/><br/>
+			<h1>
+			The simplest way to organize your life
+			<br/><br/>
+			<%= link_to "Sign up", new_user_registration_path, class: "btn btn-warning btn-lg" %>
+			</h1>  
+		  </div>
+		</div>
+		<div class="purple">
+			<div class="container">
+			<br/>
+			<h2>taskView is the most elegant way to view and manage your to-do lists. Whether it's grocery shopping or planning your next creative project, taskView provides simple goal, task, and habit setting.
+			</h2>
+			<br/>
+			</div>
+		  </div>
+		<div class="container">
+			<%= image_tag("habits.png", :alt => "taskview: habits", :width => "350px", :align=> "right") %>  
+			<br/>
+			<br/>    
+			<h2>
+		  Stay motivated to live the life you've always wanted to with daily, weekly, and monthly habits and streak counters.
+		  </h2> 
+		</div>
+		  <br/>
+		<div class="gray">
+		  <h2 align="center">  
+		  <br/>
+			Why TaskView?
+		  <br/><br/>
+		  <h2/>
+		</div>
+		<div class="black">
+		<div class="container center">
+		<br/>
+		<table width="100%" align="center">
+		  <col width="25%"/>
+		  <col width="25%"/>
+		  <col width="25%"/>
+		  <col width="25%"/>
+		  <thead>
+			<th><h2 class="yellow">Reoccuring Habits</h2></th>
+			<th><h2 class="yellow">Goal Setting</h2></th>
+			<th><h2 class="yellow">Task Due Dates</h2></th>
+			<th><h2 class="yellow">Access Anywhere</h2></th>
+		  </thead>
+		  <tbody>
+			<tr>
+			  <td>
+				<p text-align="center">Set reoccuring events as habits you can check off daily, weekly or monthly</p>
+			  </td>
+			  <td>
+				<p text-align="center">Set goals and break steps down into tasks</p>
+			  </td>
+			  <td>
+				<p text-align="center">Simple interface to set concrete dates for your tasks</p>    
+			  </td>
+			  <td>
+				<p text-align="center">Access from any device, from anywhere on the web</p>
+			  </td>        
+			<tr>
+			<tr>
+			  <td>
+				  <span class="glyphicon glyphicon-time"></span>  
+			  </td>
+			  <td>
+				  <span class="glyphicon glyphicon-tower"></span>  
+			  </td>
+			  <td>
+				<span class="glyphicon glyphicon-calendar"></span>      
+			  </td>
+			  <td>
+				<span class="glyphicon glyphicon-cloud"></span> 
+			  </td>        
+			<tr>      
+		  </tbody>
+		</table>
+		</div>
+		<br/>
+		<br/>
+		<br/>  
+		</div>  
+		<br/>
+		</div>
+
+	</xmp>	
 </html>
