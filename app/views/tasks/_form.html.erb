@@ -29,6 +29,10 @@
     </script>
   </div>
   <div class="field">
+    <%= f.label "Reschedule (How sticky is this date?)" %><br>
+    <%= f.select(:sticky, options_for_select({"Fixed" => 2, "Push 1 Day" => 1, "Push 1 Week" => 0}, @task.sticky), :prompt => "Choose") %>
+   </div>  
+  <div class="field">
     <%= f.label :progress %><br>
     <%= f.select(:progress, options_for_select({"Not Started" => 0, "Needs Work" => 1, "On Track" => 2, "Complete" => 3}, @task.progress), :prompt => "Choose") %>
    </div> 

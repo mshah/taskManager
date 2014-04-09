@@ -37,7 +37,7 @@ namespace :habits do
 	desc "Rake task that resets everything daily"
 	task :resetHeroku => :environment do
 		habits = Habit.all
-		time = Time.new
+		time = DateTime.now
 		habits.each do |habit|
 			if habit.interval == 'Daily'
 				if habit.done
@@ -73,12 +73,49 @@ namespace :habits do
 		tasks.each do |task|
 			if task.progress == 3
 				task.destroy
+			else
+				if time > task.due_date
+					if task.sticky == 0
+						push_date = time + 1.weeks
+						task.update(due_date: push_date)
+					elsif task.sticky == 1
+						push_date = time + 1.days
+						task.update(due_date: push_date)
+					end 
+				end
 			end
-		end
-	end	
+		end	
+	end
+
 end
 
 namespace :tasks do
+
+	desc "change dueDate to now"
+	task :push_due_date => :environment do
+		tasks = Task.all
+		time = DateTime.now
+		
+		tasks.each do |task|
+			if task.progress == 3
+				task.destroy
+			else
+				if time.to_i > task.due_date.to_i
+					puts task.description
+					if task.sticky == 0
+						push_date = time.to_i + 1.week.to_i
+						puts push_date
+						task.update(due_date: push_date)
+					elsif task.sticky == 1
+						push_date = time.to_i + 1.day.to_i
+						task.update(due_date: push_date)
+					end 
+				end
+			end
+		end	
+	end	
+
+
 	desc "delete completed tasks"
 	task :deletecomplete => :environment do
 		tasks = Task.all

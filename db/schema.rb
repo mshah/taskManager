@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140406175609) do
+ActiveRecord::Schema.define(version: 20140408025525) do
 
   create_table "goals", force: true do |t|
     t.string   "description"
@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(version: 20140406175609) do
     t.integer  "user_id"
     t.integer  "goal_id"
     t.datetime "due_date"
+    t.integer  "sticky",                  default: 0
   end
 
   add_index "tasks", ["goal_id"], name: "index_tasks_on_goal_id"

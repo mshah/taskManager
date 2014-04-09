@@ -1,15 +1,14 @@
-<h1>I want to...</h1>
-<div>
-    <%= link_to "New Goal", new_goal_path, class: "btn btn-primary btn-med" %>
-</div>
-<br>
+<%= image_tag("bannergoals.png", :alt => "Design") %>
+<h1 style="position:relative; top:-70px" >I want to...
+</h1>
+<div style="position:relative; top:-120px;"> <%= link_to "New Goal", new_goal_path, class: "btn btn-primary btn-med pull-right" %></div>
 
 <% if user_signed_in? %>
 
 <% @goals.each do |goal| %>
   <% if goal.user == current_user %>       
       <table class="table table-condensed table-hover">
-        <col width="20">
+        <col width="10">
         <col>
         <col width="60">
         <col width="40">
