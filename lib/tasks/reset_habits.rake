@@ -103,11 +103,12 @@ namespace :tasks do
 				if time.to_i > task.due_date.to_i
 					puts task.description
 					if task.sticky == 0
-						push_date = time.to_i + 1.week.to_i
-						puts push_date
+						new_date_seconds = time.to_i + 1.week.to_i
+						push_date = Time.at(new_date_seconds).to_datetime
 						task.update(due_date: push_date)
 					elsif task.sticky == 1
-						push_date = time.to_i + 1.day.to_i
+						new_date_seconds = time.to_i + 1.day.to_i
+						push_date = Time.at(new_date_seconds).to_datetime
 						task.update(due_date: push_date)
 					end 
 				end
