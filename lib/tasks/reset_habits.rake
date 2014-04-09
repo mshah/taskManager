@@ -74,12 +74,14 @@ namespace :habits do
 			if task.progress == 3
 				task.destroy
 			else
-				if time > task.due_date
+				if time.to_i > task.due_date.to_i
 					if task.sticky == 0
-						push_date = time + 1.weeks
+						new_date_seconds = time.to_i + 1.week.to_i
+						push_date = Time.at(new_date_seconds).to_datetime
 						task.update(due_date: push_date)
 					elsif task.sticky == 1
-						push_date = time + 1.days
+						new_date_seconds = time.to_i + 1.day.to_i
+						push_date = Time.at(new_date_seconds).to_datetime
 						task.update(due_date: push_date)
 					end 
 				end
@@ -101,7 +103,6 @@ namespace :tasks do
 				task.destroy
 			else
 				if time.to_i > task.due_date.to_i
-					puts task.description
 					if task.sticky == 0
 						new_date_seconds = time.to_i + 1.week.to_i
 						push_date = Time.at(new_date_seconds).to_datetime
