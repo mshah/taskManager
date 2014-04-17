@@ -1,3 +1,5 @@
+<p id="notice"><%= notice %></p>
+
 <%= form_for(@goal) do |f| %>
   <% if @goal.errors.any? %>
     <div id="error_explanation">
@@ -11,15 +13,127 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :description %><br>
-    <%= f.text_area :description, :size => "30x4"  %>
-  </div>
-  <div class="field">
-    <%= f.label :progress %><br>
-    <%= f.select(:progress, options_for_select({"Not Started" => 0, "Needs Work" => 1, "On Track" => 2, "Complete" => 3}, @goal.progress), :prompt => "Choose") %>
-   </div> 
-  <div class="actions">
-    <%= f.submit "Update", class: "btn btn-primary btn-med" %>
-  </div>
+
+<% if @goal.user == current_user %>       
+      <table class="table table-condensed table-hover">
+        <col width="10">
+        <col>
+        <col width="60">
+        <col width="40">
+      <thead>       
+        <tr>
+          <th>            
+            <% if @goal.progress == 0 %>
+              <%= image_tag("redProgress3Big.png", :alt => "Not Started") %>
+            <% elsif @goal.progress == 1 %>
+              <%= image_tag("yellowProgress3Big.png", :alt => "Needs Work") %>
+            <% elsif @goal.progress == 2 %>
+              <%= image_tag("greenProgress3Big.png", :alt => "On Track") %>
+            <% else %>
+              <span class="glyphicon glyphicon-ok"></span>
+            <% end %>  
+          </th>
+          <th>
+             <div class="field">
+              <%= f.text_area :description, :size => "30x2"  %>
+            </div>
+          </th>
+          <th>
+            <div class="actions">
+              <%= f.submit "Update", class: "btn btn-primary btn-med" %>
+            </div>  
+          </th>
+          <th></th>       
+          <th>
+                <%= link_to @goal, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                <span class="glyphicon glyphicon-trash white"></span>
+                <% end %>  
+          </th>
+        </tr>
+      </thead>                         
+        <tbody>        
+          <% @tasks = Task.where(:goal_id => @goal).order("due_date ASC") %>
+            <% @tasks.each do |task| %>
+            <tr>
+              <td>
+                  <% if task.progress == 0 %>
+                    <%= image_tag("redProgress3.png", :alt => "Not Started") %>
+                  <% elsif task.progress == 1 %>
+                    <%= image_tag("yellowProgress3.png", :alt => "Needs Work") %>
+                  <% elsif task.progress == 2 %>
+                    <%= image_tag("greenProgress3.png", :alt => "On Track") %>
+                  <% else %>
+                    <span class="glyphicon glyphicon-ok"></span>
+                  <% end %>   
+              </td>       
+              <td>
+                <%= link_to edit_taskfromgoals_path(:id => task.id) do %>
+                  <% if task.progress == 3 %>
+                    <div class="strikeout"><%= task.description %></div>
+                  <% else %>
+                    <%= task.description %>
+                  <% end %>
+                <% end %>
+              </td>
+              <td>
+                  <% if task.progress == 3 %>
+                    <div class ="green daysleft">Done!</div>
+                  <% elsif  ((DateTime.parse(task.due_date.strftime("%A %B %d"))).mjd - DateTime.now.mjd) < 0 %>
+                    <div class ="red daysleft">Due</div>
+                  <% elsif  ((DateTime.parse(task.due_date.strftime("%A %B %d"))).mjd - DateTime.now.mjd) == 0 %>
+                    <div class ="red daysleft">Today</div>
+                  <% elsif  ((DateTime.parse(task.due_date.strftime("%A %B %d"))).mjd - DateTime.now.mjd) == 1 %>
+                    <div class ="amber daysleft">Tomorrow</div>
+                  <% else %><div class ="daysleft">
+                  <%= ((DateTime.parse(task.due_date.strftime("%A %B %d"))).mjd - DateTime.now.mjd) %></div>
+                  <% end %>
+              </td> 
+              <td></td>                           
+              <td>
+                <%= link_to task, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                <span class="glyphicon glyphicon-trash"></span>
+                <% end %>
+              </td> 
+            </tr>
+            <% end %>
+
+
+          <% @habits = Habit.where(:goal_id => @goal.id)%>
+            <% @habits.each do |habit| %>
+            <tr>
+              <td>
+                  <% if habit.done == true %>
+                    <span class="glyphicon glyphicon-ok"></span>  
+                  <% else %>
+                    <span class="glyphicon glyphicon-remove"></span>                       
+                  <% end %>
+              </td>         
+              <td>
+                <%= link_to edit_habit_path(habit) do %>
+                  <%= habit.description %>
+                <% end %>
+              </td>
+              <td>
+                <% if habit.done == true %>
+                  <% if habit.interval == "Daily" %>
+                    <div class ="green daysleft">Done!</div>
+                  <% end %>
+                <% else %>
+                  <div class ="daysleft">1</div>
+                <% end %>
+              </td>
+              <td></td>                 
+              <td>
+                <%= link_to habit, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                <span class="glyphicon glyphicon-trash"></span>
+                <% end %>
+              </td> 
+            </tr>
+            <% end %>
+          <% end %>
+      </tbody>
+    </table>
+<p>
+    <%= link_to "Back", goals_path, class: "btn btn-default btn-med" %>
+</p>    
 <% end %>

@@ -1187,7 +1187,7 @@ gem 'bootstrap-datepicker-rails'
 		I decided to change the dueDate variable to use snake_case since this is better ruby practice than camelCase. So I wrote a migration to change this. I just use my task:pushDate rake task and update it to reset all my times to now, so as now to break the views.
 	</p>
 	</div>
-	 <div id="file">\db\migrate\rename_due_date_column.rb.rb<br/>
+	 <div id="file">\db\migrate\rename_due_date_column.rb<br/>
 	</div>	
 	<xmp>
 		class RenameDueDateColumn < ActiveRecord::Migration
@@ -1203,8 +1203,45 @@ gem 'bootstrap-datepicker-rails'
 		  end
 		end
 	</xmp>	
+	 <div id="file">\lib\tasks\reset_habits.rake<br/>
+	</div>	
+	<xmp>
+	desc "change dueDate to now"
+	task :push_due_date => :environment do
+		tasks = Task.all
+		time = DateTime.now
+		
+		tasks.each do |task|
+			if task.progress == 3
+				task.destroy
+			else
+				if time.to_i > task.due_date.to_i
+					if task.sticky == 0
+						new_date_seconds = time.to_i + 1.week.to_i
+						push_date = Time.at(new_date_seconds).to_datetime
+						task.update(due_date: push_date)
+					elsif task.sticky == 1
+						new_date_seconds = time.to_i + 1.day.to_i
+						push_date = Time.at(new_date_seconds).to_datetime
+						task.update(due_date: push_date)
+					end 
+				end
+			end
+		end	
+	end	
+
+	</xmp>	
+	 <div id="file">\app\views\tasks\new.html.erb<br/>
+	</div>	
+	<xmp>
+  <div class="field">
+    <%= f.label "Reschedule (How sticky is this date?)" %><br>
+    <%= f.select(:sticky, options_for_select({"Fixed" => 2, "Push 1 Day" => 1, "Push 1 Week" => 0}, @task.sticky), :prompt => "Choose", :value => 0) %>
+   </div>  
+
+	</xmp>		
 	<p>
-		I update all the references in the model, views, and controllers to this column. I decided to add a landing page and redirect everything to go to it if the user is not logged in.
+		I update all the references in the model, views, and controllers to this column. Above is the rake task to reset the date and the portion on the new page. I decided to add a landing page and redirect everything to go to it if the user is not logged in.
 	</p>	
 	<img src="./images/landingPage.png"/>
 	</div>

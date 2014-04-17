@@ -1,16 +1,1 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @goal.description %>
-</p>
-
-<p>
-  <strong>Progress:</strong>
-  <%= @goal.progress %>
-</p>
-
-<p>
-    <%= link_to "Edit", edit_goal_path(@goal), class: "btn btn-primary btn-med" %>
-    <%= link_to "Back", goals_path, class: "btn btn-primary btn-med" %>    
-</p>
+<%= render 'form' %>
