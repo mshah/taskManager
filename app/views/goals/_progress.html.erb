@@ -1,4 +1,4 @@
-<%= progress_for(@goal) do |f| %>
+<%= form_for(@goal) do |f| %>
   <% goal_progress = @goal.getProgress %>
   <% if goal_progress == 0 %>
   	<%= image_tag("redProgress3Med.png", :alt => "Not Started") %>
