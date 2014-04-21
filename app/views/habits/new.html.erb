@@ -18,10 +18,10 @@
     <%= f.text_area :description, :size => "30x4"  %>
   </div>
   <%= f.hidden_field :done, :value => false %> 
-  <%= f.hidden_field :interval, :value => @habit.interval%>
+  <%= f.select :interval, options_for_select(%w[Daily Weekly Monthly]) %>   
     <div class="field">
     <%= f.label "Goal" %><br>
-    <%= f.select :goal_id, options_for_select([["==None==", 0]] + Goal.where(:user_id => current_user).collect{ |goal| [goal.description, goal.id] }, @task.goal_id) %>
+  <%= f.select(:goal_id, [["==None==", 0]] + Goal.where(:user_id => current_user).collect {|goal| [ goal.description, goal.id ] }) %>  
   </div>     
   <div class="actions">
     <%= f.submit "Update", class: "btn btn-primary btn-med" %>

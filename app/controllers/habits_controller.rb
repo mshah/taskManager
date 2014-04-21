@@ -36,6 +36,10 @@ class HabitsController < ApplicationController
   def edit
   end   
 
+  def edit_from_goals
+    @habit = Habit.find(params[:id])
+  end
+
   def toggle_action
     respond_to do |format|
       @habit = Habit.find(params[:id])

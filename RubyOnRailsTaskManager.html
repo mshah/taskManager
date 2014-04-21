@@ -1334,6 +1334,58 @@ gem 'bootstrap-datepicker-rails'
 		</div>  
 		<br/>
 		</div>
-
 	</xmp>	
+	<p>
+		Wouldn't it be nice if the progress for a goal was calculated based on how many habits and tasks were accomplished, instead of user filled in? To get that I added a method to calculate the progress from the tasks associated with it. I also generated a migration to drop the progress column from goal, and adjusted the controller and UI so this isn't something that can be set or persisted anymore.
+	</p>	
+	 <div id="file">\app\models\goal.rb</div>	
+	 <xmp>
+	def getProgress
+		progress_total = 0
+		count = 0
+		tasks.map do |task|
+    	count = count + 1
+    	progress_total = progress_total	+ task.progress	
+    end
+		habits.map do |habit|
+    	if habit.done
+    		progress_total = progress_total + 2
+    		count = count + 1
+    	else
+    		progress_total = progress_total + 0
+    		count = count + 1
+    	end    		
+    end
+    goal_progress = 0
+    if count == 0
+    	goal_progress = 3
+    else
+    	goal_progress = progress_total / count
+    end
+    return goal_progress
+	end 
+	 </xmp>
+	 <div id="file">\app\views\goals\index.html.erb</div>	
+	 <xmp>
+            <% goal_progress = goal.getProgress %>
+            <% if goal_progress == 0 %>
+              <%= image_tag("redProgress3Med.png", :alt => "Not Started") %>
+            <% elsif goal_progress == 1 %>
+              <%= image_tag("yellowProgress3Med.png", :alt => "Needs Work") %>
+            <% else goal_progress == 2 %>
+              <%= image_tag("greenProgress3Med.png", :alt => "On Track") %>
+            <% end %>  
+	 </xmp>	
+	 <div id="file">\db\migrate\timestamp_calculate_goal_progress.rb</div>	
+	 <xmp>
+		class CalculateGoalProgress < ActiveRecord::Migration
+		  def self.up
+			remove_column :goals, :progress
+		  end
+
+		  def self.down
+			add_column :goals, :progress, :integer, :default => 0
+		  end
+		end
+	 </xmp>	
 </html>

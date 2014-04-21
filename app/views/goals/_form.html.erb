@@ -22,16 +22,8 @@
         <col width="40">
       <thead>       
         <tr>
-          <th>            
-            <% if @goal.progress == 0 %>
-              <%= image_tag("redProgress3Big.png", :alt => "Not Started") %>
-            <% elsif @goal.progress == 1 %>
-              <%= image_tag("yellowProgress3Big.png", :alt => "Needs Work") %>
-            <% elsif @goal.progress == 2 %>
-              <%= image_tag("greenProgress3Big.png", :alt => "On Track") %>
-            <% else %>
-              <span class="glyphicon glyphicon-ok"></span>
-            <% end %>  
+          <th>         
+            <%= render 'progress' %>
           </th>
           <th>
              <div class="field">

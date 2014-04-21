@@ -3,18 +3,33 @@ class Goal < ActiveRecord::Base
 	has_many :tasks
 	has_many :habits
 
-	validates :progress, :presence => true
 	validates :description, :presence => true	
 
 	def getProgress
-		@tasks = Task.where(:goal_id => :id).order("due_date ASC")
 		progress_total = 0
 		count = 0
-    @tasks.each do |task|
+		tasks.map do |task|
     	count = count + 1
-    	progress_total = progress_total		
+    	progress_total = progress_total	+ task.progress	
     end
-    return progress_total / count
+		habits.map do |habit|
+    	if habit.done
+    		progress_total = progress_total + 2
+    		count = count + 1
+    	else
+    		progress_total = progress_total + 0
+    		count = count + 1
+    	end    		
+    end
+    goal_progress = 0
+    if count == 0
+    	goal_progress = 3
+    else
+    	goal_progress = progress_total / count
+    end
+
+
+    return goal_progress
 	end
 
 end

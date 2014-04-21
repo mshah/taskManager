@@ -1,0 +1,10 @@
+<%= progress_for(@goal) do |f| %>
+  <% goal_progress = @goal.getProgress %>
+  <% if goal_progress == 0 %>
+  	<%= image_tag("redProgress3Med.png", :alt => "Not Started") %>
+  <% elsif goal_progress == 1 %>
+  	<%= image_tag("yellowProgress3Med.png", :alt => "Needs Work") %>
+  <% else goal_progress == 2 %>
+  	<%= image_tag("greenProgress3Med.png", :alt => "On Track") %>
+  <% end %> 
+<% end %>

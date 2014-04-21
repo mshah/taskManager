@@ -9,26 +9,23 @@
   <% if goal.user == current_user %> 
     <div class="panel panel-primary">
        <div class="panel-heading">
-            <% if goal.progress == 0 %>
-              <%= image_tag("redProgress3Med.png", :alt => "Not Started") %>
-            <% elsif goal.progress == 1 %>
-              <%= image_tag("yellowProgress3Med.png", :alt => "Needs Work") %>
-            <% elsif goal.progress == 2 %>
-              <%= image_tag("greenProgress3Med.png", :alt => "On Track") %>
-            <% else %>
-              <span class="glyphicon glyphicon-ok"></span>
-            <% end %>           
+          <% goal_progress = goal.getProgress %>
+          <% if goal_progress == 0 %>
+            <%= image_tag("redProgress3Med.png", :alt => "Not Started") %>
+          <% elsif goal_progress == 1 %>
+            <%= image_tag("yellowProgress3Med.png", :alt => "Needs Work") %>
+          <% else goal_progress == 2 %>
+            <%= image_tag("greenProgress3Med.png", :alt => "On Track") %>
+          <% end %>   
             <%= link_to edit_goal_path(goal) do %>
                 <%= goal.description %>
             <% end %>
-
-          
-        <div class="btn-group pull-right">
-          <%= link_to goal, method: :delete, data: { confirm: 'Are you sure?' } do %>
-                <span class="glyphicon glyphicon-trash"></span>
-          <% end %>            
+        <div class="btn-group pull-right">         
           <%= link_to 'Habit', new_habit_path, class: "glyphicon glyphicon-plus" %>
           <%= link_to 'Task', new_task_path, class: "glyphicon glyphicon-plus" %>
+          <%= link_to goal, method: :delete, data: { confirm: 'Are you sure?' } do %>
+                <span class="glyphicon glyphicon-trash"></span>
+          <% end %>             
         </div>            
       </div>       
       <table class="table table-condensed table-hover">
@@ -93,7 +90,7 @@
                   <% end %>
               </td>         
               <td>
-                <%= link_to edit_habit_path(habit) do %>
+                <%= link_to edit_habitfromgoals_path(:id => habit.id) do %>
                   <%= habit.description %>
                 <% end %>
               </td>

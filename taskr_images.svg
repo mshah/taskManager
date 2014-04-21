@@ -1415,16 +1415,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.8"
-     inkscape:cx="213.69476"
-     inkscape:cy="815.4142"
+     inkscape:zoom="1.4"
+     inkscape:cx="102.26619"
+     inkscape:cy="833.46576"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:window-width="1310"
      inkscape:window-height="818"
-     inkscape:window-x="477"
-     inkscape:window-y="20"
+     inkscape:window-x="442"
+     inkscape:window-y="26"
      inkscape:window-maximized="0">
     <inkscape:grid
        type="xygrid"
@@ -1505,9 +1505,9 @@
        sodipodi:ry="30"
        d="m 120,122.36218 a 30,30 0 1 1 -60,0 30,30 0 1 1 60,0 z"
        transform="translate(81.411149,100.60911)"
-       inkscape:export-filename="D:\Projects\GitHub\taskManager\app\views\images\redProgress3.png"
-       inkscape:export-xdpi="30.5499"
-       inkscape:export-ydpi="30.5499" />
+       inkscape:export-filename="D:\Projects\GitHub\taskManager\app\assets\images\redProgress3Med.png"
+       inkscape:export-xdpi="61.068703"
+       inkscape:export-ydpi="61.068703" />
     <path
        sodipodi:type="arc"
        style="fill:#f1c40f;fill-opacity:0.94117647;stroke:#000000;stroke-width:1.38399994000000000;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;filter:url(#filter5002)"
@@ -1518,9 +1518,9 @@
        sodipodi:ry="30"
        d="m 120,122.36218 a 30,30 0 1 1 -60,0 30,30 0 1 1 60,0 z"
        transform="translate(163.43146,102.82226)"
-       inkscape:export-filename="D:\Projects\GitHub\taskManager\app\views\images\yellowProgress3.png"
-       inkscape:export-xdpi="30.549894"
-       inkscape:export-ydpi="30.549894" />
+       inkscape:export-filename="D:\Projects\GitHub\taskManager\app\assets\images\yellowProgress3Med.png"
+       inkscape:export-xdpi="61.068703"
+       inkscape:export-ydpi="61.068703" />
     <path
        sodipodi:type="arc"
        style="fill:#27ae60;fill-opacity:0.94117647;stroke:#000000;stroke-width:1.38399994000000000;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;filter:url(#filter4982)"
@@ -1531,12 +1531,12 @@
        sodipodi:ry="30"
        d="m 120,122.36218 a 30,30 0 1 1 -60,0 30,30 0 1 1 60,0 z"
        transform="translate(241.20809,99.593853)"
-       inkscape:export-filename="D:\Projects\GitHub\taskManager\app\views\images\greenProgress3.png"
-       inkscape:export-xdpi="30.5499"
-       inkscape:export-ydpi="30.5499" />
+       inkscape:export-filename="D:\Projects\GitHub\taskManager\app\assets\images\greenProgress3Med.png"
+       inkscape:export-xdpi="61.068703"
+       inkscape:export-ydpi="61.068703" />
     <path
        sodipodi:type="arc"
-       style="fill:#d40000;fill-opacity:1;stroke:#000000;stroke-width:1.38399994000000000;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;filter:url(#filter5152)"
+       style="fill:#c0392b;fill-opacity:0.94117647;stroke:#000000;stroke-width:1.38399994000000000;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;filter:url(#filter5152)"
        id="path2997-0-8"
        sodipodi:cx="90"
        sodipodi:cy="122.36218"
@@ -1546,7 +1546,7 @@
        transform="translate(82.639664,222.29427)" />
     <path
        sodipodi:type="arc"
-       style="fill:#ffcc00;fill-opacity:1;stroke:#000000;stroke-width:1.38399994000000000;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;filter:url(#filter5130)"
+       style="fill:#f1c40f;fill-opacity:0.94117647;stroke:#000000;stroke-width:1.38399994000000000;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;filter:url(#filter5130)"
        id="path2997-7-9-8"
        sodipodi:cx="90"
        sodipodi:cy="122.36218"
@@ -1556,7 +1556,7 @@
        transform="translate(164.65997,224.50742)" />
     <path
        sodipodi:type="arc"
-       style="fill:#55d400;fill-opacity:1;stroke:#000000;stroke-width:1.38399994000000000;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;filter:url(#filter5108)"
+       style="fill:#27ae60;fill-opacity:0.94117647;stroke:#000000;stroke-width:1.38399994000000000;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;filter:url(#filter5108)"
        id="path2997-4-4-2"
        sodipodi:cx="90"
        sodipodi:cy="122.36218"
