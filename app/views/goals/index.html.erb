@@ -9,6 +9,11 @@
   <% if goal.user == current_user %> 
     <div class="panel panel-primary">
        <div class="panel-heading">
+
+            <%= link_to edit_goal_path(goal) do %>
+                <%= goal.description %>
+            <% end %>
+        <div class="btn-group">    
           <% goal_progress = goal.getProgress %>
           <% if goal_progress == 0 %>
             <%= image_tag("redProgress3Med.png", :alt => "Not Started") %>
@@ -17,16 +22,11 @@
           <% else goal_progress == 2 %>
             <%= image_tag("greenProgress3Med.png", :alt => "On Track") %>
           <% end %>   
-            <%= link_to edit_goal_path(goal) do %>
-                <%= goal.description %>
-            <% end %>
-        <div class="btn-group pull-right">         
+        </div>
+        <div class="btn-group">         
           <%= link_to 'Habit', new_habit_path, class: "glyphicon glyphicon-plus" %>
-          <%= link_to 'Task', new_task_path, class: "glyphicon glyphicon-plus" %>
-          <%= link_to goal, method: :delete, data: { confirm: 'Are you sure?' } do %>
-                <span class="glyphicon glyphicon-trash"></span>
-          <% end %>             
-        </div>            
+          <%= link_to 'Task', new_task_path, class: "glyphicon glyphicon-plus" %>           
+        </div>        
       </div>       
       <table class="table table-condensed table-hover">
         <col width="10">

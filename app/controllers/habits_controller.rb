@@ -49,7 +49,11 @@ class HabitsController < ApplicationController
         @habit.done = true
       end
       @habit.update_attributes(params[:done])
-      format.html { redirect_to habits_url, notice: 'Habit was successfully updated.' }
+      if @habit.goal_id == 0
+        format.html { redirect_to habits_url, notice: 'Habit was successfully updated.' }
+      else
+        format.html { redirect_to goal_url(:id => @habit.goal_id), notice: 'Habit was successfully updated.' }
+      end
     end
   end
 
@@ -65,10 +69,13 @@ class HabitsController < ApplicationController
   # POST /habits
   def create
     @habit = current_user.habits.build(habit_params)
-
     respond_to do |format|
       if @habit.save
-        format.html { redirect_to habits_url, notice: 'Habit was successfully created.' }
+        if @habit.goal_id == 0
+          format.html { redirect_to habits_url, notice: 'Habit was successfully updated.' }
+        else
+          format.html { redirect_to goal_url(:id => @habit.goal_id), notice: 'Habit was successfully updated.' }
+        end
       else
         format.html { render action: 'new' }
       end
@@ -79,7 +86,11 @@ class HabitsController < ApplicationController
   def update
     respond_to do |format|
       if @habit.update(habit_params)
-        format.html { redirect_to habits_url, notice: 'Habit was successfully updated.' }
+        if @habit.goal_id == 0
+          format.html { redirect_to habits_url, notice: 'Habit was successfully updated.' }
+        else
+          format.html { redirect_to goal_url(:id => @habit.goal_id), notice: 'Habit was successfully updated.' }
+        end
       else
         format.html { render action: 'edit' }
       end

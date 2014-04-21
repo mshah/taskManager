@@ -35,7 +35,7 @@ class TasksController < ApplicationController
         if @task.goal_id == 0
           format.html { redirect_to tasks_url, notice: 'Task was successfully updated.' }
         else
-          format.html { redirect_to goals_url, notice: 'Task was successfully updated.' }
+          format.html { redirect_to goal_url(:id => @task.goal_id), notice: 'Task was successfully updated.' }
         end
       else
         format.html { render action: 'new' }
@@ -74,7 +74,7 @@ class TasksController < ApplicationController
         if @task.goal_id == 0
           format.html { redirect_to tasks_url, notice: 'Task was successfully updated.' }
         else
-          format.html { redirect_to goals_url, notice: 'Task was successfully updated.' }
+          format.html { redirect_to goal_url(:id => @task.goal_id), notice: 'Task was successfully updated.' }
         end
       else
         format.html { render action: 'edit' }
