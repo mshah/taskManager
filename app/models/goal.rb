@@ -27,8 +27,6 @@ class Goal < ActiveRecord::Base
     else
     	goal_progress = progress_total / count
     end
-
-
     return goal_progress
 	end
 

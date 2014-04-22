@@ -14,7 +14,11 @@
   <% end %>
 
 
-<% if @goal.user == current_user %>       
+<% if @goal.user == current_user %> 
+        <div class="btn-group pull-right">         
+          <%= link_to 'Habit', new_habit_from_goal_path(:goal_id => @goal), class: "glyphicon glyphicon-plus" %>
+          <%= link_to 'Task', new_task_path, class: "glyphicon glyphicon-plus" %>           
+        </div>      
       <table class="table table-condensed table-hover">
         <col width="10">
         <col>
@@ -43,7 +47,8 @@
           </th>
         </tr>
       </thead>                         
-        <tbody>        
+        <tbody>  
+
           <% @tasks = Task.where(:goal_id => @goal).order("due_date ASC") %>
             <% @tasks.each do |task| %>
             <tr>
@@ -95,10 +100,10 @@
             <tr>
               <td>
                   <% if habit.done == true %>
-                    <span class="glyphicon glyphicon-ok"></span>  
+                    <%= link_to ''.html_safe, {:action => 'toggle_action', :id =>habit.id, :controller=>"habits"}, class: 'glyphicon glyphicon-ok' %>
                   <% else %>
-                    <span class="glyphicon glyphicon-remove"></span>                       
-                  <% end %>
+                    <%= link_to ''.html_safe, {:action => 'toggle_action', :id =>habit.id, :controller=>"habits"}, class: 'glyphicon glyphicon-remove' %>
+                  <% end %>   
               </td>         
               <td>
                 <%= link_to edit_habit_path(habit) do %>

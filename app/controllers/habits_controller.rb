@@ -30,7 +30,14 @@ class HabitsController < ApplicationController
 # GET /habits/monthlynew
   def newmonthly
     @habit = current_user.habits.build
-  end      
+  end
+
+  # GET /habits/new_from_goal
+  def new_from_goal
+    @habit = current_user.habits.build
+    @habit.goal_id = params[:id]
+    #@habit.update_attributes(params[:goal_id])
+  end       
 
   # GET /habits/1/edit
   def edit

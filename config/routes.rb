@@ -20,7 +20,10 @@ TaskManager::Application.routes.draw do
   get "progress_down_action" => "tasks#progress_down_action"  
   get "toggle_habit" => "habits#toggle_action"   
   get "edit_taskfromgoals" => "tasks#edit_from_goals"  
-    get "edit_habitfromgoals" => "habits#edit_from_goals"  
+  get "edit_habitfromgoals" => "habits#edit_from_goals" 
+
+  get "new_habit_from_goal" => "habits#new_from_goal"  
+  get "new_task_from_goal" => "tasks#new_from_goal" 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
