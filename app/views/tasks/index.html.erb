@@ -12,7 +12,7 @@
   </div>
   </div>
   <table class="table table-condensed table-hover">
-    <col width="20">
+    <col width="40">
     <col>
     <col>
     <col>
@@ -32,10 +32,9 @@
         <% if task.user == current_user %>
         <tr> 
           <td>
-  <!-- Single button -->
-  <div class="btn-group">
-    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    <% if task.progress == 0 %>
+        <div class="btn-group">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+              <% if task.progress == 0 %>
                 <%= image_tag("redProgress3.png", :alt => "Not Started") %>
               <% elsif task.progress == 1 %>
                 <%= image_tag("yellowProgress3.png", :alt => "Needs Work") %>
@@ -44,17 +43,21 @@
               <% else %>
                 <span class="glyphicon glyphicon-ok"></span>                              
               <% end %> <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu" role="menu">
-      <li><a href="#">Action</a></li>
-      <li><a href="#">Another action</a></li>
-      <li><a href="#">Something else here</a></li>
-      <li class="divider"></li>
-      <li><a href="#">Separated link</a></li>
-    </ul>
-  </div>
-            
-
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <%= link_to ''.html_safe, {:action => 'progress_down_action', :id =>task.id}, class: 'glyphicon glyphicon-chevron-left' %>
+              <% if task.progress == 0 %>
+                Not Started
+              <% elsif task.progress == 1 %>
+                Needs Work
+              <% elsif task.progress == 2 %>
+                On Track
+              <% else %>
+                Complete                             
+              <% end %>
+            <%= link_to ''.html_safe, {:action => 'progress_up_action', :id =>task.id}, class: 'glyphicon glyphicon-chevron-right' %>
+          </ul>
+        </div>
           </td>                       
           <td>
             <%= link_to edit_task_path(task) do %>

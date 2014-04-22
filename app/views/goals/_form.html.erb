@@ -53,6 +53,8 @@
             <% @tasks.each do |task| %>
             <tr>
               <td>
+            <div class="btn-group">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                   <% if task.progress == 0 %>
                     <%= image_tag("redProgress3.png", :alt => "Not Started") %>
                   <% elsif task.progress == 1 %>
@@ -60,9 +62,24 @@
                   <% elsif task.progress == 2 %>
                     <%= image_tag("greenProgress3.png", :alt => "On Track") %>
                   <% else %>
-                    <span class="glyphicon glyphicon-ok"></span>
-                  <% end %>   
-              </td>       
+                    <span class="glyphicon glyphicon-ok"></span>                              
+                  <% end %> <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <%= link_to ''.html_safe, {:action => 'progress_down_action_from_goal', :id =>task.id, :controller=>"tasks"}, class: 'glyphicon glyphicon-chevron-left' %>
+                  <% if task.progress == 0 %>
+                    Not Started
+                  <% elsif task.progress == 1 %>
+                    Needs Work
+                  <% elsif task.progress == 2 %>
+                    On Track
+                  <% else %>
+                    Complete                             
+                  <% end %>
+                <%= link_to ''.html_safe, {:action => 'progress_up_action_from_goal', :id =>task.id, :controller=>"tasks"}, class: 'glyphicon glyphicon-chevron-right' %>
+              </ul>
+            </div>
+              </td>      
               <td>
                 <%= link_to edit_taskfromgoals_path(:id => task.id) do %>
                   <% if task.progress == 3 %>

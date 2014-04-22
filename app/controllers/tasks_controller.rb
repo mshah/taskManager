@@ -67,6 +67,54 @@ class TasksController < ApplicationController
     end
   end  
 
+  def progress_up_action_from_goals
+    respond_to do |format|
+      @task = Task.find(params[:id])
+      if @task.progress < 3
+        newprogress = @task.progress + 1
+        @task.progress = newprogress
+      end
+      @task.update_attributes(params[:progress])
+      format.html { redirect_to goals_url, notice: 'Task was successfully updated.' }
+    end
+  end
+
+  def progress_down_action_from_goals
+    respond_to do |format|
+      @task = Task.find(params[:id])
+      if @task.progress > 0
+        newprogress = @task.progress - 1
+        @task.progress = newprogress
+      end
+      @task.update_attributes(params[:progress])
+      format.html { redirect_to goals_url, notice: 'Task was successfully updated.' }
+    end
+  end  
+
+    def progress_up_action_from_goal
+    respond_to do |format|
+      @task = Task.find(params[:id])
+      if @task.progress < 3
+        newprogress = @task.progress + 1
+        @task.progress = newprogress
+      end
+      @task.update_attributes(params[:progress])
+      format.html { redirect_to goal_url(:id => @task.goal_id), notice: 'Task was successfully updated.' }
+    end
+  end
+
+  def progress_down_action_from_goal
+    respond_to do |format|
+      @task = Task.find(params[:id])
+      if @task.progress > 0
+        newprogress = @task.progress - 1
+        @task.progress = newprogress
+      end
+      @task.update_attributes(params[:progress])
+      format.html { redirect_to goal_url(:id => @task.goal_id), notice: 'Task was successfully updated.' }
+    end
+  end  
+
   # PATCH/PUT /tasks/1
   def update
     respond_to do |format|

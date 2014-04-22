@@ -17,7 +17,12 @@ TaskManager::Application.routes.draw do
   get "new_monthlyhabit" => "habits#newmonthly"
 
   get "progress_up_action" => "tasks#progress_up_action" 
-  get "progress_down_action" => "tasks#progress_down_action"  
+  get "progress_down_action" => "tasks#progress_down_action"
+  get "progress_up_action_from_goal" => "tasks#progress_up_action_from_goal" 
+  get "progress_down_action_from_goal" => "tasks#progress_down_action_from_goal"
+  get "progress_up_action_from_goals" => "tasks#progress_up_action_from_goals" 
+  get "progress_down_action_from_goals" => "tasks#progress_down_action_from_goals"  
+
   get "toggle_habit" => "habits#toggle_action" 
   get "toggle_action_from_goals" => "habits#toggle_action_from_goals"
   get "toggle_action_from_goal" => "habits#toggle_action_from_goal"  
