@@ -18,7 +18,9 @@ TaskManager::Application.routes.draw do
 
   get "progress_up_action" => "tasks#progress_up_action" 
   get "progress_down_action" => "tasks#progress_down_action"  
-  get "toggle_habit" => "habits#toggle_action"   
+  get "toggle_habit" => "habits#toggle_action" 
+  get "toggle_action_from_goals" => "habits#toggle_action_from_goals"
+  get "toggle_action_from_goal" => "habits#toggle_action_from_goal"  
   get "edit_taskfromgoals" => "tasks#edit_from_goals"  
   get "edit_habitfromgoals" => "habits#edit_from_goals" 
 

@@ -84,9 +84,9 @@
             <tr>
               <td>
                   <% if habit.done == true %>
-                    <%= link_to ''.html_safe, {:action => 'toggle_action', :id =>habit.id, :controller=>"habits"}, class: 'glyphicon glyphicon-ok' %>
+                    <%= link_to ''.html_safe, {:action => 'toggle_action_from_goals', :id =>habit.id, :controller=>"habits"}, class: 'glyphicon glyphicon-ok' %>
                   <% else %>
-                    <%= link_to ''.html_safe, {:action => 'toggle_action', :id =>habit.id, :controller=>"habits"}, class: 'glyphicon glyphicon-remove' %>
+                    <%= link_to ''.html_safe, {:action => 'toggle_action_from_goals', :id =>habit.id, :controller=>"habits"}, class: 'glyphicon glyphicon-remove' %>
                   <% end %>   
               </td>         
               <td>

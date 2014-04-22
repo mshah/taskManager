@@ -47,7 +47,41 @@ class HabitsController < ApplicationController
     @habit = Habit.find(params[:id])
   end
 
+  def toggle_action_from_goals
+    respond_to do |format|
+      @habit = Habit.find(params[:id])
+      if @habit.done?
+        @habit.done = false
+      else
+        @habit.done = true
+      end
+      @habit.update_attributes(params[:done])
+      if @habit.goal_id == 0
+        format.html { redirect_to habits_url, notice: 'Habit was successfully updated.' }
+      else
+        format.html { redirect_to goals_url, notice: 'Habit was successfully updated.' }
+      end
+    end
+  end
+
   def toggle_action
+    respond_to do |format|
+      @habit = Habit.find(params[:id])
+      if @habit.done?
+        @habit.done = false
+      else
+        @habit.done = true
+      end
+      @habit.update_attributes(params[:done])
+      if @habit.goal_id == 0
+        format.html { redirect_to habits_url, notice: 'Habit was successfully updated.' }
+      else
+        format.html { redirect_to habits_url, notice: 'Habit was successfully updated.' }
+      end
+    end
+  end   
+
+  def toggle_action_from_goal
     respond_to do |format|
       @habit = Habit.find(params[:id])
       if @habit.done?
@@ -62,7 +96,7 @@ class HabitsController < ApplicationController
         format.html { redirect_to goal_url(:id => @habit.goal_id), notice: 'Habit was successfully updated.' }
       end
     end
-  end
+  end  
 
   def reset
     if habit.done == true
