@@ -71,8 +71,11 @@ namespace :habits do
 
 		tasks = Task.all
 		tasks.each do |task|
+			#Only delete completed tasks when it's past the due_date
 			if task.progress == 3
-				task.destroy
+				if time.to_i > task.due_date.to_i
+					task.destroy
+				end
 			else
 				if time.to_i > task.due_date.to_i
 					if task.sticky == 0
