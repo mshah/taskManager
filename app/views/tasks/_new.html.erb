@@ -1,0 +1,42 @@
+<h1>New task</h1>
+
+<%= form_for(@task) do |f| %>
+  <% if @task.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@task.errors.count, "error") %> prohibited this task from being saved:</h2>
+
+      <ul>
+      <% @task.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :description %><br>
+    <%= f.text_area :description, :size => "30x4"  %>
+  </div>
+  <div class="field">
+    <%= f.label :due_date %><br>
+    <%= f.text_field :due_date, :value=> DateTime.now, 'data-behaviour' => 'datepicker' %>
+    <!-- todo: write below as coffee script -->
+    <script type="text/javascript">
+      $(document).on("focus", "[data-behaviour~='datepicker']", function(e){
+          $(this).datepicker({"format": "yyyy-mm-dd", "weekStart": 1, "autoclose": true, "todayHighlight": true})
+      });
+    </script>
+  </div>
+  <div class="field">
+    <%= f.label "Reschedule (How sticky is this date?)" %><br>
+    <%= f.select(:sticky, options_for_select({"Fixed" => 2, "Push 1 Day" => 1, "Push 1 Week" => 0}, @task.sticky), :prompt => "Choose", :value => 0) %>
+   </div>  
+  <%= f.hidden_field :progress, :value => 'NotStarted' %> 
+  <div class="field">
+    <%= f.label "Goal" %><br>
+  <%= f.select(:goal_id, [["==None==", 0]] + Goal.where(:user_id => current_user).collect {|goal| [ goal.description, goal.id ] }) %>    
+  </div>     
+  <div class="actions">
+    <%= f.submit "Create Task", class: "btn btn-primary btn-med" %>
+  </div>
+<% end %>

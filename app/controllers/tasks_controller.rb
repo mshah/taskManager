@@ -26,6 +26,11 @@ class TasksController < ApplicationController
     @task = Task.find(params[:id])
   end
 
+  # GET /tasks/new_from_goal
+  def new_from_goal
+    @task = current_user.tasks.build(:goal_id =>params[:goal_id])
+  end    
+
   # POST /tasks
   def create
     @task = current_user.tasks.build(task_params)

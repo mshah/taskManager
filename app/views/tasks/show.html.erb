@@ -1,26 +1,5 @@
 <p id="notice"><%= notice %></p>
-
+<%= render 'form' %>
 <p>
-  <strong>Description:</strong>
-  <%= @task.description %>
-</p>
-
-<p>
-  <strong>Duedate:</strong>
-  <%= @task.dueDate %>
-</p>
-
-<p>
-  <strong>Progress:</strong>
-  <%= @task.progress %>
-</p>
-
-<p>
-  <strong>Goal:</strong>
-  <%= @task.goal_id %>
-</p>
-
-<p>
-    <%= link_to "Edit", edit_task_path(@task) , class: "btn btn-primary btn-med" %>
-    <%= link_to "Back", tasks_path, class: "btn btn-primary btn-med" %>    
+    <%= link_to "Back", tasks_path, class: "btn btn-default btn-med" %>
 </p>

@@ -27,7 +27,7 @@ TaskManager::Application.routes.draw do
   get "toggle_action_from_goals" => "habits#toggle_action_from_goals"
   get "toggle_action_from_goal" => "habits#toggle_action_from_goal"  
   get "edit_taskfromgoals" => "tasks#edit_from_goals"  
-  get "edit_habitfromgoals" => "habits#edit_from_goals" 
+  get "edit_habitfromgoals" => "habits#edit_from_goals"  
 
   get "new_habit_from_goal" => "habits#new_from_goal"  
   get "new_task_from_goal" => "tasks#new_from_goal" 

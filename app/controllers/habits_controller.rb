@@ -34,9 +34,7 @@ class HabitsController < ApplicationController
 
   # GET /habits/new_from_goal
   def new_from_goal
-    @habit = current_user.habits.build
-    @habit.goal_id = params[:id]
-    #@habit.update_attributes(params[:goal_id])
+    @habit = current_user.habits.build(:goal_id =>params[:goal_id])
   end       
 
   # GET /habits/1/edit
@@ -46,7 +44,7 @@ class HabitsController < ApplicationController
   def edit_from_goals
     @habit = Habit.find(params[:id])
   end
-
+  
   def toggle_action_from_goals
     respond_to do |format|
       @habit = Habit.find(params[:id])
