@@ -41,7 +41,7 @@
               <% elsif task.progress == 2 %>
                 <%= image_tag("greenProgress3.png", :alt => "On Track") %>
               <% else %>
-                <span class="glyphicon glyphicon-ok"></span>                              
+                <%= image_tag("greenProgress3.png", :alt => "Completed") %>                                
               <% end %> <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" role="menu">

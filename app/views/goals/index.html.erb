@@ -8,7 +8,7 @@
 <% @goals.each do |goal| %>
   <% if goal.user == current_user %> 
     <div class="panel panel-primary">
-       <div class="panel-heading">
+       <div id="goaltitle" class="panel-heading">
         <!--div class="btn-group"-->    
           <% goal_progress = goal.getProgress %>
           <% if goal_progress == 0 %>
@@ -26,7 +26,8 @@
             <%= goal.description %>
           <% end %>
         </div>
-      </div>       
+      </div>
+      <div id="goaltitle">       
       <table class="table table-condensed table-hover">
         <col width="10">
         <col>
@@ -46,7 +47,7 @@
                   <% elsif task.progress == 2 %>
                     <%= image_tag("greenProgress3.png", :alt => "On Track") %>
                   <% else %>
-                    <span class="glyphicon glyphicon-ok"></span>                              
+                    <%= image_tag("greenProgress3.png", :alt => "Completed") %>                            
                   <% end %> <span class="caret"></span>
               </button>
               <ul class="dropdown-menu" role="menu">
@@ -129,6 +130,7 @@
           <% end %>
       </tbody>
     </table>
+    </div> 
     </div> 
   <% end %>
 <% end %>
