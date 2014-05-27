@@ -14,7 +14,7 @@ class Goal < ActiveRecord::Base
     end
 		habits.map do |habit|
     	if habit.done
-    		progress_total = progress_total + 2
+    		progress_total = progress_total + 3
     		count = count + 1
     	else
     		progress_total = progress_total + 0

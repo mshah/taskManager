@@ -139,6 +139,16 @@ class HabitsController < ApplicationController
   # DELETE /habits/1
   # DELETE /habits/1.json
   def destroy
+    goal_id = @habit.goal_id
+    @habit.destroy
+    respond_to do |format|
+      if goal_id.nil?
+        format.html { redirect_to habits_url, notice: 'Habit was successfully deleted.'}
+      else
+        format.html { redirect_to goal_url(:id => goal_id), notice: 'Habit was successfully deleted.' }
+      end
+    end
+
     @habit.destroy
     respond_to do |format|
       format.html { redirect_to habits_url }

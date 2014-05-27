@@ -138,9 +138,14 @@ class TasksController < ApplicationController
   # DELETE /tasks/1
   # DELETE /tasks/1.json
   def destroy
+    goal_id = @task.goal_id
     @task.destroy
     respond_to do |format|
-      format.html { redirect_to tasks_url }
+      if goal_id.nil?
+        format.html { redirect_to tasks_url, notice: 'Task was successfully deleted.' }
+      else
+        format.html { redirect_to goal_url(:id => goal_id), notice: 'Task was successfully deleted.' }
+      end
     end
   end
 
