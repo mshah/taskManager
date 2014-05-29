@@ -148,11 +148,6 @@ class HabitsController < ApplicationController
         format.html { redirect_to goal_url(:id => goal_id), notice: 'Habit was successfully deleted.' }
       end
     end
-
-    @habit.destroy
-    respond_to do |format|
-      format.html { redirect_to habits_url }
-    end
   end
 
   private
