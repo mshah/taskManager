@@ -3,7 +3,7 @@
 </h1>
 <br>
 <% if user_signed_in? %>
-
+<%= hidden_field_tag Time.zone = current_user.time_zone %>
 <div class="panel panel-primary">
   <div class="panel-heading">    
    Tasks
@@ -21,7 +21,7 @@
       <tr>
         <th></th>
         <th>Description</th>
-        <th>Due date</th> 
+        <th>Due date</th>
         <th>Days Left</th>       
         <th></th>
       </tr>
@@ -69,8 +69,8 @@
             <% end %>
           </td>
           <td>
-            <%= task.due_date.strftime("%A %B %d") %>
-          </td>   
+            <%= task.due_date %>
+          </td>            
           <td>
             <% if task.progress == 3 %>
               <div class ="green daysleft">Done!</div>

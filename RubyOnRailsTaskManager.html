@@ -1387,5 +1387,81 @@ gem 'bootstrap-datepicker-rails'
 			add_column :goals, :progress, :integer, :default => 0
 		  end
 		end
+	 </xmp>
+	 <h2>Working with TimeZones</h2>	
+	<p>
+		All of the times for task due dates are currently in GMT. It would be nicer if these could be localized to the user. Additionally it would be nice to only rollover tasks and clear them and uncheck habits at midnight for the user's timezone. We can do this by storing an integer on the user that represents the offset from GMT. For San Francisco this would be -8. A simple solution is to provide a drop down list on the user to select their own timezone and use this to parse the display so timezone input/output fields convert to the local time. Rails, however, provides support for timezones in a human readable format via the TimeZone object. So we can instead just store a string on the user with the timezone, and default this to Pacific US time. Here's a link to the documentation page:
+		<a href="http://api.rubyonrails.org/classes/ActiveSupport/TimeZone.html">ActiveSuport::TimeZone</a>
+	</p>
+	<div id="terminal">
+		$ rails generate migration add_timezone_to_user
+	</div>		
+	 <div id="file">\db\migrate\add_timezone_to_user.rb</div>	
+	 <xmp>
+		class AddTimezoneToUser < ActiveRecord::Migration
+		  def self.up
+			add_column :users, :time_zone, :string, :default => "Pacific Time (US & Canada)"
+		  end
+
+		  def self.down
+			remove_column :users, :time_zone
+		  end
+		end
 	 </xmp>	
+	<div id="terminal">
+		$ rake db:migrate
+	</div>
+	<p>
+		Now we want to make sure the display is in our timezone and we can set dates in the local time. We can do this by putting <%= hidden_field_tag Time.zone = current_user.time_zone %> at the top of the tasks form edit and index files. I am using the datepicker javascript files from <a href="http://xdsoft.net/jqplugins/datetimepicker/"> xdsoft </a>
+	</p>	
+	</div>		
+	 <div id="file">\app\views\tasks\_form.html.erb</div>	
+	 <xmp>
+<h2>Editing task</h2>
+<%= hidden_field_tag Time.zone = current_user.time_zone %>
+<%= form_for(@task) do |f| %>
+  <% if @task.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@task.errors.count, "error") %> prohibited this task from being saved:</h2>
+      <ul>
+      <% @task.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= f.label :description %><br>
+    <%= f.text_area :description, :size => "30x4"  %>
+  </div>
+  <div class="field">
+    <%= f.label "Due" %><br>
+    <%= hidden_field_tag due_date = @task.due_date.in_time_zone(current_user.time_zone) %>
+    <%= f.text_field :due_date, :value => due_date.strftime('%d-%m-%Y  %H:%M'), :id => 'datetimepicker' %>    
+    <script type="text/javascript">
+      $('#datetimepicker').datetimepicker({
+      });
+    </script>
+  </div>
+  <div class="field">
+    <%= f.label "Reschedule (How sticky is this date?)" %><br>
+    <%= f.select(:sticky, options_for_select({"Fixed" => 2, "Push 1 Day" => 1, "Push 1 Week" => 0}, @task.sticky), :prompt => "Choose") %>
+   </div>
+  <div class="field">
+    <%= f.label :progress %><br>
+    <%= f.select(:progress, options_for_select({"Not Started" => 0, "Needs Work" => 1, "On Track" => 2, "Complete" => 3}, @task.progress), :prompt => "Choose") %>
+   </div> 
+    <div class="field">
+  <div class="field">
+    <%= f.label "Goal" %><br>
+  <%= f.select(:goal_id, [["==None==", 0]] + Goal.where(:user_id => current_user).collect {|goal| [ goal.description, goal.id ] }) %>    
+  </div>   
+  <div class="actions">
+    <%= f.submit "Update", class: "btn btn-primary btn-med" %>
+  </div>
+<% end %>
+	 </xmp>	
+	<p>
+	I have not yet added a UI to change the timezone, this will come later </a>
+	</p>		 			 	 
 </html>
