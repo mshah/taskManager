@@ -7,7 +7,11 @@
     </h1> 
     <h2>taskView is the most elegant way to view and manage your to-do lists</h2>
     <br/>
-    <%= link_to "Sign up", new_user_registration_path, class: "btn btn-warning btn-lg" %> 
+    <% if user_signed_in? %>
+      <%= link_to "View goals", goals_url, class: "btn btn-warning btn-lg" %>
+    <% else %>
+      <%= link_to "Sign up", new_user_registration_path, class: "btn btn-warning btn-lg" %>
+    <% end %> 
     <br/>
     <br/>
   </div>
