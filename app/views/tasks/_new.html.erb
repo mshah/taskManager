@@ -1,5 +1,5 @@
 <h1>New task</h1>
-
+<%= hidden_field_tag Time.zone = current_user.time_zone %>
 <%= form_for(@task) do |f| %>
   <% if @task.errors.any? %>
     <div id="error_explanation">
@@ -19,11 +19,10 @@
   </div>
   <div class="field">
     <%= f.label :due_date %><br>
-    <%= f.text_field :due_date, :value=> DateTime.now, 'data-behaviour' => 'datepicker' %>
-    <!-- todo: write below as coffee script -->
+    <%= hidden_field_tag due_date = DateTime.now.in_time_zone(current_user.time_zone) %>
+    <%= f.text_field :due_date, :value => due_date.strftime('%d-%m-%Y  %H:%M'), :id => 'datetimepicker', :readonly => 'readonly' %>    
     <script type="text/javascript">
-      $(document).on("focus", "[data-behaviour~='datepicker']", function(e){
-          $(this).datepicker({"format": "yyyy-mm-dd", "weekStart": 1, "autoclose": true, "todayHighlight": true})
+      $('#datetimepicker').datetimepicker({
       });
     </script>
   </div>

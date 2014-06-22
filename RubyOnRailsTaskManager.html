@@ -1462,6 +1462,11 @@ gem 'bootstrap-datepicker-rails'
 <% end %>
 	 </xmp>	
 	<p>
-	I have not yet added a UI to change the timezone, this will come later </a>
-	</p>		 			 	 
+	I have not yet added a UI to change the timezone, this will come later. First let's push this to heroku and see if this date/time picker works better on the iphone. It gives the same problem, I looked this up and this is because it is a text field. One solution I found was to make this input readonly, this allows the datepicker to work without bringing up the textpad for entry which clutters the screen.
+	</p>	
+	</div>		
+	 <div id="file">\app\views\tasks\_form.html.erb</div>	
+	 <xmp>
+    <%= f.text_field :due_date, :value => due_date.strftime('%d-%m-%Y  %H:%M'), :id => 'datetimepicker', :readonly => 'readonly' %>   
+	 </xmp>			 			 	 
 </html>
