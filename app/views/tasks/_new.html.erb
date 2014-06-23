@@ -13,12 +13,12 @@
     </div>
   <% end %>
 
-  <div class="textarea">
+  <div class="form-group">
     <%= f.label :description %><br>
     <%= f.text_area :description %>
   </div>
-  <div class="field">
-    <%= f.label :due_date %><br>
+  <div class="form-control">
+    <%= f.label :due_date %>
     <%= hidden_field_tag due_date = DateTime.now.in_time_zone(current_user.time_zone) %>
     <%= f.text_field :due_date, :value => due_date.strftime('%d-%m-%Y  %H:%M'), :id => 'datetimepicker', :readonly => 'readonly' %>    
     <script type="text/javascript">
