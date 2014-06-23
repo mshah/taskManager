@@ -12,9 +12,9 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <div class="textarea">
     <%= f.label :description %><br>
-    <%= f.text_area :description, :size => "30x4"  %>
+    <%= f.text_area :description %>
   </div>
   <div class="field">
     <%= f.label "Due" %><br>
@@ -26,16 +26,18 @@
     </script>
   </div>
   <div class="form-control">
-    <%= f.label "Reschedule (How sticky is this date?)" %>
+    <%= f.label "Reschedule" %>
     <%= f.select(:sticky, options_for_select({"Fixed" => 2, "Push 1 Day" => 1, "Push 1 Week" => 0}, @task.sticky), :prompt => "Choose") %>
    </div>
   <div class="form-control">
-    <%= f.label :progress %>
+    <%= f.label "Progress" %>
     <%= f.select(:progress, options_for_select({"Not Started" => 0, "Needs Work" => 1, "On Track" => 2, "Complete" => 3}, @task.progress), :prompt => "Choose") %>
    </div> 
   <div class="form-control">
-    <%= f.label "Goal" %><%= f.select(:goal_id, [["==None==", 0]] + Goal.where(:user_id => current_user).collect {|goal| [ goal.description, goal.id ] }) %>    
-  </div>   
+    <%= f.label "Goal" %>
+    <%= f.select(:goal_id, [["==None==", 0]] + Goal.where(:user_id => current_user).collect {|goal| [ goal.description, goal.id ] }) %>    
+  </div>
+  <br><br> 
   <div class="actions">
     <%= f.submit "Update", class: "btn btn-primary btn-med" %>
   </div>

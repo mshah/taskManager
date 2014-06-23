@@ -11,9 +11,9 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <div class="textarea">
     <%= f.label :description %><br>
-    <%= f.text_area :description, :size => "30x3"  %>
+    <%= f.text_area :description %>
   </div>
   <div class="field">
     <%= f.check_box :done %>
@@ -22,8 +22,9 @@
   <%= f.hidden_field :interval, :value => @habit.interval%>
   <div class="form-control">
     <%= f.label "Goal" %>
-    <%= f.select(:goal_id, [["==None==", 0]] + Goal.where(:user_id => current_user).collect {|goal| [ goal.description, goal.id ] }, {class: "form-control"}) %>  
+    <%= f.select(:goal_id, [["==None==", 0]] + Goal.where(:user_id => current_user).collect {|goal| [ goal.description, goal.id ] }) %>  
   </div>
+  <br><br> 
   <div class="actions">
     <%= f.submit "Update", class: "btn btn-primary btn-med" %>
   </div>

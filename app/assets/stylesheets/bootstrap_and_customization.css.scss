@@ -17,6 +17,10 @@ $btn-warning-bg: #f1c40f;
 $btn-warning-color: #000;
 @import 'bootstrap';
 
+textarea {
+  width: 100%;
+}
+
 img{
 	margin-right: 20px;
 	margin-left: 20px;	

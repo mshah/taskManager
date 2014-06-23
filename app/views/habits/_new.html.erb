@@ -13,19 +13,21 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <div class="textarea">
     <%= f.label :description %><br>
-    <%= f.text_area :description, :size => "30x4"  %>
+    <%= f.text_area :description %>
   </div>
   <%= f.hidden_field :done, :value => false %> 
   <div class="form-control">
+    <%= f.label "Interval" %>
     <%= f.select :interval, options_for_select(%w[Daily Weekly Monthly], {class: "form-control"}) %>
   </div>   
   <div class="form-control">
     <%= f.label "Goal" %>
-    <%= f.select(:goal_id, [["==None==", 0]] + Goal.where(:user_id => current_user).collect {|goal| [ goal.description, goal.id ] }, {class: "form-control"}) %>  
-  </div>     
+    <%= f.select(:goal_id, [["==None==", 0]] + Goal.where(:user_id => current_user).collect {|goal| [ goal.description, goal.id ] }) %>  
+  </div>
+  <br><br>      
   <div class="actions">
-    <%= f.submit "Update", class: "btn btn-primary btn-med" %>
+    <%= f.submit "Create Habit", class: "btn btn-primary btn-med" %>
   </div>
 <% end %>
