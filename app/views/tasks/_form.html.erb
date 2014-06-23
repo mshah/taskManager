@@ -4,7 +4,6 @@
   <% if @task.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@task.errors.count, "error") %> prohibited this task from being saved:</h2>
-
       <ul>
       <% @task.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
@@ -23,30 +22,19 @@
     <%= f.text_field :due_date, :value => due_date.strftime('%d-%m-%Y  %H:%M'), :id => 'datetimepicker', :readonly => 'readonly' %>    
     <script type="text/javascript">
       $('#datetimepicker').datetimepicker({
-          showOn: 'button',
-          onClose: function(dateText, inst) 
-          { 
-              $(this).attr("disabled", false);
-          },
-          beforeShow: function(input, inst) 
-          {
-              $(this).attr("disabled", true);
-          }
       });
     </script>
   </div>
-  <div class="field">
-    <%= f.label "Reschedule (How sticky is this date?)" %><br>
+  <div class="form-control">
+    <%= f.label "Reschedule (How sticky is this date?)" %>
     <%= f.select(:sticky, options_for_select({"Fixed" => 2, "Push 1 Day" => 1, "Push 1 Week" => 0}, @task.sticky), :prompt => "Choose") %>
    </div>
-  <div class="field">
-    <%= f.label :progress %><br>
+  <div class="form-control">
+    <%= f.label :progress %>
     <%= f.select(:progress, options_for_select({"Not Started" => 0, "Needs Work" => 1, "On Track" => 2, "Complete" => 3}, @task.progress), :prompt => "Choose") %>
    </div> 
-    <div class="field">
-  <div class="field">
-    <%= f.label "Goal" %><br>
-  <%= f.select(:goal_id, [["==None==", 0]] + Goal.where(:user_id => current_user).collect {|goal| [ goal.description, goal.id ] }) %>    
+  <div class="form-control">
+    <%= f.label "Goal" %><%= f.select(:goal_id, [["==None==", 0]] + Goal.where(:user_id => current_user).collect {|goal| [ goal.description, goal.id ] }) %>    
   </div>   
   <div class="actions">
     <%= f.submit "Update", class: "btn btn-primary btn-med" %>

@@ -5,7 +5,7 @@ TaskManager::Application.routes.draw do
 
   resources :tasks
 
-  devise_for :users
+  devise_for :users, controllers: { registrations: "registrations" }
   root "pages#home"
   get "goals" => "goals#index"
   get "tasks" => "tasks#index"

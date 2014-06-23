@@ -20,10 +20,10 @@
     <%= f.label :done %>   
   </div> 
   <%= f.hidden_field :interval, :value => @habit.interval%>
-  <div class="field">
-    <%= f.label "Goal" %><br>
-  <%= f.select(:goal_id, [["==None==", 0]] + Goal.where(:user_id => current_user).collect {|goal| [ goal.description, goal.id ] }) %>   
-  </div>   
+  <div class="form-control">
+    <%= f.label "Goal" %>
+    <%= f.select(:goal_id, [["==None==", 0]] + Goal.where(:user_id => current_user).collect {|goal| [ goal.description, goal.id ] }, {class: "form-control"}) %>  
+  </div>
   <div class="actions">
     <%= f.submit "Update", class: "btn btn-primary btn-med" %>
   </div>

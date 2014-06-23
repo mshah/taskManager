@@ -6,4 +6,5 @@ class User < ActiveRecord::Base
   has_many :goals
   has_many :tasks
   has_many :habits
+
 end

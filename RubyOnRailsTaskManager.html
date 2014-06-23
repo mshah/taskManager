@@ -1463,10 +1463,43 @@ gem 'bootstrap-datepicker-rails'
 	 </xmp>	
 	<p>
 	I have not yet added a UI to change the timezone, this will come later. First let's push this to heroku and see if this date/time picker works better on the iphone. It gives the same problem, I looked this up and this is because it is a text field. One solution I found was to make this input readonly, this allows the datepicker to work without bringing up the textpad for entry which clutters the screen.
-	</p>	
-	</div>		
+	</p>		
 	 <div id="file">\app\views\tasks\_form.html.erb</div>	
 	 <xmp>
     <%= f.text_field :due_date, :value => due_date.strftime('%d-%m-%Y  %H:%M'), :id => 'datetimepicker', :readonly => 'readonly' %>   
-	 </xmp>			 			 	 
+	 </xmp>	
+	<p>
+	To add the UI, I used the documentation for timezone <a href="http://api.rubyonrails.org/classes/ActiveSupport/TimeZone.html">ActiveSupport/TimeZone</a>. This provides a mapping of all the timezones, which for now I have hardcoded into both the devise/registrations/edit and new.html.erb. Since there are so many timezones, this would be better in a helper, however I ran into problems trying to put this into a registrations_helper.rb file. Additionally we need to override the registrations controller with our own controller that knows the timezone parameter is allowed.
+	</p>	
+	 <div id="file">\app\views\devise\registrations\edit.html.erb</div>	
+	 <xmp>
+<div class="form-control">
+        <%= f.label :time_zone %>
+        <%= f.select :time_zone, options_for_select(["International Date Line West", "Midway Island", "American Samoa", "Hawaii", "Alaska", "Pacific Time (US & Canada)", "Tijuana", "Mountain Time (US & Canada)", "Arizona", "Chihuahua", "Mazatlan",  "Central Time (US & Canada)", "Saskatchewan", "Guadalajara", "Mexico City", "Monterrey", "Central America", "Eastern Time (US & Canada)", "Indiana (East)", "Bogota", "Lima", "Quito", "Atlantic Time (Canada)", "Caracas", "La Paz", "Santiago", "Newfoundland", "Brasilia", "Buenos Aires", "Montevideo", "Georgetown", "Greenland", "Mid-Atlantic", "Azores", "Cape Verde Is.", "Dublin", "Edinburgh", "Lisbon", "London", "Casablanca", "Monrovia", "UTC", "Belgrade", "Bratislava", "Budapest", "Ljubljana", "Prague", "Sarajevo", "Skopje", "Warsaw", "Zagreb", "Brussels", "Copenhagen", "Madrid", "Paris", "Amsterdam", "Berlin", "Bern", "Rome", "Stockholm", "Vienna", "West Central Africa", "Bucharest", "Cairo", "Helsinki", "Kyiv", "Riga", "Sofia", "Tallinn", "Vilnius", "Athens", "Istanbul", "Minsk", "Jerusalem", "Harare", "Pretoria", "Moscow", "St. Petersburg", "Volgograd", "Kuwait", "Riyadh", "Nairobi", "Baghdad", "Tehran", "Abu Dhabi", "Muscat", "Baku", "Tbilisi", "Yerevan", "Kabul", "Ekaterinburg", "Islamabad", "Karachi", "Tashkent", "Chennai", "Kolkata", "Mumbai", "New Delhi", "Kathmandu", "Astana", "Dhaka", "Sri Jayawardenepura", "Almaty", "Novosibirsk", "Rangoon", "Bangkok", "Hanoi", "Jakarta", "Krasnoyarsk", "Beijing", "Chongqing", "Hong Kong", "Urumqi", "Kuala Lumpur", "Singapore", "Taipei", "Perth", "Irkutsk", "Ulaanbaatar", "Seoul", "Osaka", "Sapporo", "Tokyo", "Yakutsk", "Darwin", "Adelaide", "Canberra", "Melbourne", "Sydney", "Brisbane", "Hobart", "Vladivostok", "Guam", "Port Moresby", "Magadan", "Solomon Is.", "New Caledonia", "Fiji", "Kamchatka", "Marshall Is.", "Auckland", "Wellington", "Nuku'alofa", "Tokelau Is.", "Chatham Is.", "Samoa" ], selected: current_user.time_zone)%> 
+      </div> 
+	 </xmp>	
+	 <div id="file">\app\controllers\registrations_controller.rb</div>	
+	 <xmp>
+	class RegistrationsController < Devise::RegistrationsController
+	  def new
+			build_resource(:time_zone =>params[:time_zone])
+	    respond_with self.resource
+	  end
+
+	  def update
+	    @user.update(user_params)
+	    super  
+	  end
+
+	private
+	  def user_params
+	    params.require(:user).permit(:time_zone)
+	  end 
+
+	def sign_up_params
+	    allow = [:email, :password, :password_confirmation, :time_zone]
+	    params.require(resource_name).permit(allow)
+	  end   
+	end 
+	 </xmp>		 	 		 			 	 
 </html>

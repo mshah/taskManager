@@ -18,10 +18,12 @@
     <%= f.text_area :description, :size => "30x4"  %>
   </div>
   <%= f.hidden_field :done, :value => false %> 
-  <%= f.select :interval, options_for_select(%w[Daily Weekly Monthly]) %>   
-    <div class="field">
-    <%= f.label "Goal" %><br>
-  <%= f.select(:goal_id, [["==None==", 0]] + Goal.where(:user_id => current_user).collect {|goal| [ goal.description, goal.id ] }) %>  
+  <div class="form-control">
+    <%= f.select :interval, options_for_select(%w[Daily Weekly Monthly], {class: "form-control"}) %>
+  </div>   
+  <div class="form-control">
+    <%= f.label "Goal" %>
+    <%= f.select(:goal_id, [["==None==", 0]] + Goal.where(:user_id => current_user).collect {|goal| [ goal.description, goal.id ] }, {class: "form-control"}) %>  
   </div>     
   <div class="actions">
     <%= f.submit "Update", class: "btn btn-primary btn-med" %>
