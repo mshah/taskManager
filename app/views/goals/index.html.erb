@@ -4,11 +4,12 @@
 <div style="position:relative; top:-120px;"> <%= link_to "New Goal", new_goal_path, class: "btn btn-primary btn-med pull-right" %></div>
 
 <% if user_signed_in? %>
-
 <% @goals.each do |goal| %>
   <% if goal.user == current_user %> 
     <div class="panel panel-primary">
        <div id="goaltitle" class="panel-heading">
+      <div class="glyphicon glyphicon-resize-vertical" data-toggle="collapse" data-target=<%= "#goal" + goal.id.to_s %>>
+        </div>         
         <!--div class="btn-group"-->    
           <% goal_progress = goal.getProgress %>
           <% if goal_progress == 0 %>
@@ -21,14 +22,14 @@
         <!--/div-->     
           <%= link_to 'Habit', new_habit_from_goal_path(:goal_id => goal.id), class: "glyphicon glyphicon-plus" %>
           <%= link_to 'Task', new_task_from_goal_path(:goal_id => goal.id), class: "glyphicon glyphicon-plus" %>
-        <div class="text-right">
-          <%= link_to edit_goal_path(goal) do %>
-            <%= goal.description %>
-          <% end %>
+          <div class="text-right">
+            <%= link_to edit_goal_path(goal) do %>
+              <%= goal.description %>
+            <% end %>
+          </div>
         </div>
-      </div>
       <div id="goaltitle">       
-      <table class="table table-condensed table-hover">
+      <table id=<%= "goal" + goal.id.to_s %> class="table table-condensed table-hover collapse in">
         <col width="10">
         <col>
         <col width="60">

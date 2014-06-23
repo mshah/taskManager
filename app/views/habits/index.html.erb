@@ -4,13 +4,15 @@
 <br>
 <% if user_signed_in? %>
 <div class="panel panel-primary">
-  <div class="panel-heading">    
+  <div class="panel-heading">
+  <div class="glyphicon glyphicon-resize-vertical" data-toggle="collapse" data-target="#daily">
+  </div>    
    Daily Habits
   <div class="btn-group pull-right">
     <%= link_to '', new_dailyhabit_path, class: "glyphicon glyphicon-plus" %>
   </div>
   </div>
-  <table class="table table-condensed table-hover">
+  <table id="daily" class="table table-condensed table-hover collapse in">
     <col width="20">     
     <col>
     <col>
@@ -57,13 +59,15 @@
 </div>
 
 <div class="panel panel-primary">
-  <div class="panel-heading">    
+  <div class="panel-heading">
+  <div class="glyphicon glyphicon-resize-vertical" data-toggle="collapse" data-target="#weekly">
+  </div>       
    Weekly Habits
   <div class="btn-group pull-right">
     <%= link_to '', new_weeklyhabit_path, class: "glyphicon glyphicon-plus" %>
   </div>
   </div>
-  <table class="table table-condensed table-hover">
+  <table id="weekly" class="table table-condensed table-hover collapse in">
     <col width="20">       
     <col>
     <col>
@@ -110,13 +114,15 @@
 </div>
 
 <div class="panel panel-primary">
-  <div class="panel-heading">    
+  <div class="panel-heading"> 
+  <div class="glyphicon glyphicon-resize-vertical" data-toggle="collapse" data-target="#monthly"> 
+  </div>    
    Monthly Habits
   <div class="btn-group pull-right">
     <%= link_to '', new_monthlyhabit_path, class: "glyphicon glyphicon-plus" %>
   </div>
   </div>
-  <table class="table table-condensed table-hover">
+  <table id="monthly" class="table table-condensed table-hover collapse in">
     <col width="20">    
     <col>
     <col>
