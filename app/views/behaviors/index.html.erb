@@ -1,0 +1,29 @@
+<h1>Listing behaviors</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Description</th>
+      <th>Time</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @behaviors.each do |behavior| %>
+      <tr>
+        <td><%= behavior.description %></td>
+        <td><%= behavior.time %></td>
+        <td><%= link_to 'Show', behavior %></td>
+        <td><%= link_to 'Edit', edit_behavior_path(behavior) %></td>
+        <td><%= link_to 'Destroy', behavior, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Behavior', new_behavior_path %>

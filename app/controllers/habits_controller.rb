@@ -52,6 +52,7 @@ class HabitsController < ApplicationController
         @habit.done = false
       else
         @habit.done = true
+        record_behavior
       end
       @habit.update_attributes(params[:done])
       if @habit.goal_id == 0
@@ -69,6 +70,7 @@ class HabitsController < ApplicationController
         @habit.done = false
       else
         @habit.done = true
+        record_behavior
       end
       @habit.update_attributes(params[:done])
       if @habit.goal_id == 0
@@ -86,6 +88,7 @@ class HabitsController < ApplicationController
         @habit.done = false
       else
         @habit.done = true
+        record_behavior
       end
       @habit.update_attributes(params[:done])
       if @habit.goal_id == 0
@@ -125,6 +128,7 @@ class HabitsController < ApplicationController
   def update
     respond_to do |format|
       if @habit.update(habit_params)
+        record_behavior
         if @habit.goal_id == 0
           format.html { redirect_to habits_url, notice: 'Habit was successfully updated.' }
         else
@@ -151,6 +155,14 @@ class HabitsController < ApplicationController
   end
 
   private
+
+    def record_behavior
+      if @habit.done?
+        @behavior = current_user.behaviors.build(:goal_id => @habit.goal_id, :description => @habit.description, :time => DateTime.now)
+        @behavior.save
+      end
+    end
+
     def correct_user
         @habit = current_user.habits.find_by(id: params[:id])
         redirect_to habits_path, notice: "Not authorized to edit this habit" if @habit.nil?

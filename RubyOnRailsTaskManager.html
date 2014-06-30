@@ -1501,5 +1501,55 @@ gem 'bootstrap-datepicker-rails'
 	    params.require(resource_name).permit(allow)
 	  end   
 	end 
-	 </xmp>		 	 		 			 	 
+	 </xmp>	
+
+	 <h2>Visualizing Progress Towards Goals</h2>	
+	<p>
+		I want to be able to visualize my progress towards my goals. I need a new object that can be called a behavior. This will be a description, the task or habit, and a timestamp of when it was done. So goals can have many behaviors, and behaviors belong to one goal. The task and habit controllers will create a new behavior when they progress: a task is complete or habit is done. There's an example below: where the task or habit can be updated record_behavior should be called.
+	</p>
+	<div id="terminal">
+		$ rails generate scaffold behaviors description:string time:timestamp<br/>
+	</div>		
+	 <div id="file">\app\models\goal.rb</div>	
+	 <xmp>
+		class Goal < ActiveRecord::Base
+			belongs_to :user
+		  has_many :behaviors
+	 </xmp>		
+	 <div id="file">\app\models\behavior.rb</div>		 
+ <xmp>
+class Behavior < ActiveRecord::Base
+		belongs_to :goal
+		belongs_to :user
+end	  
+	 </xmp>		
+	<div id="terminal">
+		$ rails generate migration add_goal_user_to_behaviors user_id:integer:index goal_id:integer:index<br>
+		$ rake db:migrae
+	</div>
+	 <div id="file">\app\controller\tasks_controller.rb</div>		 
+ <xmp>
+    def record_behavior
+      if @task.progress == 3
+        @behavior = current_user.behaviors.build(:goal_id => @task.goal_id, :description => @task.description, :time => DateTime.now)
+        @behavior.save
+      end
+    end
+
+  # PATCH/PUT /tasks/1
+  def update
+    respond_to do |format|
+      if @task.update(task_params)
+        record_behavior
+        if @task.goal_id == 0
+          format.html { redirect_to tasks_url, notice: 'Task was successfully updated.' }
+        else
+          format.html { redirect_to goal_url(:id => @task.goal_id), notice: 'Task was successfully updated.' }
+        end
+      else
+        format.html { render action: 'edit' }
+      end
+    end
+  end    
+	 </xmp>		
 </html>

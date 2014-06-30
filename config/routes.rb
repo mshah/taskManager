@@ -1,4 +1,6 @@
 TaskManager::Application.routes.draw do
+  resources :behaviors
+
   resources :goals
 
   resources :habits

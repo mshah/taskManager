@@ -54,6 +54,7 @@ class TasksController < ApplicationController
       if @task.progress < 3
         newprogress = @task.progress + 1
         @task.progress = newprogress
+        record_behavior
       end
       @task.update_attributes(params[:progress])
       format.html { redirect_to tasks_url, notice: 'Task was successfully updated.' }
@@ -78,6 +79,7 @@ class TasksController < ApplicationController
       if @task.progress < 3
         newprogress = @task.progress + 1
         @task.progress = newprogress
+        record_behavior
       end
       @task.update_attributes(params[:progress])
       format.html { redirect_to goals_url, notice: 'Task was successfully updated.' }
@@ -102,6 +104,7 @@ class TasksController < ApplicationController
       if @task.progress < 3
         newprogress = @task.progress + 1
         @task.progress = newprogress
+        record_behavior
       end
       @task.update_attributes(params[:progress])
       format.html { redirect_to goal_url(:id => @task.goal_id), notice: 'Task was successfully updated.' }
@@ -124,6 +127,7 @@ class TasksController < ApplicationController
   def update
     respond_to do |format|
       if @task.update(task_params)
+        record_behavior
         if @task.goal_id == 0
           format.html { redirect_to tasks_url, notice: 'Task was successfully updated.' }
         else
@@ -150,6 +154,14 @@ class TasksController < ApplicationController
   end
 
   private
+
+    def record_behavior
+      if @task.progress == 3
+        @behavior = current_user.behaviors.build(:goal_id => @task.goal_id, :description => @task.description, :time => DateTime.now)
+        @behavior.save
+      end
+    end
+
     def correct_user
       @task = current_user.tasks.find_by(id: params[:id])
       redirect_to tasks_path, notice: "Not authorized to edit this task" if @task.nil?

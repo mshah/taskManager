@@ -11,7 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140622021358) do
+ActiveRecord::Schema.define(version: 20140628042248) do
+
+  create_table "behaviors", force: true do |t|
+    t.string   "description"
+    t.datetime "time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+    t.integer  "goal_id"
+  end
+
+  add_index "behaviors", ["goal_id"], name: "index_behaviors_on_goal_id"
+  add_index "behaviors", ["user_id"], name: "index_behaviors_on_user_id"
 
   create_table "goals", force: true do |t|
     t.string   "description"
